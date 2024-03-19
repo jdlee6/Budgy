@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserService } from './user/user.service';
 import { UserResolver } from './user/user.resolver';
 import { UsersController } from './user/user.controller';
+// import { ExpenseModule } from './expense/expense.repository';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UsersController } from './user/user.controller';
       entities: ['dist/**/*.model.js'],
       synchronize: false,
     }),
+    // ExpenseModule,
     // Create User module for this
     // UserModule,
   ],

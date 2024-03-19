@@ -1,0 +1,67 @@
+=======================================
+============CHANGES I MADE=============
+=======================================
+- bootstrapped nestjs/graphql app
+- controller/service/module/resolver for user
+
+- expense model
+  1. define class
+  2. define service file
+
+
+
+=======================================
+==============IN PROGRESS==============
+=======================================
+
+
+
+
+
+=======================================
+=================TO DO=================
+=======================================
+- remove unnecessary dependencies from package.json
+- remove .env for now
+
+- design pattern:
+  1. class define fields/columns
+  2. define service file
+  3. define repository file
+  4. define dto to be used 
+  5. define resolver for graphql 
+
+  resolver -> calls service methods -> calls repo methods
+
+** BACKEND
+  1. Expense model
+    - CRUD
+  2. Budget model
+    - CRUD
+  3. Category model
+    - CRUD
+  4. User model
+    - CRUD
+
+  Endpoints:
+    1. List users 
+    2. Create user
+    3. Delete user by user id
+    4. Update user by user id
+
+    1. List all expenses by user id
+    2. Delete expense by expense id
+    3. Create expense by expense id
+    4. Update expense by expense id
+
+    1. List current budgets by user id & category id
+    2. Delete budget by budget id
+    3. Create budget by user id & category id
+    4. Update budget by budget id
+
+    1. List all categories by user id
+    2. Delete category by category id
+      * if budget related -> cascade deletion
+    3. Create category with user id
+    4. Update category by category id
+  

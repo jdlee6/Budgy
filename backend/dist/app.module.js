@@ -16,6 +16,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const user_service_1 = require("./user/user.service");
 const user_resolver_1 = require("./user/user.resolver");
 const user_controller_1 = require("./user/user.controller");
+const expense_module_1 = require("./expense/expense.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -36,6 +37,7 @@ exports.AppModule = AppModule = __decorate([
                 entities: ['dist/**/*.model.js'],
                 synchronize: false,
             }),
+            expense_module_1.ExpenseModule,
         ],
         controllers: [app_controller_1.AppController, user_controller_1.UsersController],
         providers: [app_service_1.AppService, user_service_1.UserService, user_resolver_1.UserResolver],
