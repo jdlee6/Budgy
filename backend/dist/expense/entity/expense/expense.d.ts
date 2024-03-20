@@ -4,5 +4,6 @@ export declare class Expense {
     name: string;
     amount: number;
     recurring: boolean;
-    user: User | null;
+    userId: number;
+    user: User;
 }

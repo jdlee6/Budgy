@@ -1,8 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Expense } from './entity/expense/expense';
 import { ExpenseRepository } from './expense.repository';
-import { CreateExpenseDto } from './dto/create-expense.dto';
-import { UpdateExpenseDto } from './dto/update-expense.dto';
+import {
+  CreateExpenseDto,
+  CreateExpenseOutput,
+} from './dto/create-expense.dto';
+import {
+  UpdateExpenseDto,
+  UpdateExpenseOutput,
+} from './dto/update-expense.dto';
 
 @Injectable()
 export class ExpenseService {
@@ -14,21 +20,17 @@ export class ExpenseService {
   }
 
   async create(
-    name: string,
-    amount: number,
-    userId: number,
-    recurring: boolean,
-  ): Promise<CreateExpenseDto> {
+    newExpenseInput: CreateExpenseDto,
+  ): Promise<CreateExpenseOutput> {
     const expense = new Expense();
-    expense.name = name;
-    expense.amount = amount;
-    expense.recurring = recurring;
-    expense.userId = userId;
+    expense.name = newExpenseInput.name;
+    expense.amount = newExpenseInput.amount;
+    expense.recurring = newExpenseInput.recurring;
+    expense.userId = newExpenseInput.userId;
 
     const savedExpense = await this.expenseRepository.save(expense);
 
     return {
-      id: savedExpense.id,
       name: savedExpense.name,
       amount: savedExpense.amount,
       recurring: savedExpense.recurring,
@@ -37,23 +39,32 @@ export class ExpenseService {
   }
 
   async updateExpense(
-    expenseId: number,
-    amount: number,
-    name: string,
-    recurring: boolean,
-  ): Promise<UpdateExpenseDto> {
-    const updatedExpense = await this.expenseRepository.updateExpense(
-      expenseId,
-      amount,
-      name,
-      recurring,
-    );
+    updateExpenseDto: UpdateExpenseDto,
+  ): Promise<UpdateExpenseOutput> {
+    const expense = await this.expenseRepository.findOne({
+      where: { id: updateExpenseDto.id },
+      relations: ['user'],
+    });
+
+    if (!expense) {
+      throw new NotFoundException(
+        `Expense with ID ${updateExpenseDto.id} not found`,
+      );
+    }
+
+    Object.assign(expense, updateExpenseDto);
+    const updatedExpense = await this.expenseRepository.save(expense);
 
     return {
       id: updatedExpense.id,
-      amount: updatedExpense.amount,
       name: updatedExpense.name,
+      amount: updatedExpense.amount,
       recurring: updatedExpense.recurring,
     };
+  }
+
+  async deleteExpense(expenseId: number): Promise<boolean> {
+    const result = await this.expenseRepository.delete(expenseId);
+    return result.affected > 0;
   }
 }

@@ -13,9 +13,10 @@ const app_service_1 = require("./app.service");
 const apollo_1 = require("@nestjs/apollo");
 const graphql_1 = require("@nestjs/graphql");
 const typeorm_1 = require("@nestjs/typeorm");
-const user_service_1 = require("./user/user.service");
-const user_resolver_1 = require("./user/user.resolver");
-const user_controller_1 = require("./user/user.controller");
+const user_module_1 = require("./user/user.module");
+const expense_module_1 = require("./expense/expense.module");
+const user_1 = require("./user/entity/user/user");
+const expense_1 = require("./expense/entity/expense/expense");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -33,12 +34,14 @@ exports.AppModule = AppModule = __decorate([
                 username: 'admin',
                 password: '',
                 database: 'budgy',
-                entities: ['dist/**/*.model.js'],
+                entities: [user_1.User, expense_1.Expense, 'dist/**/*.model.js'],
                 synchronize: false,
             }),
+            user_module_1.UserModule,
+            expense_module_1.ExpenseModule,
         ],
-        controllers: [app_controller_1.AppController, user_controller_1.UsersController],
-        providers: [app_service_1.AppService, user_service_1.UserService, user_resolver_1.UserResolver],
+        controllers: [app_controller_1.AppController],
+        providers: [app_service_1.AppService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

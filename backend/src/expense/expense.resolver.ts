@@ -1,6 +1,14 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { Expense } from './entity/expense/expense';
 import { ExpenseService } from './expense.service';
+import {
+  UpdateExpenseDto,
+  UpdateExpenseOutput,
+} from './dto/update-expense.dto';
+import {
+  CreateExpenseDto,
+  CreateExpenseOutput,
+} from './dto/create-expense.dto';
 
 @Resolver('Expense')
 export class ExpenseResolver {
@@ -11,33 +19,20 @@ export class ExpenseResolver {
     return this.expenseService.findAll();
   }
 
-  @Mutation(() => Expense)
-  async createExpense(
-    @Args('name') name: string,
-    @Args('amount') amount: number,
-    @Args('userId') userId: number,
-    @Args('recurring') recurring: boolean,
-  ) {
-    return this.expenseService.create(name, amount, userId, recurring);
+  @Mutation(() => CreateExpenseOutput)
+  async createExpense(newExpenseInput: CreateExpenseDto) {
+    return this.expenseService.create(newExpenseInput);
   }
 
-  @Mutation(() => Expense)
+  @Mutation(() => UpdateExpenseOutput)
   async updateExpense(
-    @Args('id') expenseId: number,
-    @Args('amount') amount: number,
-    @Args('name') name: string,
-    @Args('recurring') recurring: boolean,
+    @Args('updateExpenseInput') updateExpenseInput: UpdateExpenseDto,
   ) {
-    return this.expenseService.updateExpense(
-      expenseId,
-      amount,
-      name,
-      recurring,
-    );
+    return this.expenseService.updateExpense(updateExpenseInput);
   }
 
   // @Mutation(() => Expense)
   // async deleteExpense(@Args('id') expenseId: number) {
-  //   return this.expenseService.delete(expenseId);
+  //   return this.expenseService.deleteExpense(expenseId);
   // }
 }

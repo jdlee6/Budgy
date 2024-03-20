@@ -6,6 +6,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { ExpenseModule } from './expense/expense.module';
+import { User } from './user/entity/user/user';
+import { Expense } from './expense/entity/expense/expense';
 
 @Module({
   imports: [
@@ -20,7 +22,7 @@ import { ExpenseModule } from './expense/expense.module';
       username: 'admin',
       password: '',
       database: 'budgy',
-      entities: ['dist/**/*.model.js'],
+      entities: [User, Expense, 'dist/**/*.model.js'],
       synchronize: false,
     }),
     UserModule,

@@ -12,19 +12,19 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ExpenseRepository = void 0;
+exports.UserRepository = void 0;
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const expense_1 = require("./entity/expense/expense");
-let ExpenseRepository = class ExpenseRepository extends typeorm_2.Repository {
-    constructor(expenseRepository) {
-        super(expenseRepository.target, expenseRepository.manager, expenseRepository.queryRunner);
-        this.expenseRepository = expenseRepository;
+const user_1 = require("./entity/user/user");
+let UserRepository = class UserRepository extends typeorm_2.Repository {
+    constructor(userRepository) {
+        super(userRepository.target, userRepository.manager, userRepository.queryRunner);
+        this.userRepository = userRepository;
     }
 };
-exports.ExpenseRepository = ExpenseRepository;
-exports.ExpenseRepository = ExpenseRepository = __decorate([
-    __param(0, (0, typeorm_1.InjectRepository)(expense_1.Expense)),
+exports.UserRepository = UserRepository;
+exports.UserRepository = UserRepository = __decorate([
+    __param(0, (0, typeorm_1.InjectRepository)(user_1.User)),
     __metadata("design:paramtypes", [typeorm_2.Repository])
-], ExpenseRepository);
-//# sourceMappingURL=expense.repository.js.map
+], UserRepository);
+//# sourceMappingURL=user.repository.js.map

@@ -1,11 +1,12 @@
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Column, OneToMany } from 'typeorm';
 import { Expense } from 'src/expense/entity/expense/expense';
 
+@Entity()
 @ObjectType()
 export class User {
   @Field(() => ID)
-  @Column()
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Field()
@@ -18,7 +19,7 @@ export class User {
 
   // dont want to expose password in gql response
   @Column()
-  password: string;
+  password?: string;
 
   @OneToMany(() => Expense, (expense) => expense.user)
   expense?: Expense[];

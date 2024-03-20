@@ -6,19 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserModule = void 0;
+exports.ExpenseModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const user_resolver_1 = require("./user.resolver");
-const user_service_1 = require("./user.service");
-const user_1 = require("./entity/user/user");
-let UserModule = class UserModule {
+const expense_resolver_1 = require("./expense.resolver");
+const expense_service_1 = require("./expense.service");
+const expense_1 = require("./entity/expense/expense");
+const expense_repository_1 = require("./expense.repository");
+let ExpenseModule = class ExpenseModule {
 };
-exports.UserModule = UserModule;
-exports.UserModule = UserModule = __decorate([
+exports.ExpenseModule = ExpenseModule;
+exports.ExpenseModule = ExpenseModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([user_1.User])],
-        providers: [user_service_1.UserService, user_resolver_1.UserResolver],
+        imports: [typeorm_1.TypeOrmModule.forFeature([expense_1.Expense, expense_repository_1.ExpenseRepository])],
+        providers: [expense_service_1.ExpenseService, expense_resolver_1.ExpenseResolver],
     })
-], UserModule);
-//# sourceMappingURL=user.module.js.map
+], ExpenseModule);
+//# sourceMappingURL=expense.module.js.map

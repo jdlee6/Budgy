@@ -1,11 +1,18 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { User } from 'src/user/entity/user/user';
-import { Column, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  JoinColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
+@Entity()
 @ObjectType()
 export class Expense {
   @Field(() => ID)
-  @Column()
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Field()

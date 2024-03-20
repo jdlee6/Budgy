@@ -14,25 +14,5 @@ export class ExpenseRepository extends Repository<Expense> {
       expenseRepository.queryRunner,
     );
   }
-
-  async updateExpense(
-    expenseId: number,
-    amount: number,
-    name: string,
-    recurring: boolean,
-  ): Promise<Expense> {
-    const expense = await this.expenseRepository.findOne({
-      where: { id: expenseId },
-      relations: ['user'],
-    });
-    expense.amount = amount;
-    expense.recurring = recurring;
-    expense.name = name;
-
-    await this.expenseRepository.save(expense);
-
-    return expense;
-  }
-
   // your other custom methods in your repo...
 }

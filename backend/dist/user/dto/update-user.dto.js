@@ -9,45 +9,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Expense = void 0;
+exports.UpdateUserOutput = exports.UpdateUserDto = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const user_1 = require("../../../user/entity/user/user");
-const typeorm_1 = require("typeorm");
-let Expense = class Expense {
+let UpdateUserDto = class UpdateUserDto {
 };
-exports.Expense = Expense;
+exports.UpdateUserDto = UpdateUserDto;
 __decorate([
     (0, graphql_1.Field)(() => graphql_1.ID),
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Expense.prototype, "id", void 0);
+], UpdateUserDto.prototype, "id", void 0);
 __decorate([
     (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Expense.prototype, "name", void 0);
+], UpdateUserDto.prototype, "name", void 0);
 __decorate([
     (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "email", void 0);
+exports.UpdateUserDto = UpdateUserDto = __decorate([
+    (0, graphql_1.InputType)()
+], UpdateUserDto);
+let UpdateUserOutput = class UpdateUserOutput {
+};
+exports.UpdateUserOutput = UpdateUserOutput;
+__decorate([
+    (0, graphql_1.Field)(() => graphql_1.ID),
     __metadata("design:type", Number)
-], Expense.prototype, "amount", void 0);
+], UpdateUserOutput.prototype, "id", void 0);
 __decorate([
     (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Boolean)
-], Expense.prototype, "recurring", void 0);
+    __metadata("design:type", String)
+], UpdateUserOutput.prototype, "name", void 0);
 __decorate([
     (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], Expense.prototype, "userId", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => user_1.User),
-    (0, typeorm_1.JoinColumn)({ name: 'userId' }),
-    __metadata("design:type", user_1.User)
-], Expense.prototype, "user", void 0);
-exports.Expense = Expense = __decorate([
-    (0, typeorm_1.Entity)(),
+    __metadata("design:type", String)
+], UpdateUserOutput.prototype, "email", void 0);
+exports.UpdateUserOutput = UpdateUserOutput = __decorate([
     (0, graphql_1.ObjectType)()
-], Expense);
-//# sourceMappingURL=expense.js.map
+], UpdateUserOutput);
+//# sourceMappingURL=update-user.dto.js.map

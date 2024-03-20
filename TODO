@@ -22,6 +22,14 @@
   service
   resolver 
   repository
+
+- update, delete functionality for expense
+  - resolver
+  - service
+
+- update, delete functionality for user
+  - learned about @InputType for any DTOs being used as args. to a func call
+  - learned about @ObjectType for any DTOs that are being read
   
 
 =======================================
@@ -30,6 +38,12 @@
 - read, delete, update functionalities for user and expense
   - service/repository methods
   - dto's for related
+
+
+- output types for create/update user & expenses
+
+** dto is usually related for defining the input types
+** output types is usually related for defining the return object
 
 - seed data to test functionality
 

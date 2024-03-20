@@ -9,45 +9,50 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Expense = void 0;
+exports.UpdateExpenseOutput = exports.UpdateExpenseDto = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const user_1 = require("../../../user/entity/user/user");
-const typeorm_1 = require("typeorm");
-let Expense = class Expense {
+let UpdateExpenseDto = class UpdateExpenseDto {
 };
-exports.Expense = Expense;
+exports.UpdateExpenseDto = UpdateExpenseDto;
 __decorate([
     (0, graphql_1.Field)(() => graphql_1.ID),
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Expense.prototype, "id", void 0);
+], UpdateExpenseDto.prototype, "id", void 0);
 __decorate([
     (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Expense.prototype, "name", void 0);
+], UpdateExpenseDto.prototype, "name", void 0);
 __decorate([
     (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
-], Expense.prototype, "amount", void 0);
+], UpdateExpenseDto.prototype, "amount", void 0);
 __decorate([
     (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
     __metadata("design:type", Boolean)
-], Expense.prototype, "recurring", void 0);
+], UpdateExpenseDto.prototype, "recurring", void 0);
+exports.UpdateExpenseDto = UpdateExpenseDto = __decorate([
+    (0, graphql_1.InputType)()
+], UpdateExpenseDto);
+let UpdateExpenseOutput = class UpdateExpenseOutput {
+};
+exports.UpdateExpenseOutput = UpdateExpenseOutput;
+__decorate([
+    (0, graphql_1.Field)(() => graphql_1.ID),
+    __metadata("design:type", Number)
+], UpdateExpenseOutput.prototype, "id", void 0);
 __decorate([
     (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], Expense.prototype, "userId", void 0);
+    __metadata("design:type", String)
+], UpdateExpenseOutput.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => user_1.User),
-    (0, typeorm_1.JoinColumn)({ name: 'userId' }),
-    __metadata("design:type", user_1.User)
-], Expense.prototype, "user", void 0);
-exports.Expense = Expense = __decorate([
-    (0, typeorm_1.Entity)(),
+    (0, graphql_1.Field)(),
+    __metadata("design:type", Number)
+], UpdateExpenseOutput.prototype, "amount", void 0);
+__decorate([
+    (0, graphql_1.Field)(),
+    __metadata("design:type", Boolean)
+], UpdateExpenseOutput.prototype, "recurring", void 0);
+exports.UpdateExpenseOutput = UpdateExpenseOutput = __decorate([
     (0, graphql_1.ObjectType)()
-], Expense);
-//# sourceMappingURL=expense.js.map
+], UpdateExpenseOutput);
+//# sourceMappingURL=update-expense.dto.js.map

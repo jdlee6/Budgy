@@ -1,7 +1,7 @@
 import { InputType, ObjectType, Field, ID } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateExpenseDto {
+export class UpdateUserDto {
   @Field(() => ID)
   id: number;
 
@@ -9,14 +9,11 @@ export class UpdateExpenseDto {
   name: string;
 
   @Field()
-  amount: number;
-
-  @Field()
-  recurring: boolean;
+  email: string;
 }
 
 @ObjectType()
-export class UpdateExpenseOutput {
+export class UpdateUserOutput {
   @Field(() => ID)
   id: number;
 
@@ -24,8 +21,5 @@ export class UpdateExpenseOutput {
   name: string;
 
   @Field()
-  amount: number;
-
-  @Field()
-  recurring: boolean;
+  email: string;
 }

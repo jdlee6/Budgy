@@ -16,6 +16,8 @@ exports.UserResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const user_1 = require("./entity/user/user");
 const user_service_1 = require("./user.service");
+const create_user_dto_1 = require("./dto/create-user.dto");
+const update_user_dto_1 = require("./dto/update-user.dto");
 let UserResolver = class UserResolver {
     constructor(userService) {
         this.userService = userService;
@@ -23,8 +25,11 @@ let UserResolver = class UserResolver {
     async users() {
         return this.userService.findAll();
     }
-    async createUser(name, email, password) {
-        return this.userService.create(name, email, password);
+    async createUser(newUserInput) {
+        return this.userService.create(newUserInput);
+    }
+    async updateUser(updateUserInput) {
+        return this.userService.updateUser(updateUserInput);
     }
 };
 exports.UserResolver = UserResolver;
@@ -35,14 +40,19 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "users", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => user_1.User),
-    __param(0, (0, graphql_1.Args)('name')),
-    __param(1, (0, graphql_1.Args)('email')),
-    __param(2, (0, graphql_1.Args)('password')),
+    (0, graphql_1.Mutation)(() => create_user_dto_1.CreateUserOutput),
+    __param(0, (0, graphql_1.Args)('newUserInput')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "createUser", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => update_user_dto_1.UpdateUserOutput),
+    __param(0, (0, graphql_1.Args)('updateUserInput')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [update_user_dto_1.UpdateUserDto]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "updateUser", null);
 exports.UserResolver = UserResolver = __decorate([
     (0, graphql_1.Resolver)('User'),
     __metadata("design:paramtypes", [user_service_1.UserService])
