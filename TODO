@@ -8,13 +8,32 @@
   1. define class
   2. define service file
 
+  3. define expense repository file
+  4. define expense resolver file
+  5. create-expense.dto for expense.service
 
+- user model
+  1. create user repository file
+  2. define create user dto
+
+- create modules for user, expense and add to app.module
+
+- update expense
+  service
+  resolver 
+  repository
+  
 
 =======================================
 ==============IN PROGRESS==============
 =======================================
+- read, delete, update functionalities for user and expense
+  - service/repository methods
+  - dto's for related
 
+- seed data to test functionality
 
+- start budget and category model
 
 
 
@@ -32,6 +51,13 @@
   5. define resolver for graphql 
 
   resolver -> calls service methods -> calls repo methods
+
+  Create your TypeOrm entity as usual, let's say UserEntity (user.entity.ts file)
+  Create a UserRepository class (user.repository.ts file)
+  Create a UserService class as usual (user.service.ts file)
+  Import the UserRepository into your UserService
+  Update UserModule in order to provide the UserRepository and needed UserEntity
+
 
 ** BACKEND
   1. Expense model

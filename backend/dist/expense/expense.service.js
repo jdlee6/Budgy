@@ -6,12 +6,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ExpenseModule = void 0;
+exports.ExpenseService = void 0;
 const common_1 = require("@nestjs/common");
-let ExpenseModule = class ExpenseModule {
+const expense_1 = require("./entity/expense/expense");
+let ExpenseService = class ExpenseService {
+    constructor() {
+        this.expenses = [];
+    }
+    async findAll() {
+        return this.expenses;
+    }
+    async create(name, amount, user, recurring) {
+        const expense = new expense_1.Expense();
+        expense.name = name;
+        expense.amount = amount;
+        expense.user = user;
+        expense.recurring = recurring;
+    }
 };
-exports.ExpenseModule = ExpenseModule;
-exports.ExpenseModule = ExpenseModule = __decorate([
-    (0, common_1.Module)({})
-], ExpenseModule);
-//# sourceMappingURL=expense.module.js.map
+exports.ExpenseService = ExpenseService;
+exports.ExpenseService = ExpenseService = __decorate([
+    (0, common_1.Injectable)()
+], ExpenseService);
+//# sourceMappingURL=expense.service.js.map

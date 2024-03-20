@@ -13,11 +13,7 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  async createUser(
-    @Args('name') name: string,
-    @Args('email') email: string,
-    @Args('password') password: string,
-  ) {
-    return this.userService.create(name, email, password);
+  async createUser(@Args('name') name: string, @Args('email') email: string) {
+    return this.userService.create(name, email);
   }
 }

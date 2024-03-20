@@ -4,10 +4,8 @@ import { AppService } from './app.service';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserService } from './user/user.service';
-import { UserResolver } from './user/user.resolver';
-import { UsersController } from './user/user.controller';
-// import { ExpenseModule } from './expense/expense.repository';
+import { UserModule } from './user/user.module';
+import { ExpenseModule } from './expense/expense.module';
 
 @Module({
   imports: [
@@ -25,11 +23,10 @@ import { UsersController } from './user/user.controller';
       entities: ['dist/**/*.model.js'],
       synchronize: false,
     }),
-    // ExpenseModule,
-    // Create User module for this
-    // UserModule,
+    UserModule,
+    ExpenseModule,
   ],
-  controllers: [AppController, UsersController],
-  providers: [AppService, UserService, UserResolver],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

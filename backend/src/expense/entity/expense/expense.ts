@@ -1,6 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { User } from 'src/user/entity/user/user';
-import { Column, ManyToOne } from 'typeorm';
+import { Column, ManyToOne, JoinColumn } from 'typeorm';
 
 @ObjectType()
 export class Expense {
@@ -20,8 +20,13 @@ export class Expense {
   @Column()
   recurring: boolean;
 
-  @ManyToOne(() => User, { nullable: true })
-  user: User | null;
+  @Field()
+  @Column()
+  userId: number;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'userId' })
+  user: User;
 
   // OneToOne expense -> category
 }
