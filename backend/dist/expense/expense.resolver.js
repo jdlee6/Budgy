@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExpenseResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const expense_1 = require("./entity/expense/expense");
+const expense_1 = require("./entity/expense");
 const expense_service_1 = require("./expense.service");
 const update_expense_dto_1 = require("./dto/update-expense.dto");
 const create_expense_dto_1 = require("./dto/create-expense.dto");

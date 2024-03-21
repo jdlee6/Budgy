@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRepository = void 0;
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const user_1 = require("./entity/user/user");
+const user_1 = require("./entity/user");
 let UserRepository = class UserRepository extends typeorm_2.Repository {
     constructor(userRepository) {
         super(userRepository.target, userRepository.manager, userRepository.queryRunner);

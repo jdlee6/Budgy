@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExpenseRepository = void 0;
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const expense_1 = require("./entity/expense/expense");
+const expense_1 = require("./entity/expense");
 let ExpenseRepository = class ExpenseRepository extends typeorm_2.Repository {
     constructor(expenseRepository) {
         super(expenseRepository.target, expenseRepository.manager, expenseRepository.queryRunner);

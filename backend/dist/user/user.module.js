@@ -11,7 +11,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_resolver_1 = require("./user.resolver");
 const user_service_1 = require("./user.service");
-const user_1 = require("./entity/user/user");
+const user_1 = require("./entity/user");
 let UserModule = class UserModule {
 };
 exports.UserModule = UserModule;

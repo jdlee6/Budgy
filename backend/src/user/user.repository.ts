@@ -1,7 +1,7 @@
 //https://stackoverflow.com/questions/74542474/how-to-create-custom-separate-file-repository-in-nestjs-9-with-typeorm-0-3-x
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './entity/user/user';
+import { User } from './entity/user';
 
 export class UserRepository extends Repository<User> {
   constructor(

@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Expense } from './entity/expense/expense';
+import { Expense } from './entity/expense';
 import { ExpenseRepository } from './expense.repository';
 import {
   CreateExpenseDto,

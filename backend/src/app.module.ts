@@ -1,20 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { ExpenseModule } from './expense/expense.module';
-import { User } from './user/entity/user/user';
-import { Expense } from './expense/entity/expense/expense';
+import { join } from 'path';
+
+console.log(join(__dirname, '/**/entity/*.ts'));
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      autoSchemaFile: true,
-      driver: ApolloDriver,
-    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -22,13 +17,15 @@ import { Expense } from './expense/entity/expense/expense';
       username: 'admin',
       password: '',
       database: 'budgy',
-      entities: [User, Expense, 'dist/**/*.model.js'],
-      synchronize: false,
+      entities: ['dist/**/entity/*.js'],
+      migrations: [join(__dirname, './migrations/*{.ts,.js}')],
+    }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      autoSchemaFile: true,
+      driver: ApolloDriver,
     }),
     UserModule,
     ExpenseModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

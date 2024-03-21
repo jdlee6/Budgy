@@ -3,11 +3,9 @@
 =======================================
 - bootstrapped nestjs/graphql app
 - controller/service/module/resolver for user
-
 - expense model
   1. define class
   2. define service file
-
   3. define expense repository file
   4. define expense resolver file
   5. create-expense.dto for expense.service
@@ -15,7 +13,6 @@
 - user model
   1. create user repository file
   2. define create user dto
-
 - create modules for user, expense and add to app.module
 
 - update expense
@@ -30,20 +27,36 @@
 - update, delete functionality for user
   - learned about @InputType for any DTOs being used as args. to a func call
   - learned about @ObjectType for any DTOs that are being read
-  
+
+- read, delete, update functionalities for user and expense
+  - service/repository methods
+  - dto's for related
+- output types for create/update user & expenses
+      ** dto is usually related for defining the input types
+      ** output types is usually related for defining the return object
+
+
+* configure db connection - look at ormconfig.ts
+* tweak npm command for migrations
+  npm run typeorm migration:run - up functions
+  npm run typeorm migration:revert - down functions
+* had to configure the entities[] within app.module.ts
+
+
+- create user with graphql playground
+mutation {
+  createUser(newUserInput: { name: "joe", email: "joeleedev123@gmail.com"}) {
+    id
+    name
+    email
+  }
+}
 
 =======================================
 ==============IN PROGRESS==============
 =======================================
-- read, delete, update functionalities for user and expense
-  - service/repository methods
-  - dto's for related
-
-
-- output types for create/update user & expenses
-
-** dto is usually related for defining the input types
-** output types is usually related for defining the return object
+- create expense migration
+- create expense related to user
 
 - seed data to test functionality
 

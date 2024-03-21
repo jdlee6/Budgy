@@ -1,8 +1,4 @@
 backend/node_modules
+backend/dist
 
 frontend/node_modules
-
-
-/dist
-/*.js
-/*.js.map

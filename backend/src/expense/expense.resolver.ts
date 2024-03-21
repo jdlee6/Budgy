@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { Expense } from './entity/expense/expense';
+import { Expense } from './entity/expense';
 import { ExpenseService } from './expense.service';
 import {
   UpdateExpenseDto,

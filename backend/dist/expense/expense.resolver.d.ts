@@ -1,4 +1,4 @@
-import { Expense } from './entity/expense/expense';
+import { Expense } from './entity/expense';
 import { ExpenseService } from './expense.service';
 import { UpdateExpenseDto, UpdateExpenseOutput } from './dto/update-expense.dto';
 import { CreateExpenseDto, CreateExpenseOutput } from './dto/create-expense.dto';

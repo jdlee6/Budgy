@@ -8,25 +8,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
-const app_controller_1 = require("./app.controller");
-const app_service_1 = require("./app.service");
+const typeorm_1 = require("@nestjs/typeorm");
 const apollo_1 = require("@nestjs/apollo");
 const graphql_1 = require("@nestjs/graphql");
-const typeorm_1 = require("@nestjs/typeorm");
 const user_module_1 = require("./user/user.module");
 const expense_module_1 = require("./expense/expense.module");
-const user_1 = require("./user/entity/user/user");
-const expense_1 = require("./expense/entity/expense/expense");
+const path_1 = require("path");
+console.log((0, path_1.join)(__dirname, '/**/entity/*.ts'));
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            graphql_1.GraphQLModule.forRoot({
-                autoSchemaFile: true,
-                driver: apollo_1.ApolloDriver,
-            }),
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'postgres',
                 host: 'localhost',
@@ -34,14 +28,16 @@ exports.AppModule = AppModule = __decorate([
                 username: 'admin',
                 password: '',
                 database: 'budgy',
-                entities: [user_1.User, expense_1.Expense, 'dist/**/*.model.js'],
-                synchronize: false,
+                entities: ['dist/**/entity/*.js'],
+                migrations: [(0, path_1.join)(__dirname, './migrations/*{.ts,.js}')],
+            }),
+            graphql_1.GraphQLModule.forRoot({
+                autoSchemaFile: true,
+                driver: apollo_1.ApolloDriver,
             }),
             user_module_1.UserModule,
             expense_module_1.ExpenseModule,
         ],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

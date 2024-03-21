@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Expense } from 'src/expense/entity/expense/expense';
+import { Expense } from 'src/expense/entity/expense';
 
-@Entity()
+@Entity('user')
 @ObjectType()
 export class User {
   @Field(() => ID)
