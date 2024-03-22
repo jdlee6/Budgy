@@ -12,7 +12,7 @@ export class UpdateExpenseDto {
   amount: number;
 
   @Field()
-  recurring: boolean;
+  recurrence: boolean;
 }
 
 @ObjectType()
@@ -27,5 +27,5 @@ export class UpdateExpenseOutput {
   amount: number;
 
   @Field()
-  recurring: boolean;
+  recurrence: boolean;
 }

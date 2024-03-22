@@ -29,7 +29,7 @@ __decorate([
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", Boolean)
-], UpdateExpenseDto.prototype, "recurring", void 0);
+], UpdateExpenseDto.prototype, "recurrence", void 0);
 exports.UpdateExpenseDto = UpdateExpenseDto = __decorate([
     (0, graphql_1.InputType)()
 ], UpdateExpenseDto);
@@ -51,7 +51,7 @@ __decorate([
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", Boolean)
-], UpdateExpenseOutput.prototype, "recurring", void 0);
+], UpdateExpenseOutput.prototype, "recurrence", void 0);
 exports.UpdateExpenseOutput = UpdateExpenseOutput = __decorate([
     (0, graphql_1.ObjectType)()
 ], UpdateExpenseOutput);

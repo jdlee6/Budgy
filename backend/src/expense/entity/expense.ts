@@ -2,10 +2,12 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { User } from 'src/user/entity/user';
 import {
   Column,
+  CreateDateColumn,
   Entity,
-  ManyToOne,
   JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('expense')
@@ -25,7 +27,17 @@ export class Expense {
 
   @Field()
   @Column()
-  recurring: boolean;
+  recurrence: boolean;
+
+  @Field()
+  @Column()
+  billingDate: Date;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @Field()
   @Column()

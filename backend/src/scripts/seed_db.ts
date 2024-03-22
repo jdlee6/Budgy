@@ -1,10 +1,5 @@
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client/core';
 
-const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
-  cache: new InMemoryCache(),
-});
-
 const CREATE_USER = gql`
   mutation {
     createUser(newUserInput: { name: "test acc", email: "test@gmail.com" }) {
@@ -16,43 +11,66 @@ const CREATE_USER = gql`
 `;
 
 const CREATE_CAR_EXPENSE = gql`
-  mutation {
+  mutation CreateCarExpense($dateString: DateTime!) {
     createExpense(
       newExpenseInput: {
-        userId: 1
         name: "car"
-        recurring: true
+        recurrence: true
         amount: 290.00
+        billingDate: $dateString
+        userId: 1
       }
     ) {
+      id
       name
       amount
-      recurring
+      recurrence
+      billingDate
       userId
     }
   }
 `;
 
 const CREATE_INTERNET_EXPENSE = gql`
-  mutation {
+  mutation createInternetExpense($dateString: DateTime!) {
     createExpense(
       newExpenseInput: {
-        userId: 1
         name: "internet"
-        recurring: true
+        recurrence: true
         amount: 69.99
+        billingDate: $dateString
+        userId: 1
       }
     ) {
+      id
       name
       amount
-      recurring
+      recurrence
+      billingDate
       userId
     }
   }
 `;
 
+const client = new ApolloClient({
+  uri: 'http://localhost:3000/graphql',
+  cache: new InMemoryCache(),
+});
+const dateString = new Date().toISOString().slice(0, 10);
+console.log(dateString);
+
 client
   .mutate({ mutation: CREATE_USER })
-  .then(() => client.mutate({ mutation: CREATE_CAR_EXPENSE }))
-  .then(() => client.mutate({ mutation: CREATE_INTERNET_EXPENSE }))
-  .catch((err) => console.error(err));
+  .then(() =>
+    client.mutate({
+      mutation: CREATE_CAR_EXPENSE,
+      variables: { dateString },
+    }),
+  )
+  .then(() =>
+    client.mutate({
+      mutation: CREATE_INTERNET_EXPENSE,
+      variables: { dateString },
+    }),
+  )
+  .catch((err) => console.error(err.networkError.result.errors));

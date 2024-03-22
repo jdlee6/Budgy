@@ -6,8 +6,11 @@ export class CreateExpenseTable1711065011406 implements MigrationInterface {
             CREATE TABLE "expense" (
                 "id" SERIAL PRIMARY KEY,
                 "name" varchar NOT NULL,
-                "amount" integer NOT NULL,
-                "recurring" boolean NOT NULL,
+                "amount" real NOT NULL,
+                "recurrence" boolean NOT NULL,
+                "billingDate" date,
+                "createdAt" TIMESTAMP,
+                "updatedAt" TIMESTAMP,
                 "userId" integer NOT NULL
             )
         `);

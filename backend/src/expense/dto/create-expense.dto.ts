@@ -9,7 +9,10 @@ export class CreateExpenseDto {
   amount: number;
 
   @Field()
-  recurring: boolean;
+  recurrence: boolean;
+
+  @Field()
+  billingDate: Date;
 
   @Field()
   userId: number;
@@ -18,13 +21,19 @@ export class CreateExpenseDto {
 @ObjectType()
 export class CreateExpenseOutput {
   @Field()
+  id: number;
+
+  @Field()
   name: string;
 
   @Field()
   amount: number;
 
   @Field()
-  recurring: boolean;
+  recurrence: boolean;
+
+  @Field()
+  billingDate: Date;
 
   @Field()
   userId: number;

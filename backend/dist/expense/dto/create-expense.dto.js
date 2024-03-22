@@ -25,7 +25,11 @@ __decorate([
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", Boolean)
-], CreateExpenseDto.prototype, "recurring", void 0);
+], CreateExpenseDto.prototype, "recurrence", void 0);
+__decorate([
+    (0, graphql_1.Field)(),
+    __metadata("design:type", Date)
+], CreateExpenseDto.prototype, "billingDate", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", Number)
@@ -38,6 +42,10 @@ let CreateExpenseOutput = class CreateExpenseOutput {
 exports.CreateExpenseOutput = CreateExpenseOutput;
 __decorate([
     (0, graphql_1.Field)(),
+    __metadata("design:type", Number)
+], CreateExpenseOutput.prototype, "id", void 0);
+__decorate([
+    (0, graphql_1.Field)(),
     __metadata("design:type", String)
 ], CreateExpenseOutput.prototype, "name", void 0);
 __decorate([
@@ -47,7 +55,11 @@ __decorate([
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", Boolean)
-], CreateExpenseOutput.prototype, "recurring", void 0);
+], CreateExpenseOutput.prototype, "recurrence", void 0);
+__decorate([
+    (0, graphql_1.Field)(),
+    __metadata("design:type", Date)
+], CreateExpenseOutput.prototype, "billingDate", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", Number)

@@ -25,15 +25,18 @@ export class ExpenseService {
     const expense = new Expense();
     expense.name = newExpenseInput.name;
     expense.amount = newExpenseInput.amount;
-    expense.recurring = newExpenseInput.recurring;
+    expense.billingDate = newExpenseInput.billingDate;
+    expense.recurrence = newExpenseInput.recurrence;
     expense.userId = newExpenseInput.userId;
 
     const savedExpense = await this.expenseRepository.save(expense);
 
     return {
+      id: savedExpense.id,
       name: savedExpense.name,
       amount: savedExpense.amount,
-      recurring: savedExpense.recurring,
+      recurrence: savedExpense.recurrence,
+      billingDate: savedExpense.billingDate,
       userId: savedExpense.userId,
     };
   }
@@ -59,7 +62,7 @@ export class ExpenseService {
       id: updatedExpense.id,
       name: updatedExpense.name,
       amount: updatedExpense.amount,
-      recurring: updatedExpense.recurring,
+      recurrence: updatedExpense.recurrence,
     };
   }
 

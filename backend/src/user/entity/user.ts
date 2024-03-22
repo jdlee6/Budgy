@@ -1,4 +1,11 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Expense } from 'src/expense/entity/expense';
 
@@ -21,7 +28,16 @@ export class User {
   @Column()
   password?: string;
 
-  // Column isn't needed bc its a relation
+  @Column({ type: 'timestamp', nullable: true })
+  lastLoggedIn: Date;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  // Column isn't needed bc its a relation.
   @OneToMany(() => Expense, (expense) => expense.user)
   @Field(() => [Expense], { nullable: true })
   expenses?: Expense[];

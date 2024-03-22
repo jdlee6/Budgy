@@ -7,8 +7,11 @@ export class CreateUserTable1710971000717 implements MigrationInterface {
                 "id" SERIAL PRIMARY KEY,
                 "name" varchar NOT NULL,
                 "email" varchar NOT NULL,
-                "password" varchar
-            )
+                "password" varchar,
+                "lastLoggedIn" TIMESTAMP,
+                "createdAt" TIMESTAMP,
+                "updatedAt" TIMESTAMP
+                )
         `);
   }
 
