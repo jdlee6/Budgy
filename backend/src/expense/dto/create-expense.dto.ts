@@ -16,6 +16,9 @@ export class CreateExpenseDto {
 
   @Field()
   userId: number;
+
+  @Field()
+  categoryId: number;
 }
 
 @ObjectType()
@@ -37,4 +40,7 @@ export class CreateExpenseOutput {
 
   @Field()
   userId: number;
+
+  @Field()
+  categoryId: number;
 }

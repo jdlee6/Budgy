@@ -1,25 +1,22 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateExpenseTable1711065011406 implements MigrationInterface {
+export class Migrations1711149504165 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-            CREATE TABLE "expense" (
+            CREATE TABLE "category" (
                 "id" SERIAL PRIMARY KEY,
                 "name" varchar NOT NULL,
-                "amount" real NOT NULL,
-                "recurrence" boolean NOT NULL,
-                "billingDate" date,
-                "createdAt" TIMESTAMP,
-                "updatedAt" TIMESTAMP,
+                "color" varchar NOT NULL,
                 "userId" integer NOT NULL,
-                "categoryId" integer NOT NULL
+                "createdAt" TIMESTAMP,
+                "updatedAt" TIMESTAMP
             )
         `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-            DROP TABLE "expense"
+            DROP TABLE "category"
         `);
   }
 }

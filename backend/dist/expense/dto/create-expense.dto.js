@@ -34,6 +34,10 @@ __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", Number)
 ], CreateExpenseDto.prototype, "userId", void 0);
+__decorate([
+    (0, graphql_1.Field)(),
+    __metadata("design:type", Number)
+], CreateExpenseDto.prototype, "categoryId", void 0);
 exports.CreateExpenseDto = CreateExpenseDto = __decorate([
     (0, graphql_1.InputType)()
 ], CreateExpenseDto);
@@ -64,6 +68,10 @@ __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", Number)
 ], CreateExpenseOutput.prototype, "userId", void 0);
+__decorate([
+    (0, graphql_1.Field)(),
+    __metadata("design:type", Number)
+], CreateExpenseOutput.prototype, "categoryId", void 0);
 exports.CreateExpenseOutput = CreateExpenseOutput = __decorate([
     (0, graphql_1.ObjectType)()
 ], CreateExpenseOutput);

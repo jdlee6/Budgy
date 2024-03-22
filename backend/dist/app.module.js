@@ -14,7 +14,7 @@ const graphql_1 = require("@nestjs/graphql");
 const user_module_1 = require("./user/user.module");
 const expense_module_1 = require("./expense/expense.module");
 const path_1 = require("path");
-console.log((0, path_1.join)(__dirname, '/**/entity/*.ts'));
+const category_module_1 = require("./category/category.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -37,6 +37,7 @@ exports.AppModule = AppModule = __decorate([
             }),
             user_module_1.UserModule,
             expense_module_1.ExpenseModule,
+            category_module_1.CategoryModule,
         ],
     })
 ], AppModule);

@@ -4,6 +4,7 @@ export declare class CreateExpenseDto {
     recurrence: boolean;
     billingDate: Date;
     userId: number;
+    categoryId: number;
 }
 export declare class CreateExpenseOutput {
     id: number;
@@ -12,4 +13,5 @@ export declare class CreateExpenseOutput {
     recurrence: boolean;
     billingDate: Date;
     userId: number;
+    categoryId: number;
 }

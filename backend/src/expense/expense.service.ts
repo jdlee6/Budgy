@@ -28,6 +28,7 @@ export class ExpenseService {
     expense.billingDate = newExpenseInput.billingDate;
     expense.recurrence = newExpenseInput.recurrence;
     expense.userId = newExpenseInput.userId;
+    expense.categoryId = newExpenseInput.categoryId;
 
     const savedExpense = await this.expenseRepository.save(expense);
 
@@ -38,6 +39,7 @@ export class ExpenseService {
       recurrence: savedExpense.recurrence,
       billingDate: savedExpense.billingDate,
       userId: savedExpense.userId,
+      categoryId: savedExpense.categoryId,
     };
   }
 

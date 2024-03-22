@@ -1,4 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { Category } from 'src/category/entity/category';
 import { User } from 'src/user/entity/user';
 import {
   Column,
@@ -43,9 +44,16 @@ export class Expense {
   @Column()
   userId: number;
 
+  @Field()
+  @Column()
+  categoryId: number;
+
   @ManyToOne(() => User, (user) => user.expenses)
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  // OneToOne expense -> category
+  // ManyToOne expense -> category
+  @ManyToOne(() => Category, (category) => category.expenses)
+  @JoinColumn({ name: 'categoryId' })
+  category: Category;
 }

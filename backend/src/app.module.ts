@@ -5,8 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { UserModule } from './user/user.module';
 import { ExpenseModule } from './expense/expense.module';
 import { join } from 'path';
-
-console.log(join(__dirname, '/**/entity/*.ts'));
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -26,6 +25,7 @@ console.log(join(__dirname, '/**/entity/*.ts'));
     }),
     UserModule,
     ExpenseModule,
+    CategoryModule,
   ],
 })
 export class AppModule {}

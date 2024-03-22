@@ -47,6 +47,34 @@
 - create expense related to user
 - figured out how to show expenses on query
   * needed to define a .findOne({ where: ..., relations: ... })
+- create script to seed data
+
+- change recurring to recurrence
+- created_at, updated_at for user model
+- created_at, updated_at, billing_date for expense model
+- updated migration & seed file
+- updated entities, resolvers, service file to handle new properties
+-
+
+
+- category entity
+- established relationship between category and expense
+  * 1 to Many, Many expense to 1 cateogry
+- category.resolver
+- category.service
+- category repository
+- dto for create category/update category
+- category module
+- migration for cateogries
+- seed data for categories
+- categories for user model
+- category for expense model
+
+1. user created
+2. category w/ userid created
+3. expense w/ categoryid created
+
+* user can see both expenses and categories
 
 
 List of available functions:
@@ -55,19 +83,25 @@ GET users/<:id>/expenses [x]
 POST users {:newUserInput} [x]
 PUT users {:updateUserInput}
 
+GET category
+POST category {:newCategoryInput}
+PUT category {:updateCategoryInput}
+
 GET expense
 POST expense {:newExpenseInput}
 PUT expense {:updateExpenseInput}
 
-
 =======================================
 ==============IN PROGRESS==============
 =======================================
-- change recurring to recurrence
-- created_at, updated_at, categories for user model
-- created_at, updated_at, billing_date for expense model
-- start budget and category model
-- seed data to test functionality
+- credentials in env variables (for db)
+
+- fix expensesByCategoryId logic
+
+
+- start budget model
+
+- logic for handling every day of the month?
 
 
 - start frontend

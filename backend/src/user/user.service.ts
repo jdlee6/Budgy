@@ -9,7 +9,9 @@ export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async findAll(): Promise<User[]> {
-    const users = await this.userRepository.find();
+    const users = await this.userRepository.find({
+      relations: ['expenses', 'categories'],
+    });
     return users;
   }
 

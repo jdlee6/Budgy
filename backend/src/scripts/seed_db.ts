@@ -10,6 +10,23 @@ const CREATE_USER = gql`
   }
 `;
 
+const CREATE_CATEGORY_EXPENSE = gql`
+  mutation {
+    createCategory(
+      newCategoryInput: { name: "bills", color: "blue", userId: 1 }
+    ) {
+      id
+      name
+      color
+      expenses {
+        id
+        name
+      }
+      userId
+    }
+  }
+`;
+
 const CREATE_CAR_EXPENSE = gql`
   mutation CreateCarExpense($dateString: DateTime!) {
     createExpense(
@@ -19,6 +36,7 @@ const CREATE_CAR_EXPENSE = gql`
         amount: 290.00
         billingDate: $dateString
         userId: 1
+        categoryId: 1
       }
     ) {
       id
@@ -27,6 +45,7 @@ const CREATE_CAR_EXPENSE = gql`
       recurrence
       billingDate
       userId
+      categoryId
     }
   }
 `;
@@ -40,6 +59,7 @@ const CREATE_INTERNET_EXPENSE = gql`
         amount: 69.99
         billingDate: $dateString
         userId: 1
+        categoryId: 1
       }
     ) {
       id
@@ -61,6 +81,12 @@ console.log(dateString);
 
 client
   .mutate({ mutation: CREATE_USER })
+  .then(() =>
+    client.mutate({
+      mutation: CREATE_CATEGORY_EXPENSE,
+      variables: { dateString },
+    }),
+  )
   .then(() =>
     client.mutate({
       mutation: CREATE_CAR_EXPENSE,

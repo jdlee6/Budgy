@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Expense } from 'src/expense/entity/expense';
+import { Category } from 'src/category/entity/category';
 
 @Entity('user')
 @ObjectType()
@@ -37,10 +38,11 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // Column isn't needed bc its a relation.
   @OneToMany(() => Expense, (expense) => expense.user)
   @Field(() => [Expense], { nullable: true })
   expenses?: Expense[];
 
-  // OneToMany user -> categories
+  @OneToMany(() => Category, (category) => category.user)
+  @Field(() => [Category], { nullable: true })
+  categories?: Category[];
 }

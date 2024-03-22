@@ -28,6 +28,7 @@ let ExpenseService = class ExpenseService {
         expense.billingDate = newExpenseInput.billingDate;
         expense.recurrence = newExpenseInput.recurrence;
         expense.userId = newExpenseInput.userId;
+        expense.categoryId = newExpenseInput.categoryId;
         const savedExpense = await this.expenseRepository.save(expense);
         return {
             id: savedExpense.id,
@@ -36,6 +37,7 @@ let ExpenseService = class ExpenseService {
             recurrence: savedExpense.recurrence,
             billingDate: savedExpense.billingDate,
             userId: savedExpense.userId,
+            categoryId: savedExpense.categoryId,
         };
     }
     async updateExpense(updateExpenseDto) {
