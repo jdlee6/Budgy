@@ -42,26 +42,35 @@
   npm run typeorm migration:revert - down functions
 * had to configure the entities[] within app.module.ts
 
-
 - create user with graphql playground
-mutation {
-  createUser(newUserInput: { name: "joe", email: "joeleedev123@gmail.com"}) {
-    id
-    name
-    email
-  }
-}
+- createexpensemigration 
+- create expense related to user
+- figured out how to show expenses on query
+  * needed to define a .findOne({ where: ..., relations: ... })
+
+
+List of available functions:
+GET users [x]
+GET users/<:id>/expenses [x]
+POST users {:newUserInput} [x]
+PUT users {:updateUserInput}
+
+GET expense
+POST expense {:newExpenseInput}
+PUT expense {:updateExpenseInput}
+
 
 =======================================
 ==============IN PROGRESS==============
 =======================================
-- create expense migration
-- create expense related to user
-
+- change recurring to recurrence
+- created_at, updated_at, categories for user model
+- created_at, updated_at, billing_date for expense model
+- start budget and category model
 - seed data to test functionality
 
-- start budget and category model
 
+- start frontend
 
 
 =======================================

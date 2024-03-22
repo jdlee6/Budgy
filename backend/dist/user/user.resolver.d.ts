@@ -6,6 +6,7 @@ export declare class UserResolver {
     private readonly userService;
     constructor(userService: UserService);
     users(): Promise<User[]>;
+    expensesByUserId(userId: number): Promise<any>;
     createUser(newUserInput: CreateUserDto): Promise<CreateUserOutput>;
     updateUser(updateUserInput: UpdateUserDto): Promise<UpdateUserOutput>;
 }

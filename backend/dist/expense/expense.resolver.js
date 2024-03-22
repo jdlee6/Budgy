@@ -41,6 +41,7 @@ __decorate([
 ], ExpenseResolver.prototype, "expenses", null);
 __decorate([
     (0, graphql_1.Mutation)(() => create_expense_dto_1.CreateExpenseOutput),
+    __param(0, (0, graphql_1.Args)('newExpenseInput')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_expense_dto_1.CreateExpenseDto]),
     __metadata("design:returntype", Promise)

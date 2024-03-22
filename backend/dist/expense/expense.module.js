@@ -18,8 +18,8 @@ let ExpenseModule = class ExpenseModule {
 exports.ExpenseModule = ExpenseModule;
 exports.ExpenseModule = ExpenseModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([expense_1.Expense, expense_repository_1.ExpenseRepository])],
-        providers: [expense_service_1.ExpenseService, expense_resolver_1.ExpenseResolver],
+        imports: [typeorm_1.TypeOrmModule.forFeature([expense_1.Expense])],
+        providers: [expense_service_1.ExpenseService, expense_resolver_1.ExpenseResolver, expense_repository_1.ExpenseRepository],
     })
 ], ExpenseModule);
 //# sourceMappingURL=expense.module.js.map

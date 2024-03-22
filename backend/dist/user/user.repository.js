@@ -21,6 +21,12 @@ let UserRepository = class UserRepository extends typeorm_2.Repository {
         super(userRepository.target, userRepository.manager, userRepository.queryRunner);
         this.userRepository = userRepository;
     }
+    async findExpensesByUserId(userId) {
+        return await this.userRepository.findOne({
+            where: { id: userId },
+            relations: ['expenses'],
+        });
+    }
 };
 exports.UserRepository = UserRepository;
 exports.UserRepository = UserRepository = __decorate([

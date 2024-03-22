@@ -21,8 +21,10 @@ export class User {
   @Column()
   password?: string;
 
+  // Column isn't needed bc its a relation
   @OneToMany(() => Expense, (expense) => expense.user)
-  expense?: Expense[];
+  @Field(() => [Expense], { nullable: true })
+  expenses?: Expense[];
 
   // OneToMany user -> categories
 }

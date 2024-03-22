@@ -31,7 +31,7 @@ export class Expense {
   @Column()
   userId: number;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, (user) => user.expenses)
   @JoinColumn({ name: 'userId' })
   user: User;
 

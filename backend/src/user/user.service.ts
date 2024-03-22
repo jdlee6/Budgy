@@ -7,14 +7,23 @@ import { UpdateUserDto, UpdateUserOutput } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
-  private readonly users: User[] = [];
   constructor(
-    @InjectRepository(User)
     private readonly userRepository: UserRepository,
   ) {}
 
   async findAll(): Promise<User[]> {
-    return this.users;
+    const users = await this.userRepository.find();
+    return users;
+  }
+
+  async findById(id: number): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id: id } });
+    return user;
+  }
+
+  async findExpensesByUserId(userId: number) {
+    const user = await this.userRepository.findExpensesByUserId(userId);
+    return user;
   }
 
   async create(newUserInput: CreateUserDto): Promise<CreateUserOutput> {

@@ -25,6 +25,9 @@ let UserResolver = class UserResolver {
     async users() {
         return this.userService.findAll();
     }
+    async expensesByUserId(userId) {
+        return this.userService.findExpensesByUserId(userId);
+    }
     async createUser(newUserInput) {
         return this.userService.create(newUserInput);
     }
@@ -40,6 +43,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "users", null);
 __decorate([
+    (0, graphql_1.Query)(() => user_1.User),
+    __param(0, (0, graphql_1.Args)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "expensesByUserId", null);
+__decorate([
     (0, graphql_1.Mutation)(() => create_user_dto_1.CreateUserOutput),
     __param(0, (0, graphql_1.Args)('newUserInput')),
     __metadata("design:type", Function),
@@ -54,7 +64,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "updateUser", null);
 exports.UserResolver = UserResolver = __decorate([
-    (0, graphql_1.Resolver)('User'),
+    (0, graphql_1.Resolver)(() => user_1.User),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserResolver);
 //# sourceMappingURL=user.resolver.js.map

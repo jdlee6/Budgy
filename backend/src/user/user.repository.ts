@@ -15,5 +15,12 @@ export class UserRepository extends Repository<User> {
     );
   }
 
+  async findExpensesByUserId(userId: number) {
+    return await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['expenses'],
+    });
+  }
+
   // your other custom methods in your repo...
 }

@@ -16,10 +16,10 @@ const expense_repository_1 = require("./expense.repository");
 let ExpenseService = class ExpenseService {
     constructor(expenseRepository) {
         this.expenseRepository = expenseRepository;
-        this.expenses = [];
     }
     async findAll() {
-        return this.expenses;
+        const expenses = await this.expenseRepository.find();
+        return expenses;
     }
     async create(newExpenseInput) {
         const expense = new expense_1.Expense();

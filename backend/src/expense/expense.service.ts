@@ -12,11 +12,11 @@ import {
 
 @Injectable()
 export class ExpenseService {
-  private readonly expenses: Expense[] = [];
   constructor(private readonly expenseRepository: ExpenseRepository) {}
 
   async findAll(): Promise<Expense[]> {
-    return this.expenses;
+    const expenses = await this.expenseRepository.find();
+    return expenses;
   }
 
   async create(

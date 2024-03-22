@@ -20,7 +20,9 @@ export class ExpenseResolver {
   }
 
   @Mutation(() => CreateExpenseOutput)
-  async createExpense(newExpenseInput: CreateExpenseDto) {
+  async createExpense(
+    @Args('newExpenseInput') newExpenseInput: CreateExpenseDto,
+  ) {
     return this.expenseService.create(newExpenseInput);
   }
 

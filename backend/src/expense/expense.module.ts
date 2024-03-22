@@ -6,7 +6,7 @@ import { Expense } from './entity/expense';
 import { ExpenseRepository } from './expense.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Expense, ExpenseRepository])],
-  providers: [ExpenseService, ExpenseResolver],
+  imports: [TypeOrmModule.forFeature([Expense])],
+  providers: [ExpenseService, ExpenseResolver, ExpenseRepository],
 })
 export class ExpenseModule {}
