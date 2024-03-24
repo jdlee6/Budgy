@@ -76,6 +76,11 @@
 
 * user can see both expenses and categories
 
+- credentials in env variables (for db)
+- remove /dist from .git tracking and include .env on gitignore
+- err handling for expensesByUserId
+- err handling for expensesByCategoryId
+
 
 List of available functions:
 GET users [x]
@@ -94,15 +99,9 @@ PUT expense {:updateExpenseInput}
 =======================================
 ==============IN PROGRESS==============
 =======================================
-- credentials in env variables (for db)
-- error handling for if no id
-
-- fix expensesByCategoryId logic
-
-
 - start budget model
 
-- logic for handling every day of the month?
+- logic for handling every day of the month? (keeping a streak)
 
 
 - start frontend

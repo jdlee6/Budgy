@@ -4,7 +4,6 @@ import { UserService } from './user.service';
 import { CreateUserDto, CreateUserOutput } from './dto/create-user.dto';
 import { UpdateUserDto, UpdateUserOutput } from './dto/update-user.dto';
 
-// handles mutations and fetch logic
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}

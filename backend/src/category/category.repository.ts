@@ -15,9 +15,13 @@ export class CategoryRepository extends Repository<Category> {
   }
 
   async findExpensesByCategoryId(categoryId: number) {
-    return await this.categoryRepository.findOne({
-      where: { id: categoryId },
-      relations: ['expenses'],
-    });
+    try {
+      return await this.categoryRepository.findOne({
+        where: { id: categoryId },
+        relations: ['expenses'],
+      });
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }
