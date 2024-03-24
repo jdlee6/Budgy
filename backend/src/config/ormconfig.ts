@@ -1,15 +1,16 @@
 import { DataSource } from 'typeorm';
-// import { User } from '../../user/entity/user/user';
-// import { Expense } from '../../expense/entity/expense/expense';
 import { join } from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const options = new DataSource({
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'admin',
-  password: '',
-  database: 'budgy',
+  host: process.env.HOST,
+  port: Number(process.env.PORT),
+  username: process.env.USERNAME,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
 
   // paths may not be correct here
   entities: [join(__dirname, '/../../**/*.entity{.ts,.js}')],

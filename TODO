@@ -95,6 +95,7 @@ PUT expense {:updateExpenseInput}
 ==============IN PROGRESS==============
 =======================================
 - credentials in env variables (for db)
+- error handling for if no id
 
 - fix expensesByCategoryId logic
 
