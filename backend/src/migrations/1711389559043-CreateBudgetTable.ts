@@ -5,7 +5,6 @@ export class CreateBudgetTable1711389559043 implements MigrationInterface {
     await queryRunner.query(`
             CREATE TABLE "budget" (
                 "id" SERIAL PRIMARY KEY,
-                "name" varchar NOT NULL,
                 "amount" integer NOT NULL,
                 "userId" integer NOT NULL,
                 "categoryId" integer NOT NULL,

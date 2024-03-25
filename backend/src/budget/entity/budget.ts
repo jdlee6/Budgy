@@ -20,10 +20,6 @@ export class Budget {
 
   @Field()
   @Column()
-  name: string;
-
-  @Field()
-  @Column()
   amount: number;
 
   @CreateDateColumn()

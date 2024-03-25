@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateBudgetDto } from './dto/create-budget.dto';
+import { CreateBudgetDto, CreateBudgetOutput } from './dto/create-budget.dto';
 import { Budget } from './entity/budget';
 import { BudgetRepository } from './budget.repository';
 
@@ -28,9 +28,8 @@ export class BudgetService {
     return budget;
   }
 
-  async create(newBudgetInput: CreateBudgetDto): Promise<CreateBudgetDto> {
+  async create(newBudgetInput: CreateBudgetDto): Promise<CreateBudgetOutput> {
     const budget = new Budget();
-    budget.name = newBudgetInput.name;
     budget.amount = newBudgetInput.amount;
     budget.userId = newBudgetInput.userId;
     budget.categoryId = newBudgetInput.categoryId;
@@ -38,7 +37,7 @@ export class BudgetService {
     const savedBudget = await this.budgetRepository.save(budget);
 
     return {
-      name: savedBudget.name,
+      id: savedBudget.id,
       amount: savedBudget.amount,
       userId: savedBudget.userId,
       categoryId: savedBudget.categoryId,

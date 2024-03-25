@@ -108,8 +108,6 @@ PUT expense {:updateExpenseInput}
 =======================================
 ==============IN PROGRESS==============
 =======================================
-- fix typeorm package.json to run migration
-
 - update budget dto
 - update()/delete() in budget.resolver/service/repository
 - seed db for budget

@@ -10,10 +10,10 @@ const CREATE_USER = gql`
   }
 `;
 
-const CREATE_CATEGORY_EXPENSE = gql`
+const CREATE_FOOD_CATEGORY = gql`
   mutation {
     createCategory(
-      newCategoryInput: { name: "bills", color: "blue", userId: 1 }
+      newCategoryInput: { name: "food", color: "blue", userId: 1 }
     ) {
       id
       name
@@ -27,13 +27,24 @@ const CREATE_CATEGORY_EXPENSE = gql`
   }
 `;
 
-const CREATE_CAR_EXPENSE = gql`
+const CREATE_FOOD_BUDGET = gql`
+  mutation {
+    createBudget(newBudgetInput: { amount: 500.00, userId: 1, categoryId: 1 }) {
+      id
+      amount
+      userId
+      categoryId
+    }
+  }
+`;
+
+const CREATE_DINNER_EXPENSE = gql`
   mutation CreateCarExpense($dateString: DateTime!) {
     createExpense(
       newExpenseInput: {
-        name: "car"
+        name: "DINNER"
         recurrence: true
-        amount: 290.00
+        amount: 69.22
         billingDate: $dateString
         userId: 1
         categoryId: 1
@@ -50,13 +61,13 @@ const CREATE_CAR_EXPENSE = gql`
   }
 `;
 
-const CREATE_INTERNET_EXPENSE = gql`
-  mutation createInternetExpense($dateString: DateTime!) {
+const CREATE_GROCERY_EXPENSE = gql`
+  mutation createGroceryExpense($dateString: DateTime!) {
     createExpense(
       newExpenseInput: {
-        name: "internet"
+        name: "groceries"
         recurrence: true
-        amount: 69.99
+        amount: 69.42
         billingDate: $dateString
         userId: 1
         categoryId: 1
@@ -83,19 +94,24 @@ client
   .mutate({ mutation: CREATE_USER })
   .then(() =>
     client.mutate({
-      mutation: CREATE_CATEGORY_EXPENSE,
+      mutation: CREATE_FOOD_CATEGORY,
       variables: { dateString },
     }),
   )
   .then(() =>
     client.mutate({
-      mutation: CREATE_CAR_EXPENSE,
+      mutation: CREATE_FOOD_BUDGET,
+    }),
+  )
+  .then(() =>
+    client.mutate({
+      mutation: CREATE_DINNER_EXPENSE,
       variables: { dateString },
     }),
   )
   .then(() =>
     client.mutate({
-      mutation: CREATE_INTERNET_EXPENSE,
+      mutation: CREATE_GROCERY_EXPENSE,
       variables: { dateString },
     }),
   )

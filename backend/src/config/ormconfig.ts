@@ -11,10 +11,8 @@ const options = new DataSource({
   username: process.env.USERNAME,
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
-
-  // paths may not be correct here
-  entities: [join(__dirname, '/../../**/*.entity{.ts,.js}')],
-  migrations: [join(__dirname, '../../migrations/*{.ts,.js}')],
+  entities: [join(__dirname, '../**/entity/*{.ts,.js}')],
+  migrations: [join(__dirname, '../migrations/*{.ts,.js}')],
 });
 
 export default options;
