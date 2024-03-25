@@ -4,12 +4,12 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdatedDateColumn,
+  UpdateDateColumn,
   OneToOne,
 } from 'typeorm';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { User } from 'src/user/entity/user';
-import { Category } from 'src/category/entity/category';}
+import { Category } from 'src/category/entity/category';
 
 @Entity('budget')
 @ObjectType()
@@ -29,7 +29,7 @@ export class Budget {
   @CreateDateColumn()
   createdAt: Date;
 
-  @UpdatedDateColumn()
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @Field()

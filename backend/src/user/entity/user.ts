@@ -9,6 +9,7 @@ import {
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Expense } from 'src/expense/entity/expense';
 import { Category } from 'src/category/entity/category';
+import { Budget } from 'src/budget/entity/budget';
 
 @Entity('user')
 @ObjectType()
@@ -25,7 +26,7 @@ export class User {
   @Column()
   email: string;
 
-  // dont want to expose password in gql response
+  // Todo: add hash to encrypt password
   @Column()
   password?: string;
 
@@ -37,6 +38,10 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Budget, (budget) => budget.user)
+  @Field(() => [Budget], { nullable: true })
+  budgets?: Budget[];
 
   @OneToMany(() => Expense, (expense) => expense.user)
   @Field(() => [Expense], { nullable: true })

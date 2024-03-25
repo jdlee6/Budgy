@@ -81,6 +81,15 @@
 - err handling for expensesByUserId
 - err handling for expensesByCategoryId
 
+- create budget entity
+- many budgets for one user
+- one budget for one category
+- budget.resolver.ts 
+- create-budget.dto.ts
+- budget.service.ts
+- budget.repository.ts
+- createbudget migration file
+
 
 List of available functions:
 GET users [x]
@@ -99,7 +108,11 @@ PUT expense {:updateExpenseInput}
 =======================================
 ==============IN PROGRESS==============
 =======================================
-- start budget model
+- fix typeorm package.json to run migration
+
+- update budget dto
+- update()/delete() in budget.resolver/service/repository
+- seed db for budget
 
 - logic for handling every day of the month? (keeping a streak)
 
