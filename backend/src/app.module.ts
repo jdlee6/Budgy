@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { ExpenseModule } from './expense/expense.module';
 import { join } from 'path';
 import { CategoryModule } from './category/category.module';
+import { BudgetModule } from './budget/budget.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { CategoryModule } from './category/category.module';
     UserModule,
     ExpenseModule,
     CategoryModule,
+    BudgetModule,
   ],
 })
 export class AppModule {}
