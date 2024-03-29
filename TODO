@@ -75,13 +75,11 @@
 3. expense w/ categoryid created
 
 * user can see both expenses and categories
-
 - credentials in env variables (for db)
 - remove /dist from .git tracking and include .env on gitignore
 - err handling for expensesByUserId
 - err handling for expensesByCategoryId
-
-- create budget entity
+- crete budget entity
 - many budgets for one user
 - one budget for one category
 - budget.resolver.ts 
@@ -89,6 +87,10 @@
 - budget.service.ts
 - budget.repository.ts
 - createbudget migration file
+
+- seed db for budget
+- update budget dto
+- /delete() in budget.resolver/service/repository
 
 
 List of available functions:
@@ -105,12 +107,15 @@ GET expense
 POST expense {:newExpenseInput}
 PUT expense {:updateExpenseInput}
 
+GET budget 
+POST budget {:newBudgetInput}
+
 =======================================
 ==============IN PROGRESS==============
 =======================================
-- update budget dto
-- update()/delete() in budget.resolver/service/repository
-- seed db for budget
+
+
+- look into possible ways for auth?
 
 - logic for handling every day of the month? (keeping a streak)
 

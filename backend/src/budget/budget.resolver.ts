@@ -2,6 +2,7 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { BudgetService } from './budget.service';
 import { Budget } from './entity/budget';
 import { CreateBudgetDto, CreateBudgetOutput } from './dto/create-budget.dto';
+import { UpdateBudgetDto, UpdateBudgetOutput } from './dto/update-budget.dto';
 
 @Resolver(() => Budget)
 export class BudgetResolver {
@@ -22,5 +23,16 @@ export class BudgetResolver {
     return this.budgetService.create(newBudgetInput);
   }
 
-  // Todo: Update/Delete budget
+  @Mutation(() => UpdateBudgetOutput)
+  async updateBudget(
+    @Args('updateBudgetInput') updateBudgetInput: UpdateBudgetDto,
+  ) {
+    return this.budgetService.updateBudget(updateBudgetInput);
+  }
+
+  // should pass in userId and check if the user is the owner of the budget
+  @Mutation(() => Budget)
+  async deleteBudget(@Args('id') budgetId: number) {
+    return this.budgetService.deleteBudget(budgetId);
+  }
 }

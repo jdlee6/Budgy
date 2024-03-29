@@ -55,19 +55,19 @@ export class CategoryService {
   async updateCategory(
     updateCategoryDto: UpdateCategoryDto,
   ): Promise<UpdateCategoryOutput> {
-    const Category = await this.categoryRepository.findOne({
+    const category = await this.categoryRepository.findOne({
       where: { id: updateCategoryDto.id },
     });
 
-    if (!Category) {
+    if (!category) {
       throw new NotFoundException(
         `Category with ID ${updateCategoryDto.id} not found`,
       );
     }
 
-    Object.assign(Category, updateCategoryDto);
+    Object.assign(category, updateCategoryDto);
 
-    const updatedCategory = await this.categoryRepository.save(Category);
+    const updatedCategory = await this.categoryRepository.save(category);
 
     return {
       id: updatedCategory.id,
