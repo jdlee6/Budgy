@@ -113,21 +113,32 @@ POST budget {:newBudgetInput}
 =======================================
 ==============IN PROGRESS==============
 =======================================
+- starting frontend
+  /: main route
+    displays expenses & budgets for a user
+    button/modal action for adding an expense for a user
 
 
-- look into possible ways for auth?
-
-- logic for handling every day of the month? (keeping a streak)
 
 
-- start frontend
 
+
+
+NEEDED FEATURES
+  - cross out expense or marked off as complete if date is passed
+  - add/delete expense
+  - add/delete category
 
 =======================================
 =================TO DO=================
 =======================================
 - remove unnecessary dependencies from package.json
 - remove .env for now
+- look into possible ways for auth?
+  * auth0
+- logic for handling every day of the month? (keeping a streak)
+
+
 
 - design pattern:
   1. class define fields/columns
@@ -177,3 +188,12 @@ POST budget {:newBudgetInput}
     3. Create category with user id
     4. Update category by category id
   
+
+=======================================
+===============COMMANDS================
+=======================================
+  pg_ctl -D /opt/homebrew/var/postgresql@14 start
+  
+  npm run typeorm migration:run - up functions
+  npm run typeorm migration:revert - down functions
+
