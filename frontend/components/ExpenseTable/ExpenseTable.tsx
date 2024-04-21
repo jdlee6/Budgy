@@ -19,12 +19,16 @@ const GET_EXPENSES = gql`
 `
 
 const ExpensesTable = () => {
-  const { loading, error, data } = useQuery(GET_EXPENSES);
+  const { loading, error, data, refetch } = useQuery(GET_EXPENSES);
 
   // Todo: move to utils folder
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
+
+  React.useEffect(() => {
+    refetch();
+  }, [data])
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error :(</Text>;

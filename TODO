@@ -92,23 +92,11 @@
 - update budget dto
 - /delete() in budget.resolver/service/repository
 
+ button/modal action for adding an expense for a user
+ started add new expense with gql
 
-List of available functions:
-GET users [x]
-GET users/<:id>/expenses [x]
-POST users {:newUserInput} [x]
-PUT users {:updateUserInput}
 
-GET category
-POST category {:newCategoryInput}
-PUT category {:updateCategoryInput}
 
-GET expense
-POST expense {:newExpenseInput}
-PUT expense {:updateExpenseInput}
-
-GET budget 
-POST budget {:newBudgetInput}
 
 =======================================
 ==============IN PROGRESS==============
@@ -116,7 +104,13 @@ POST budget {:newBudgetInput}
 - starting frontend
   /: main route
     displays expenses & budgets for a user
-    button/modal action for adding an expense for a user
+
+    fix submit of adding new expense
+
+
+    render new expense
+    button/modal action for deleting an expense
+   
 
 
 
@@ -187,6 +181,25 @@ NEEDED FEATURES
       * if budget related -> cascade deletion
     3. Create category with user id
     4. Update category by category id
+
+
+
+  List of available functions:
+    GET users [x]
+    GET users/<:id>/expenses [x]
+    POST users {:newUserInput} [x]
+    PUT users {:updateUserInput}
+
+    GET category
+    POST category {:newCategoryInput}
+    PUT category {:updateCategoryInput}
+
+    GET expense
+    POST expense {:newExpenseInput}
+    PUT expense {:updateExpenseInput}
+
+    GET budget 
+    POST budget {:newBudgetInput}
   
 
 =======================================

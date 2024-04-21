@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql, useQuery } from '@apollo/client';
 import ExpensesTable from './components/ExpenseTable/ExpenseTable';
+import AddExpenseButton from './components/AddExpenseBtn/AddExpenseBtn';
 
 const client = new ApolloClient({
   uri: 'http://192.168.1.158:3000/graphql',
@@ -48,6 +49,12 @@ const client = new ApolloClient({
 // };
 
 const App = () => {
+  const [refreshKey, setRefreshKey] = React.useState(0);
+
+  const handleAddExpense = () => {
+    setRefreshKey(oldKey => oldKey + 1);
+  };
+  
   return (
     <ApolloProvider client={client}>
       <View style={styles.container}>
@@ -57,6 +64,10 @@ const App = () => {
 
         {/* Grid component to show expenses */}
         <ExpensesTable />
+
+
+        {/* Button to add expense */}
+        <AddExpenseButton onAddExpense={handleAddExpense} />
       </View>
     </ApolloProvider>
   );
