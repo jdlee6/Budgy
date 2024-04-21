@@ -1,6 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { Expense } from './entity/expense';
 import { ExpenseService } from './expense.service';
+
 import {
   UpdateExpenseDto,
   UpdateExpenseOutput,
@@ -12,13 +13,17 @@ import {
 
 @Resolver('Expense')
 export class ExpenseResolver {
-  constructor(private readonly expenseService: ExpenseService) {}
-
+  constructor(
+    private readonly expenseService: ExpenseService, 
+  ) {}
   @Query(() => [Expense])
   async expenses() {
     return this.expenseService.findAll();
   }
-
+  @Query(() => [Expense])
+  async expensesByUserId(@Args('userId') userId: number): Promise<Expense[]> {
+    return this.expenseService.findExpensesByUserId(userId);
+  }
   @Mutation(() => CreateExpenseOutput)
   async createExpense(
     @Args('newExpenseInput') newExpenseInput: CreateExpenseDto,
@@ -33,8 +38,8 @@ export class ExpenseResolver {
     return this.expenseService.updateExpense(updateExpenseInput);
   }
 
-  // @Mutation(() => Expense)
-  // async deleteExpense(@Args('id') expenseId: number) {
-  //   return this.expenseService.deleteExpense(expenseId);
-  // }
+  @Mutation(() => Boolean)
+  async deleteExpense(@Args('id') expenseId: number) {
+    return this.expenseService.deleteExpense(expenseId);
+  }
 }

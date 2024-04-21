@@ -13,11 +13,6 @@ export class UserResolver {
     return this.userService.findAll();
   }
 
-  @Query(() => User)
-  async expensesByUserId(@Args('userId') userId: number): Promise<any> {
-    return this.userService.findExpensesByUserId(userId);
-  }
-
   @Mutation(() => CreateUserOutput)
   async createUser(@Args('newUserInput') newUserInput: CreateUserDto) {
     return this.userService.create(newUserInput);

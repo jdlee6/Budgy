@@ -97,16 +97,41 @@ started add new expense with gql
 fix submit of adding new expense
 styled buttons/table/header minimally
 render new expense
+date filter tap
+sort by amount
+sort by name
+
+delete function on press
+optimistic ui for delete
+
+tweak styling a little
 
 
 =======================================
 ==============IN PROGRESS==============
 =======================================
+fix padding for delete 
+fix padding for edit
+
+edit function on press
+  - pop open edit modal
+
+
+find a way to add buttons
+
+
+
+month view functions:
+
+
+
 - starting frontend
   /: main route
     displays expenses & budgets for a user
 
     button/modal action for deleting an expense
+
+    restructure directory for graphql queries
    
 
 

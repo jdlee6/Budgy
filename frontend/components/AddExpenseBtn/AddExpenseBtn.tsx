@@ -116,13 +116,13 @@ const styles = StyleSheet.create({
     width: 120,
     height: 40,
     borderRadius: 35,
-    backgroundColor: '#007BFF',
+    backgroundColor: '#a2bbf6',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 3,
     },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 4.65,
     elevation: 7,
   },
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   },
 
   submitButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#a2bbf6',
     padding: 10,
     borderRadius: 10,
     elevation: 2,
@@ -182,13 +182,11 @@ const ADD_EXPENSE = gql`
 const GET_EXPENSES = gql`
   query {
     expensesByUserId(userId: 1) {
-      expenses {
-        id
-        name
-        billingDate
-        amount
-        categoryId
-      }
+      id
+      name
+      billingDate
+      amount
+      categoryId
     }
   }
 `
@@ -201,10 +199,9 @@ const AddExpenseButton = ({ onAddExpense }) => {
   const [category, setCategory] = useState('');
   const [isRecurring, setIsRecurring] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
-
   const [addExpense, { data }] = useMutation(ADD_EXPENSE, { refetchQueries: [{ query: GET_EXPENSES }] });
 
-  const onDateChange = (event, selectedDate) => {
+  const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowDatePicker(false);
     setDate(currentDate.toISOString().split('T')[0]);
@@ -268,10 +265,12 @@ const AddExpenseButton = ({ onAddExpense }) => {
           {/* Todo: needs to open a calendar component or date selector */}
           {showDatePicker && (
             <DateTimePicker
-              value={new Date(date)}
-              mode="date"
+              testID="dateTimePicker"
+              mode={'date'}
+              is24Hour={true}
               display="default"
-              onChange={onDateChange}
+              value={new Date(date)} // Convert the `date` string to a `Date` object
+              onChange={onChange}
             />
           )}
           <Button title="Select Date" onPress={() => setShowDatePicker(true)} />

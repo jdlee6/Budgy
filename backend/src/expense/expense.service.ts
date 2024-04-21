@@ -43,6 +43,11 @@ export class ExpenseService {
     };
   }
 
+  async findExpensesByUserId(userId: number) {
+    const user = await this.expenseRepository.findExpensesByUserId(userId);
+    return user;
+  }
+
   async updateExpense(
     updateExpenseDto: UpdateExpenseDto,
   ): Promise<UpdateExpenseOutput> {

@@ -55,5 +55,6 @@ export class Expense {
   // ManyToOne expense -> category
   @ManyToOne(() => Category, (category) => category.expenses)
   @JoinColumn({ name: 'categoryId' })
+  @Field(() => Category)
   category: Category;
 }

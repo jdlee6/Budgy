@@ -3,6 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql, useQuery } from '@apollo/client';
 import ExpensesTable from './components/ExpenseTable/ExpenseTable';
 import AddExpenseButton from './components/AddExpenseBtn/AddExpenseBtn';
+import { StatusBar } from 'react-native';
 
 const client = new ApolloClient({
   uri: 'http://192.168.1.158:3000/graphql',
@@ -76,19 +77,20 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  // ...
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#ffffff', // light grey color
+  },
   title: {
-    // position: 'absolute', // Position the title absolutely
-    top: 50, // Adjust the top position
-    left: 16, // Adjust the left position
-    paddingVertical: 8,
     borderRadius: 6,
-    color: '#20232a',
+    color: '#a2bbf6',
     fontSize: 24,
+    marginTop: 50,
+    padding: 16,
+    backgroundColor: '#FFFFFF', // Set the background color to white
   },
   buttonContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center', // Center items horizontally
     justifyContent: 'center', // Center items vertically
     padding: 16, // Add padding

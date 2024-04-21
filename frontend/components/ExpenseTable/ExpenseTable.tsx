@@ -1,73 +1,121 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 // import {LinearGradient} from 'expo-linear-gradient';
-import { gql, useQuery } from '@apollo/client';
+import { useMutation, gql, useQuery } from '@apollo/client';
+import { SwipeListView } from 'react-native-swipe-list-view';
+
+import ExpenseItem from '../ExpenseItem/ExpenseItem';
 
 // do we want to use this query?
 const GET_EXPENSES = gql`
   query {
     expensesByUserId(userId: 1) {
-      expenses {
-        id
+      id
+      name
+      billingDate
+      amount
+      categoryId
+      category {
         name
-        billingDate
-        amount
-        categoryId
       }
     }
   }
 `
 
-const ExpensesTable = () => {
-  const { loading, error, data, refetch } = useQuery(GET_EXPENSES);
+const DELETE_EXPENSE = gql`
+  mutation DeleteExpense($id: Float!) {
+    deleteExpense(id: $id)
+  } 
+`;
 
-  // Todo: move to utils folder
-  const capitalize = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  }
+const ExpensesTable = () => {
+  const { loading: queryLoading, error: queryError, data } = useQuery(GET_EXPENSES);
+  const [deleteExpense, { loading: mutationLoading, error: mutationError }] = useMutation(DELETE_EXPENSE);
+  const [sortOrder, setSortOrder] = React.useState<'asc' | 'desc'>('asc');
+  const [sortField, setSortField] = React.useState<'date' | 'name' | 'amount'>('date');
+
+  const [sortedExpenses, setSortedExpenses] = React.useState([]);
 
   React.useEffect(() => {
-    refetch();
-  }, [data])
+    if (data && data.expensesByUserId) {
+      const newSortedExpenses = [...data.expensesByUserId].sort((a, b) => {
+        let comparisonA, comparisonB;
+    
+        switch (sortField) {
+          case 'date':
+            comparisonA = new Date(a.billingDate).getTime();
+            comparisonB = new Date(b.billingDate).getTime();
+            break;
+          case 'name':
+            comparisonA = a.name.toLowerCase();
+            comparisonB = b.name.toLowerCase();
+            break;
+          case 'amount':
+            comparisonA = a.amount;
+            comparisonB = b.amount;
+            break;
+          default:
+            break;
+        }
+    
+        if (sortOrder === 'asc') {
+          return comparisonA < comparisonB ? -1 : 1;
+        } else {
+          return comparisonA > comparisonB ? -1 : 1;
+        }
+      });
+      setSortedExpenses(newSortedExpenses);
+    }
+  }, [data, sortOrder, sortField])
 
-  if (loading) return <Text>Loading...</Text>;
-  if (error) return <Text>Error :(</Text>;
+
+  const handleDelete = async (id) => {
+    // Optimistically remove the expense from the UI
+    const newExpenses = sortedExpenses.filter(expense => expense.id !== id);
+    setSortedExpenses(newExpenses);
+  
+    try {
+      const { data } = await deleteExpense({ variables: { id: parseFloat(id) } });
+      if (data.deleteExpense) {
+        // Expense deleted successfully
+        // No need to do anything here because we've already updated the UI
+      }
+    } catch (err) {
+      console.error(err);
+      // If the delete request fails, add the expense back to the UI and show an error message
+      setSortedExpenses(sortedExpenses);
+      // Show an error message
+    }
+  };
+  if (queryLoading) return <Text>Loading...</Text>;
+  if (queryError) return <Text>Error :(</Text>;
 
   return (
-      <View style={styles.table}>
-        <View style={styles.row}>
-        <Text style={styles.header}>Date</Text>
-        <Text style={styles.header}>Name</Text>
-          <Text style={styles.header}>Amount</Text>
-          <Text style={styles.header}>Category</Text>
-        </View>
-        {data.expensesByUserId.expenses.map((expense, index) => {
-          const date = new Date(expense.billingDate);
-          const formattedDate = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
-          const capitalizedExpenseName = capitalize(expense.name);
-
-          return (
-            <View key={expense.id} style={[styles.row, index % 2 === 1 ? styles.alternateRow : null]}>
-              <Text style={styles.cell}>{formattedDate}</Text>
-              <Text style={styles.cell}>{capitalizedExpenseName}</Text>
-              <Text style={styles.cell}>${Number(expense.amount).toFixed(2)}</Text>
-              <Text style={styles.cell}>{expense.categoryId}</Text>
-            </View>
-        )})}
-      </View>
+    <View style={styles.container}>
+      <SwipeListView
+        data={sortedExpenses}
+        renderItem={({ item: expense, index }) => (
+          <ExpenseItem key={index} expense={expense} />
+        )}
+        renderHiddenItem={({ item: expense }, rowMap) => (
+          <View style={styles.rowBack}>
+            <Text style={styles.backTextWhite}>Edit</Text>
+            <TouchableOpacity onPress={() => handleDelete(expense.id)}>
+              <Text style={styles.backTextWhite}>Delete</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        leftOpenValue={75}
+        rightOpenValue={-75}
+      />        
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  table: {
-    marginTop: 60,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 1,
+  container: {
+    // flex: 1,
+    backgroundColor: '#a5d4f1', // light blue color
   },
   row: {
     flexDirection: 'row',
@@ -78,7 +126,6 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    fontWeight: 'bold',
     padding: 10,
     borderWidth: 0.2,
     borderColor: '#ddd',
@@ -93,6 +140,17 @@ const styles = StyleSheet.create({
   },
   gradient: {
     flex: 1,
+  },
+  rowBack: {
+    alignItems: 'stretch', // Change this from 'center' to 'stretch'
+    backgroundColor: '#DDD',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 15,
+  },
+  backTextWhite: {
+    color: '#FFF',
   },
 });
 

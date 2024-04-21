@@ -20,11 +20,6 @@ export class UserService {
     return user;
   }
 
-  async findExpensesByUserId(userId: number) {
-    const user = await this.userRepository.findExpensesByUserId(userId);
-    return user;
-  }
-
   async create(newUserInput: CreateUserDto): Promise<CreateUserOutput> {
     const user = new User();
     user.name = newUserInput.name;
