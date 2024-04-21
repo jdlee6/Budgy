@@ -92,10 +92,11 @@
 - update budget dto
 - /delete() in budget.resolver/service/repository
 
- button/modal action for adding an expense for a user
- started add new expense with gql
-
-
+button/modal action for adding an expense for a user
+started add new expense with gql
+fix submit of adding new expense
+styled buttons/table/header minimally
+render new expense
 
 
 =======================================
@@ -105,10 +106,6 @@
   /: main route
     displays expenses & budgets for a user
 
-    fix submit of adding new expense
-
-
-    render new expense
     button/modal action for deleting an expense
    
 

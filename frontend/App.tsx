@@ -67,30 +67,34 @@ const App = () => {
 
 
         {/* Button to add expense */}
-        <AddExpenseButton onAddExpense={handleAddExpense} />
+        <View style={styles.buttonContainer}>
+          <AddExpenseButton onAddExpense={handleAddExpense}/>
+        </View>
       </View>
     </ApolloProvider>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    backgroundColor: '#eaeaea',
-  },
+  // ...
   title: {
-    marginTop: 16,
+    // position: 'absolute', // Position the title absolutely
+    top: 50, // Adjust the top position
+    left: 16, // Adjust the left position
     paddingVertical: 8,
-    borderWidth: 4,
-    borderColor: '#20232a',
     borderRadius: 6,
-    backgroundColor: '#61dafb',
     color: '#20232a',
-    textAlign: 'center',
-    fontSize: 30,
-    fontWeight: 'bold',
+    fontSize: 24,
   },
+  buttonContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center', // Center items horizontally
+    justifyContent: 'center', // Center items vertically
+    padding: 16, // Add padding
+  },
+  // ..
+  // ...
 });
 
 export default App;

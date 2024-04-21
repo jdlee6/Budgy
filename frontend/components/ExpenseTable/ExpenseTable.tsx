@@ -41,16 +41,16 @@ const ExpensesTable = () => {
           <Text style={styles.header}>Amount</Text>
           <Text style={styles.header}>Category</Text>
         </View>
-        {data.expensesByUserId.expenses.map((expense) => {
+        {data.expensesByUserId.expenses.map((expense, index) => {
           const date = new Date(expense.billingDate);
           const formattedDate = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
           const capitalizedExpenseName = capitalize(expense.name);
 
           return (
-            <View key={expense.id} style={styles.row}>
+            <View key={expense.id} style={[styles.row, index % 2 === 1 ? styles.alternateRow : null]}>
               <Text style={styles.cell}>{formattedDate}</Text>
               <Text style={styles.cell}>{capitalizedExpenseName}</Text>
-              <Text style={styles.cell}>{Number(expense.amount).toFixed(2)}</Text>
+              <Text style={styles.cell}>${Number(expense.amount).toFixed(2)}</Text>
               <Text style={styles.cell}>{expense.categoryId}</Text>
             </View>
         )})}
@@ -60,24 +60,36 @@ const ExpensesTable = () => {
 
 const styles = StyleSheet.create({
   table: {
+    marginTop: 60,
     borderWidth: 1,
-    borderColor: '#000',
+    borderColor: '#ddd',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 1,
   },
   row: {
     flexDirection: 'row',
+    backgroundColor: '#fff',
+  },
+  alternateRow: {
+    backgroundColor: '#f9f9f9',
   },
   header: {
     flex: 1,
     fontWeight: 'bold',
-    padding: 5,
-    borderWidth: 1,
-    borderColor: '#000',
+    padding: 10,
+    borderWidth: 0.2,
+    borderColor: '#ddd',
+    backgroundColor: '#f5f5f5',
   },
   cell: {
     flex: 1,
-    padding: 5,
-    borderWidth: 1,
-    borderColor: '#000',
+    padding: 10,
+    borderWidth: .2,
+    borderColor: '#ddd',
+    fontSize: 14,
   },
   gradient: {
     flex: 1,
