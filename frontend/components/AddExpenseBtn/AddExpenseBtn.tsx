@@ -230,6 +230,7 @@ const AddExpenseButton = () => {
               }
             }}
             scrollEventThrottle={16}
+            keyboardShouldPersistTaps="always"
           >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>

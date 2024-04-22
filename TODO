@@ -115,11 +115,14 @@ styled fields for add expense
   style other fields
   refetch new expense list after expense has been added
 
-
+update expense.amount to decimal
+run migration for expense.amount decimal
 
 =======================================
 ==============IN PROGRESS==============
 =======================================
+debug list error within modal
+
 add category btn 
 add category modal
 
@@ -249,7 +252,7 @@ NEEDED FEATURES
 ===============COMMANDS================
 =======================================
   pg_ctl -D /opt/homebrew/var/postgresql@14 start
-  
+  npx typeorm migration:create UpdateUserAmount
   npm run typeorm migration:run - up functions
   npm run typeorm migration:revert - down functions
 

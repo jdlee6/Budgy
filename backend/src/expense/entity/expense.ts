@@ -23,7 +23,7 @@ export class Expense {
   name: string;
 
   @Field()
-  @Column()
+  @Column("decimal", { precision: 5, scale: 2 })
   amount: number;
 
   @Field()

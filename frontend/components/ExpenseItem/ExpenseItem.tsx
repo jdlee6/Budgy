@@ -12,6 +12,9 @@ const ExpenseItem = ({ expense }) => {
     }
   const capitalizedExpenseName = capitalize(expense.name);
 
+  console.log(expense);
+  console.log(typeof expense.amount);
+  console.log(expense.amount)
   return (
     <>
       <View style={styles.expenseItem}>
