@@ -13,16 +13,25 @@ const ExpenseItem = ({ expense }) => {
   const capitalizedExpenseName = capitalize(expense.name);
 
   return (
-    <View style={styles.expenseItem}>
-      <Text style={styles.expenseDate}>{formattedDate}</Text>
-      <Text style={styles.expenseName}>{capitalizedExpenseName}</Text>
-      <Text style={styles.expenseAmount}>${Number(expense.amount).toFixed(2)}</Text>
-      <Text style={styles.expenseCategory}>{expense.category.name}</Text>
-    </View>
+    <>
+      <View style={styles.expenseItem}>
+        <Text style={styles.expenseDate}>{formattedDate}</Text>
+        <View style={styles.expenseNameCategory}>
+          <Text style={styles.expenseName}>{capitalizedExpenseName}</Text>
+          <Text style={styles.expenseCategory}>{expense.category.name}</Text>
+        </View>
+        <Text style={styles.expenseAmount}>${Number(expense.amount).toFixed(2)}</Text>
+      </View>
+      {/* <View style={styles.divider} /> */}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  divider: {
+    height: .5,
+    backgroundColor: '#D3D3D3', // light grey color
+  },
   expenseItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -33,18 +42,23 @@ const styles = StyleSheet.create({
   },
   expenseDate: {
     flex: 1,
-    color: '#527fd1',
+    color: '#b09b9b',
+  },
+  expenseNameCategory: {
+    flex: 2,
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   expenseName: {
-    flex: 2,
-    color: '#527fd1',
-  },
-  expenseAmount: {
-    flex: 1,
-    textAlign: 'right',
-    color: '#527fd1',
+    color: '#37393A',
+    fontWeight: 'bold',
+    fontSize: 14, // larger font size
   },
   expenseCategory: {
+    color: '#7c7e80',
+    fontSize: 12, // smaller font size
+  },
+  expenseAmount: {
     flex: 1,
     textAlign: 'right',
     color: '#527fd1',

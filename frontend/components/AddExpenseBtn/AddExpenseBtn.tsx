@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Modal, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-// import CheckBox from '@react-native-community/checkbox';
-// import { SafeAreaView } from 'react-native-safe-area-context';
+import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { gql, useApolloClient, useMutation, useQuery } from '@apollo/client';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Picker } from '@react-native-picker/picker';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 const styles = StyleSheet.create({
@@ -17,13 +14,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   modalContent: {
-    height: '88%',
+    height: '90%',
     backgroundColor: 'white',
     padding: 50,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     justifyContent: 'flex-start', // Align the children to the start
     alignItems: 'center', // Center the children horizontally
+  },
+  title: {
+    color: '#a2bbf6',
+    fontSize: 18,
+    padding: 16,
+    backgroundColor: '#FFFFFF', // Set the background color to white
   },
   text: {
     color: '#aaa',
@@ -46,7 +49,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 120,
+    width: 100,
     height: 40,
     borderRadius: 35,
     backgroundColor: '#a2bbf6',
@@ -63,13 +66,22 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
   },
-
   submitButton: {
+    marginTop: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 80,
+    height: 40,
+    borderRadius: 35,
     backgroundColor: '#a2bbf6',
-    padding: 10,
-    borderRadius: 10,
-    elevation: 2,
-    marginTop: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4.65,
+    elevation: 7,
   },
   submitButtonText: {
     color: 'white',
@@ -95,7 +107,7 @@ const styles = StyleSheet.create({
   cancelButtonText: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 12,
   },
 });
 
@@ -108,25 +120,6 @@ const ADD_EXPENSE = gql`
       billingDate
       userId
       categoryId
-    }
-  }
-`
-
-const GET_EXPENSES = gql`
-  query {
-    expensesByUserId(userId: 1) {
-      id
-      name
-      billingDate
-      amount
-      categoryId
-      category { 
-        name
-      }
-      categoriesByUserId(userId: 1) {
-        id
-        name
-      }
     }
   }
 `
@@ -161,7 +154,6 @@ const AddExpenseButton = () => {
   const [isRecurring, setIsRecurring] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [categories, setCategories] = useState<string[]>([]);
-
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [open, setOpen] = useState(false);
@@ -230,8 +222,18 @@ const AddExpenseButton = () => {
           setModalVisible(!modalVisible);
         }}
       >
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1 }}
+            onScrollEndDrag={(event) => {
+              if (event.nativeEvent.contentOffset.y < 0) {
+                setModalVisible(false);
+              }
+            }}
+            scrollEventThrottle={16}
+          >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
+          <Text style={styles.title}>Add Expense</Text>
           <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Name" />
           <TextInput style={styles.input} value={amount} onChangeText={setAmount} keyboardType="numeric" placeholder="Amount" />
           <TouchableOpacity style={styles.input} onPress={() => setShowDatePicker(!showDatePicker)}>
@@ -245,7 +247,7 @@ const AddExpenseButton = () => {
               value={new Date(date)}
               onChange={onChange}
             />}
-          <View style={{flex: 1}}>
+          <View>
             <View
               style={{
                   alignItems: 'center',
@@ -302,7 +304,7 @@ const AddExpenseButton = () => {
           handleSubmit();
           setModalVisible(false);
         }}>
-          <Text style={styles.submitButtonText}>+ Expense</Text>
+          <Text style={styles.submitButtonText}>Submit</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
@@ -310,6 +312,7 @@ const AddExpenseButton = () => {
         </TouchableOpacity>
         </View>
         </View>
+        </ScrollView>
       </Modal>
     </View>
   );

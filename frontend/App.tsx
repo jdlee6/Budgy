@@ -76,13 +76,14 @@ const styles = StyleSheet.create({
   },
   income: {
     paddingLeft: 16,
-    paddingRight: 16
+    paddingRight: 16,
+    color: '#7c7e80',
   },
   title: {
     borderRadius: 6,
     color: '#a2bbf6',
     fontSize: 24,
-    marginTop: 50,
+    marginTop: 30,
     padding: 16,
     backgroundColor: '#FFFFFF', // Set the background color to white
   },

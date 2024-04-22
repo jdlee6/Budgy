@@ -102,7 +102,6 @@ const ExpensesTable = () => {
         <Text style={styles.expenseDate} onPress={() => toggleSort('date')}>Date</Text>
         <Text style={styles.expenseName} onPress={() => toggleSort('name')}>Name</Text>
         <Text style={styles.expenseAmount} onPress={() => toggleSort('amount')}>Amount</Text>
-        <Text style={styles.expenseCategory} onPress={() => toggleSort('category')}>Category</Text>
       </View>
       <SwipeListView
         data={sortedExpenses}
@@ -154,12 +153,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   rowBack: {
-    alignItems: 'stretch', // Change this from 'center' to 'stretch'
+    alignItems: 'center', // Change this from 'center' to 'stretch'
     backgroundColor: '#DDD',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingLeft: 15,
+    paddingLeft: 12,
+    paddingRight: 12,
   },
   backTextWhite: {
     color: '#FFF',
