@@ -4,17 +4,13 @@ import { View, Text, StyleSheet } from 'react-native';
 
 const ExpenseItem = ({ expense }) => {
   const date = new Date(expense.billingDate);
-  const year = date.getFullYear().toString().slice(-2); // get last two digits of year
-  const formattedDate = `${date.getMonth() + 1}.${date.getDate()}.${year}`;
-    // Todo: move to utils folder
-    const capitalize = (str) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    }
+  const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}.${date.getFullYear().toString().slice(-2)}`;
+  // Todo: move to utils folder
+  const capitalize = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
   const capitalizedExpenseName = capitalize(expense.name);
 
-  console.log(expense);
-  console.log(typeof expense.amount);
-  console.log(expense.amount)
   return (
     <>
       <View style={styles.expenseItem}>
@@ -44,8 +40,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff', // light grey color
   },
   expenseDate: {
-    flex: 1,
-    color: '#b09b9b',
+    flex: 0.75,
+    color: '#9aa3ab',
+    fontSize: 12,
   },
   expenseNameCategory: {
     flex: 2,

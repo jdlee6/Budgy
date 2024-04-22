@@ -103,28 +103,31 @@ sort by name
 delete function on press
 optimistic ui for delete
 tweak styling a little
-
 user model:
   requires user to input paychecks when creating
   add totalIncome to sum all income values to gether
   display totalincome at top
   display balance after expenses at top
-
 styled fields for add expense
   add expenses modal needs dropdown of categories
   style other fields
   refetch new expense list after expense has been added
-
 update expense.amount to decimal
 run migration for expense.amount decimal
+
+
+add category btn
+add category modal
+
 
 =======================================
 ==============IN PROGRESS==============
 =======================================
+look for library for colorwheel for user selection
+bg color for category chip-like components
+
 debug list error within modal
 
-add category btn 
-add category modal
 
 add budget btn
 add budget modal

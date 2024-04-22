@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   cancelButton: {
-    backgroundColor: 'grey',
+    backgroundColor: '#c7d3dd',
     position: 'absolute',
     top: 20,
     right: 20,
@@ -145,7 +145,6 @@ query GetExpensesAndCategoriesByUserId($userId: Float!) {
 
 
 const AddExpenseButton = () => {
-  const client = useApolloClient();
   const [modalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');

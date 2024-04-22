@@ -4,6 +4,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider, gql, useQuery } from '@apo
 import ExpensesTable from './components/ExpenseTable/ExpenseTable';
 import AddExpenseButton from './components/AddExpenseBtn/AddExpenseBtn';
 import { StatusBar } from 'react-native';
+import AddCategoryButton from './components/AddCategoryBtn/AddCategoryBtn';
 
 const client = new ApolloClient({
   uri: 'http://192.168.1.158:3000/graphql',
@@ -33,7 +34,7 @@ const Users = () => {
   if (error) return <Text>Error :(</Text>;
 
   const totalExpenses = data.expensesByUserId.reduce((total, expense) => total + expense.amount, 0);
-  const balanceAfterExpenses = data.user.totalIncome - totalExpenses;
+  const balanceAfterExpenses = (data.user.totalIncome - totalExpenses).toFixed(2);
   const date = new Date(Date.now())
   const formattedDate = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   
@@ -59,10 +60,11 @@ const App = () => {
 
         <ExpensesTable />
         <View style={styles.buttonContainer}>
+          <AddCategoryButton />
+        </View>
+        <View style={styles.buttonContainer}>
           <AddExpenseButton />
         </View>
-
-        {/* Todo: category btn */}
       </View>
     </ApolloProvider>
   );
@@ -83,13 +85,14 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     color: '#a2bbf6',
     fontSize: 24,
-    marginTop: 30,
+    marginTop: 40,
     padding: 16,
     backgroundColor: '#FFFFFF', // Set the background color to white
   },
   buttonContainer: {
+    display: 'flex',
     alignItems: 'center', // Center items horizontally
-    justifyContent: 'center', // Center items vertically
+    justifyContent: 'flex-start', // Center items vertically
     padding: 16, // Add padding
   },
   // ..

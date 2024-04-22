@@ -174,26 +174,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff', // light grey color
   },
   expenseDate: {
-    flex: 1,
+    flex: 0.75,
     color: '#37393A',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 12,
   },
   expenseName: {
     flex: 2,
     color: '#37393A',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 12,
   },
   expenseAmount: {
     flex: 1,
     textAlign: 'right',
     color: '#37393A',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 12,
   },
   expenseCategory: {
     flex: 1,
     textAlign: 'right',
     color: '#37393A',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 12,
   },
 });
 
