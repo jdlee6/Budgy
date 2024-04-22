@@ -34,23 +34,21 @@ const Users = () => {
 
   const totalExpenses = data.expensesByUserId.reduce((total, expense) => total + expense.amount, 0);
   const balanceAfterExpenses = data.user.totalIncome - totalExpenses;
-
+  const date = new Date(Date.now())
+  const formattedDate = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  
   return (
-    <View>
-      <Text style={styles.income}>Total Income: ${data.user.totalIncome}</Text>
-      {/* Todo: change */}
-      <Text style={styles.income}>Balance after expenses: ${balanceAfterExpenses}</Text>
+    <>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+      <Text style={styles.income}>Monthly Income: ${data.user.totalIncome}</Text>
+      <Text style={styles.income}>{formattedDate}</Text>
     </View>
+    <Text style={styles.income}>Remaining Balance: ${balanceAfterExpenses}</Text>
+    </>
   );
 };
 
 const App = () => {
-  const [refreshKey, setRefreshKey] = React.useState(0);
-
-  const handleAddExpense = () => {
-    setRefreshKey(oldKey => oldKey + 1);
-  };
-  
   return (
     <ApolloProvider client={client}>
       <View style={styles.container}>
@@ -59,14 +57,12 @@ const App = () => {
         {/* Component to display current budgets */}
         <Users />
 
-        {/* Grid component to show expenses */}
         <ExpensesTable />
-
-
-        {/* Button to add expense */}
         <View style={styles.buttonContainer}>
-          <AddExpenseButton onAddExpense={handleAddExpense}/>
+          <AddExpenseButton />
         </View>
+
+        {/* Todo: category btn */}
       </View>
     </ApolloProvider>
   );
@@ -79,7 +75,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff', // light grey color
   },
   income: {
-    paddingLeft: 16
+    paddingLeft: 16,
+    paddingRight: 16
   },
   title: {
     borderRadius: 6,
