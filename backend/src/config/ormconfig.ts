@@ -1,8 +1,8 @@
 import { DataSource } from 'typeorm';
 import { join } from 'path';
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 
-dotenv.config();
+// dotenv.config();
 
 const options = new DataSource({
   // type: 'postgres',

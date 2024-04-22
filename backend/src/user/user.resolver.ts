@@ -3,6 +3,7 @@ import { User } from './entity/user';
 import { UserService } from './user.service';
 import { CreateUserDto, CreateUserOutput } from './dto/create-user.dto';
 import { UpdateUserDto, UpdateUserOutput } from './dto/update-user.dto';
+import { Int } from '@nestjs/graphql';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -11,6 +12,11 @@ export class UserResolver {
   @Query(() => [User])
   async users() {
     return this.userService.findAll();
+  }
+
+  @Query(() => User, { nullable: true })
+  async user(@Args('id') id: number) {
+    return this.userService.findById(id);
   }
 
   @Mutation(() => CreateUserOutput)

@@ -26,6 +26,11 @@ export class CategoryResolver {
     return this.categoryService.findExpensesByCategoryId(categoryId);
   }
 
+  @Query(() => [Category])
+  async categoriesByUserId(@Args('userId') userId: number): Promise<Category[]> {
+    return this.categoryService.findCategoriesByUserId(userId);
+  }
+  
   @Mutation(() => CreateCategoryOutput)
   async createCategory(
     @Args('newCategoryInput') newCategoryInput: CreateCategoryDto,

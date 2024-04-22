@@ -39,6 +39,23 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Field()
+  @Column('decimal')
+  paycheck1: number;
+
+  @Field()
+  @Column('decimal')
+  paycheck2: number;
+
+  @Field()
+  @Column('decimal')
+  side_income: number;
+
+  @Field()
+  get totalIncome(): number {
+    return Number(this.paycheck1) + Number(this.paycheck2) + Number(this.side_income);
+  }
+
   @OneToMany(() => Budget, (budget) => budget.user)
   @Field(() => [Budget], { nullable: true })
   budgets?: Budget[];

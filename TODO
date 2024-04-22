@@ -100,16 +100,37 @@ render new expense
 date filter tap
 sort by amount
 sort by name
-
 delete function on press
 optimistic ui for delete
-
 tweak styling a little
+
+user model:
+  requires user to input paychecks when creating
+  add totalIncome to sum all income values to gether
+  display totalincome at top
+  display balance after expenses at top
+
+styled fields for add expense
+  add expenses modal needs dropdown of categories
+  style other fields
+  refetch new expense list after expense has been added
+
 
 
 =======================================
 ==============IN PROGRESS==============
 =======================================
+add category btn 
+add category modal
+
+add budget btn
+add budget modal
+
+
+display view for budgets for a category
+
+tab for entering income
+
 fix padding for delete 
 fix padding for edit
 

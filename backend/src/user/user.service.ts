@@ -24,13 +24,17 @@ export class UserService {
     const user = new User();
     user.name = newUserInput.name;
     user.email = newUserInput.email;
-
+    user.paycheck1 = newUserInput.paycheck1 || 0;
+    user.paycheck2 = newUserInput.paycheck2 || 0;
+    user.side_income = newUserInput.side_income || 0;
+  
     const savedUser = await this.userRepository.save(user);
-
+  
     return {
       id: savedUser.id,
       name: savedUser.name,
       email: savedUser.email,
+      totalIncome: savedUser.totalIncome
     };
   }
 

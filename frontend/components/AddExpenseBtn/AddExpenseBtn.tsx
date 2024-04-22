@@ -1,62 +1,16 @@
 import React, { useState } from 'react';
 import { Button, Modal, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 // import CheckBox from '@react-native-community/checkbox';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { gql, useMutation } from '@apollo/client';
+// import { SafeAreaView } from 'react-native-safe-area-context';
+import { gql, useApolloClient, useMutation, useQuery } from '@apollo/client';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Picker } from '@react-native-picker/picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const styles = StyleSheet.create({
   fieldContainer: {
     marginTop: 20, // Add a top margin
   },
-  // modalContent: {
-  //   // flex: 1,
-  //   height: '80%',
-  //   justifyContent: 'center',
-  //   margin: 20,
-  //   backgroundColor: '#b8caff',
-  //   borderRadius: 20,
-  //   padding: 35,
-  //   alignItems: 'center',
-  //   shadowColor: '#000',
-  //   shadowOffset: {
-  //     width: 0,
-  //     height: 2,
-  //   },
-  //   shadowOpacity: 0.25,
-  //   shadowRadius: 4,
-  //   elevation: 5,
-  // },
-
-  centeredView: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    width: '100%', // Make the modal full width
-    height: '75%', // Make the modal cover 75% of the screen
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  // Adjust the text size of the headers
-  headerText: {
-    fontSize: 16, // Adjust this value as needed
-    fontWeight: 'bold',
-  },
-
   modalContainer: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -72,7 +26,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Center the children horizontally
   },
   text: {
-    paddingLeft: 8,
+    color: '#aaa',
   },
   input: {
     height: 40,
@@ -88,27 +42,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25, // Add shadow opacity
     shadowRadius: 3.84, // Add shadow radius
     elevation: 5, // Add elevation for Android
-  },
-
-  datePicker: {
-    width: '100%',
-    marginBottom: 20,
-  },
-  dateIcon: {
-    position: 'absolute',
-    left: 0,
-    top: 4,
-    marginLeft: 0,
-  },
-  dateInput: {
-    marginLeft: 36,
-    borderRadius: 5,
-    borderColor: '#ccc',
-    height: 40,
-    justifyContent: 'center',
-  },
-  dateText: {
-    color: '#333',
   },
   button: {
     alignItems: 'center',
@@ -187,11 +120,39 @@ const GET_EXPENSES = gql`
       billingDate
       amount
       categoryId
+      category { 
+        name
+      }
+      categoriesByUserId(userId: 1) {
+        id
+        name
+      }
     }
   }
 `
 
-const AddExpenseButton = ({ onAddExpense }) => {
+const GET_EXPENSES_AND_CATEGORIES_BY_USER_ID = gql`
+query GetExpensesAndCategoriesByUserId($userId: Float!) {
+  expensesByUserId(userId: $userId) {
+    id
+    name
+    billingDate
+    amount
+    categoryId
+    category { 
+      name
+    }
+  }
+  categoriesByUserId(userId: $userId) {
+    id
+    name
+  }
+}
+`;
+
+
+const AddExpenseButton = () => {
+  const client = useApolloClient();
   const [modalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
@@ -199,7 +160,24 @@ const AddExpenseButton = ({ onAddExpense }) => {
   const [category, setCategory] = useState('');
   const [isRecurring, setIsRecurring] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [addExpense, { data }] = useMutation(ADD_EXPENSE, { refetchQueries: [{ query: GET_EXPENSES }] });
+  const [categories, setCategories] = useState<string[]>([]);
+
+
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  const [addExpense, { data: addExpenseData }] = useMutation(ADD_EXPENSE, { refetchQueries: [{ query: GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, variables: {userId: 1} }] });
+  const { loading, error, data } = useQuery(GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, {
+    variables: { userId: 1 },
+  });
+  
+  React.useEffect(() => {
+    if (data) {
+      const uniqueCategories = Array.from(new Set(data.categoriesByUserId.map((category: { name: string }) => category.name)));
+      console.log(uniqueCategories);
+      setCategories(uniqueCategories);
+    }
+  }, [data, loading])
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -211,32 +189,30 @@ const AddExpenseButton = ({ onAddExpense }) => {
     const formattedDate = new Date(date).toISOString().split('T')[0];
     const newExpenseInput = { name, amount: parseFloat(amount), billingDate: formattedDate, recurrence: isRecurring, userId: 1, categoryId: 1 };
     console.log('Submitting', newExpenseInput);
-
-    addExpense({
-      variables: {
-        newExpenseInput: {
-          name: name,
-          amount: parseFloat(amount),
-          recurrence: isRecurring,
-          billingDate: date,
-          userId: 1, // replace with actual user ID
-          categoryId: parseInt(category), // replace with actual category ID
+    const categories = data.categoriesByUserId;
+    const selectedCategoryObj = categories.find(category => category.name === selectedCategory);
+    
+    if (selectedCategoryObj) {
+      addExpense({
+        variables: {
+          newExpenseInput: {
+            name: name,
+            amount: parseFloat(amount),
+            recurrence: isRecurring,
+            billingDate: date,
+            userId: 1, // replace with actual user ID
+            categoryId: parseFloat(selectedCategoryObj.id),
+          },
         },
-      },
+      }) 
+        .then(() => {
+          setModalVisible(false);
+        })
+        .catch(error => {
+          console.error("Error adding expeanse: ", error);
+        });
     }
-  ) // Pass newExpenseInput as the value of variables
-      .then(() => {
-        setModalVisible(false);
-        // onAddExpense();
-      })
-      .catch(error => {
-        console.error("Error adding expeanse: ", error);
-        if (error.graphQLErrors) {
-          error.graphQLErrors.map((errorObject) => console.log('GraphQL error object: ', errorObject));
-        }
-      });
     setModalVisible(false);
-    // onAddExpense();
   }
 
   return (
@@ -247,56 +223,93 @@ const AddExpenseButton = ({ onAddExpense }) => {
 
       {/* Abstract this */}
       <Modal
-  animationType="slide"
-  transparent={true}
-  visible={modalVisible}
-  onRequestClose={() => {
-    // Alert.alert("Modal has been closed.");
-    setModalVisible(!modalVisible);
-  }}
->
-        {/* <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}> */}
-      
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
           <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Name" />
           <TextInput style={styles.input} value={amount} onChangeText={setAmount} keyboardType="numeric" placeholder="Amount" />
-          
-          {/* Todo: needs to open a calendar component or date selector */}
-          {showDatePicker && (
-            <DateTimePicker
+          <TouchableOpacity style={styles.input} onPress={() => setShowDatePicker(!showDatePicker)}>
+            <Text style={styles.text}>Billing Date: {date}</Text>
+          </TouchableOpacity>
+           {showDatePicker && <DateTimePicker
               testID="dateTimePicker"
               mode={'date'}
               is24Hour={true}
-              display="default"
-              value={new Date(date)} // Convert the `date` string to a `Date` object
+              display="spinner"
+              value={new Date(date)}
               onChange={onChange}
-            />
-          )}
-          <Button title="Select Date" onPress={() => setShowDatePicker(true)} />
-          
-          {/* Todo: needs to be a dropdown */}
-          <TextInput style={styles.input} value={category} onChangeText={setCategory} placeholder="Category" />
-          {/* Todo: Find a checkbox */}
-          {/* <View style={styles.checkboxContainer}>
-            <CheckBox value={isRecurring} onValueChange={setIsRecurring} tintColors={{ true: '#00f', false: '#000' }} />
-            <Text style={styles.text}>Recurring</Text>
-          </View> */}
+            />}
+          <View style={{flex: 1}}>
+            <View
+              style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+              }}>
+              <DropDownPicker
+                  open={open}
+                  items={categories.map((category, index) => ({label: category, value: category, key: index}))}
+                  value={selectedCategory}
+                  setValue={setSelectedCategory}
+                  containerStyle={{
+                    height: 40,
+                    marginTop: 10,
+                    marginBottom: 10,
+                    width: '100%',
+                  }}
+                  style={{
+                    borderWidth: 0,
+                    height: 40,
+                    marginTop: 10,
+                    marginBottom: 10,
+                    width: '100%',
+                    paddingHorizontal: 10,
+                    backgroundColor: '#f8f8f8',
+                    padding: 10,
+                    shadowColor: '#000', // Add shadow color
+                    shadowOffset: { width: 0, height: 2 }, // Add shadow offset
+                    shadowOpacity: 0.25, // Add shadow opacity
+                    shadowRadius: 3.84, // Add shadow radius
+                    elevation: 5, // Add elevation for Android
+                  }}
+                  dropDownContainerStyle={{
+                    borderWidth: 0,
+                    width: '100%',
+                    backgroundColor: '#f8f8f8',
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+                    elevation: 5,
+                    borderRadius: 10, // Add this line to make the corners rounded
+                  }}
+                  labelStyle={{
+                    color: '#aaa',
+                  }}
+                  setOpen={setOpen}
+                  setItems={setCategories}
+                  placeholder={'Category'}
+              />
+            </View>
+        </View>
 
-          <TouchableOpacity style={styles.submitButton} onPress={() => {
-            handleSubmit();
-            setModalVisible(false);
-          }}>
-            <Text style={styles.submitButtonText}>+ Expense</Text>
-          </TouchableOpacity>
+        <TouchableOpacity style={styles.submitButton} onPress={() => {
+          handleSubmit();
+          setModalVisible(false);
+        }}>
+          <Text style={styles.submitButtonText}>+ Expense</Text>
+        </TouchableOpacity>
 
-          <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
-            <Text style={styles.cancelButtonText}>X</Text>
-          </TouchableOpacity>
-          </View>
-          </View>
-        {/* </SafeAreaView> */}
-
+        <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
+          <Text style={styles.cancelButtonText}>X</Text>
+        </TouchableOpacity>
+        </View>
+        </View>
       </Modal>
     </View>
   );

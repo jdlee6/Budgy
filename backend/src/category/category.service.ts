@@ -26,6 +26,10 @@ export class CategoryService {
     return category;
   }
 
+  async findCategoriesByUserId(userId: number): Promise<Category[]> {
+    return this.categoryRepository.find({ where: { userId } });
+  }
+
   async findExpensesByCategoryId(categoryId: number) {
     const category =
       await this.categoryRepository.findExpensesByCategoryId(categoryId);

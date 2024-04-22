@@ -10,44 +10,39 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-// const GET_USERS = gql`
-// query {
-//   users {
-//     name
-//     email
-//     expenses {
-//       id
-//       amount
-//       name
-//       categoryId
-//     }
-//     categories {
-//       id
-//       name
-//     }
-//     budgets {
-//       id
-//       amount
-//       categoryId
-//     }
-//   }
-// }
-// `;
 
-// const Users = () => {
-//   const { loading, error, data } = useQuery(GET_USERS);
+const GET_USER_INCOME = gql`
+  query GetUserIncome($id: Float!) {
+    user(id: $id) {
+      name
+      totalIncome
+    }
+    expensesByUserId(userId: $id) {
+      amount
+    }
+  }
+`
 
-//   if (loading) return <Text>Loading...</Text>;
-//   if (error) return <Text>Error :(</Text>;
+const Users = () => {
+  const userId = 1;
+  const { loading, error, data, refetch } = useQuery(GET_USER_INCOME, {
+    variables: { id: userId },
+  });
 
-//   return (
-//     <View style={styles.container}>
-//       {data.users.map((user: any) => (
-//         <Text key={user.id}>{user.name}</Text>
-//       ))}
-//     </View>
-//   );
-// };
+  if (loading) return <Text>Loading...</Text>;
+  if (error) return <Text>Error :(</Text>;
+
+  const totalExpenses = data.expensesByUserId.reduce((total, expense) => total + expense.amount, 0);
+  const balanceAfterExpenses = data.user.totalIncome - totalExpenses;
+
+  return (
+    <View>
+      <Text style={styles.income}>Total Income: ${data.user.totalIncome}</Text>
+      {/* Todo: change */}
+      <Text style={styles.income}>Balance after expenses: ${balanceAfterExpenses}</Text>
+    </View>
+  );
+};
 
 const App = () => {
   const [refreshKey, setRefreshKey] = React.useState(0);
@@ -60,8 +55,9 @@ const App = () => {
     <ApolloProvider client={client}>
       <View style={styles.container}>
         <Text style={styles.title}>Budgy</Text>
+
         {/* Component to display current budgets */}
-        {/* <Users /> */}
+        <Users />
 
         {/* Grid component to show expenses */}
         <ExpensesTable />
@@ -81,6 +77,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#ffffff', // light grey color
+  },
+  income: {
+    paddingLeft: 16
   },
   title: {
     borderRadius: 6,

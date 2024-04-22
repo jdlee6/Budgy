@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 // import {LinearGradient} from 'expo-linear-gradient';
-import { useMutation, gql, useQuery } from '@apollo/client';
+import { useMutation, gql, useQuery, useSubscription } from '@apollo/client';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 import ExpenseItem from '../ExpenseItem/ExpenseItem';
@@ -28,6 +28,7 @@ const DELETE_EXPENSE = gql`
   } 
 `;
 
+
 const ExpensesTable = () => {
   const { loading: queryLoading, error: queryError, data } = useQuery(GET_EXPENSES);
   const [deleteExpense, { loading: mutationLoading, error: mutationError }] = useMutation(DELETE_EXPENSE);
@@ -35,38 +36,40 @@ const ExpensesTable = () => {
   const [sortField, setSortField] = React.useState<'date' | 'name' | 'amount'>('date');
 
   const [sortedExpenses, setSortedExpenses] = React.useState([]);
-
+  
   React.useEffect(() => {
-    if (data && data.expensesByUserId) {
-      const newSortedExpenses = [...data.expensesByUserId].sort((a, b) => {
-        let comparisonA, comparisonB;
-    
-        switch (sortField) {
-          case 'date':
-            comparisonA = new Date(a.billingDate).getTime();
-            comparisonB = new Date(b.billingDate).getTime();
-            break;
-          case 'name':
-            comparisonA = a.name.toLowerCase();
-            comparisonB = b.name.toLowerCase();
-            break;
-          case 'amount':
-            comparisonA = a.amount;
-            comparisonB = b.amount;
-            break;
-          default:
-            break;
-        }
-    
-        if (sortOrder === 'asc') {
-          return comparisonA < comparisonB ? -1 : 1;
-        } else {
-          return comparisonA > comparisonB ? -1 : 1;
-        }
-      });
-      setSortedExpenses(newSortedExpenses);
-    }
-  }, [data, sortOrder, sortField])
+    let expenses = data?.expensesByUserId || [];
+  
+    const newSortedExpenses = [...expenses].sort((a, b) => {
+      let comparisonA, comparisonB;
+  
+      switch (sortField) {
+        case 'date':
+          comparisonA = new Date(a.billingDate).getTime();
+          comparisonB = new Date(b.billingDate).getTime();
+          break;
+        case 'name':
+          comparisonA = a.name.toLowerCase();
+          comparisonB = b.name.toLowerCase();
+          break;
+        case 'amount':
+          comparisonA = a.amount;
+          comparisonB = b.amount;
+          break;
+        default:
+          break;
+      }
+  
+      if (sortOrder === 'asc') {
+        return comparisonA < comparisonB ? -1 : 1;
+      } else {
+        return comparisonA > comparisonB ? -1 : 1;
+      }
+    });
+  
+    setSortedExpenses(newSortedExpenses);
+    console.log(sortedExpenses);
+  }, [data, sortOrder, sortField]);
 
 
   const handleDelete = async (id) => {
