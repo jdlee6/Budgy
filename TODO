@@ -114,17 +114,33 @@ styled fields for add expense
   refetch new expense list after expense has been added
 update expense.amount to decimal
 run migration for expense.amount decimal
-
-
 add category btn
 add category modal
+
+
+modalcontext
+new add button -> popover with category or expense
+  on click of expense -> add expense modal opens
+refactor addcategorymodal
+
+
 
 
 =======================================
 ==============IN PROGRESS==============
 =======================================
+add budget modal
+
+edit modal for expense
+deleting a category requires to refresh ui on demand
+
+
 look for library for colorwheel for user selection
 bg color for category chip-like components
+
+ui for delete/edit category?
+
+
 
 debug list error within modal
 

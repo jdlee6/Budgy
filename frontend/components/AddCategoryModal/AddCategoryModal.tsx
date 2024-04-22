@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { gql, useApolloClient, useMutation, useQuery } from '@apollo/client';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { ModalContext } from '../../context/ModalContext';
 
 const styles = StyleSheet.create({
   fieldContainer: {
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
   },
   submitButtonText: {
     color: 'white',
-    fontWeight: 'bold',
+    fontSize: 12,
     textAlign: 'center',
   },
   cancelButton: {
@@ -111,18 +110,6 @@ const styles = StyleSheet.create({
   },
 });
 
-// const ADD_EXPENSE = gql`
-//   mutation AddExpense($newExpenseInput: CreateExpenseDto!) {
-//     createExpense(newExpenseInput: $newExpenseInput) {
-//       name
-//       amount
-//       recurrence
-//       billingDate
-//       userId
-//       categoryId
-//     }
-//   }
-// `
 
 const ADD_CATEGORY = gql`
   mutation AddCategory($newCategoryInput: CreateCategoryDto!) {
@@ -155,17 +142,12 @@ query GetExpensesAndCategoriesByUserId($userId: Float!) {
 }
 `;
 
-
-const AddCategoryButton = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+const AddCategoryModal = () => {
+  // const [modalVisible, setModalVisible] = useState(false);
+  const { categoryModalVisible, closeModals } = useContext(ModalContext);
   const [name, setName] = useState('');
   const [color, setColor] = useState('#000000'); // Add a color state
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-  const [showDatePicker, setShowDatePicker] = useState(false);
   const [categories, setCategories] = useState<string[]>([]);
-
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [open, setOpen] = useState(false);
 
   const [addCategory, { data: addCategoryData }] = useMutation(ADD_CATEGORY, { refetchQueries: [{ query: GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, variables: {userId: 1} }] });
   const { loading, error, data } = useQuery(GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, {
@@ -180,12 +162,6 @@ const AddCategoryButton = () => {
     }
   }, [data, loading])
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShowDatePicker(false);
-    setDate(currentDate.toISOString().split('T')[0]);
-  };
-
   const handleSubmit = () => {
     const newCategoryInput = { name, color, userId: 1};
     console.log('Submitting', newCategoryInput);
@@ -199,34 +175,29 @@ const AddCategoryButton = () => {
       },
     }) 
       .then(() => {
-        setModalVisible(false);
+        closeModals();
       })
       .catch(error => {
         console.error("Error adding expeanse: ", error);
       });
-    setModalVisible(false);
+    closeModals();
   }
 
   return (
     <View>
-      <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
-        <Text style={styles.buttonText}>+ Category</Text>
-      </TouchableOpacity>
-
-      {/* Abstract this */}
       <Modal
         animationType="slide"
         transparent={true}
-        visible={modalVisible}
+        visible={categoryModalVisible}
         onRequestClose={() => {
-          setModalVisible(!modalVisible);
+          closeModals();
         }}
       >
         <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}
           onScrollEndDrag={(event) => {
             if (event.nativeEvent.contentOffset.y < 0) {
-              setModalVisible(false);
+              closeModals();
             }
           }}
           scrollEventThrottle={16}
@@ -239,12 +210,12 @@ const AddCategoryButton = () => {
           <TextInput style={styles.input} value={color} onChangeText={setColor} placeholder="Color" />
           <TouchableOpacity style={styles.submitButton} onPress={() => {
             handleSubmit();
-            setModalVisible(false);
+            closeModals();
           }}>
             <Text style={styles.submitButtonText}>Submit</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
+          <TouchableOpacity style={styles.cancelButton} onPress={() => closeModals()}>
             <Text style={styles.cancelButtonText}>X</Text>
           </TouchableOpacity>
         </View>
@@ -255,4 +226,4 @@ const AddCategoryButton = () => {
   );
 };
 
-export default AddCategoryButton;
+export default AddCategoryModal;

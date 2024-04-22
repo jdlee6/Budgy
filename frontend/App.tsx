@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql, useQuery } from '@apollo/client';
 import ExpensesTable from './components/ExpenseTable/ExpenseTable';
-import AddExpenseButton from './components/AddExpenseBtn/AddExpenseBtn';
-import { StatusBar } from 'react-native';
-import AddCategoryButton from './components/AddCategoryBtn/AddCategoryBtn';
+// import { StatusBar } from 'react-native';
+// import AddCategoryButton from './components/AddCategoryModal/AddCategoryModal';
+
+import AddBtn from './components/AddBtn/AddBtn';
+import AddExpenseModal from './components/AddExpenseModal/AddExpenseModal';
+import AddCategoryModal from './components/AddCategoryModal/AddCategoryModal';
+import { ModalContext } from './context/ModalContext';
 
 const client = new ApolloClient({
   uri: 'http://192.168.1.158:3000/graphql',
@@ -50,22 +54,43 @@ const Users = () => {
 };
 
 const App = () => {
+  const [expenseModalVisible, setExpenseModalVisible] = useState(false);
+  const [categoryModalVisible, setCategoryModalVisible] = useState(false);
+
+  const openExpenseModal = () => {
+    setExpenseModalVisible(true);
+    setCategoryModalVisible(false);
+  };
+
+  const openCategoryModal = () => {
+    setExpenseModalVisible(false);
+    setCategoryModalVisible(true);
+  };
+
+  const closeModals = () => {
+    setExpenseModalVisible(false);
+    setCategoryModalVisible(false);
+  };
+
+  React.useEffect(() => {
+    console.log(expenseModalVisible, categoryModalVisible);
+  }, [expenseModalVisible]);
+
   return (
     <ApolloProvider client={client}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Budgy</Text>
+      <ModalContext.Provider value={{ expenseModalVisible, categoryModalVisible, openExpenseModal, openCategoryModal, closeModals }}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Budgy</Text>
 
-        {/* Component to display current budgets */}
-        <Users />
+          {/* Component to display current budgets */}
+          <Users />
 
-        <ExpensesTable />
-        <View style={styles.buttonContainer}>
-          <AddCategoryButton />
+          <ExpensesTable />
+          <AddBtn />
+          <AddExpenseModal />
+          <AddCategoryModal />
         </View>
-        <View style={styles.buttonContainer}>
-          <AddExpenseButton />
-        </View>
-      </View>
+      </ModalContext.Provider>
     </ApolloProvider>
   );
 };
