@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { ModalContext } from '../../context/ModalContext';
+import ColorPicker from 'react-native-wheel-color-picker'
 
 const styles = StyleSheet.create({
   fieldContainer: {
@@ -108,6 +109,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 12,
   },
+  colorPickerContainer: {
+    width: 300,
+    height: 300,
+  },
+  colorPreview: {
+    width: 40,
+    height: 40,
+    borderRadius: 50,
+    marginTop: 8,
+  },
 });
 
 
@@ -143,11 +154,11 @@ query GetExpensesAndCategoriesByUserId($userId: Float!) {
 `;
 
 const AddCategoryModal = () => {
-  // const [modalVisible, setModalVisible] = useState(false);
   const { categoryModalVisible, closeModals } = useContext(ModalContext);
   const [name, setName] = useState('');
-  const [color, setColor] = useState('#000000'); // Add a color state
+  const [color, setColor] = useState('#969696'); // Add a color state
   const [categories, setCategories] = useState<string[]>([]);
+  const [isPickerActive, setIsPickerActive] = useState(true);
 
   const [addCategory, { data: addCategoryData }] = useMutation(ADD_CATEGORY, { refetchQueries: [{ query: GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, variables: {userId: 1} }] });
   const { loading, error, data } = useQuery(GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, {
@@ -183,6 +194,8 @@ const AddCategoryModal = () => {
     closeModals();
   }
 
+  React.useEffect(() => {console.log(color);}, [color])
+
   return (
     <View>
       <Modal
@@ -193,7 +206,8 @@ const AddCategoryModal = () => {
           closeModals();
         }}
       >
-        <ScrollView
+        {/* Todo: Fix this?? */}
+        {/* <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}
           onScrollEndDrag={(event) => {
             if (event.nativeEvent.contentOffset.y < 0) {
@@ -202,25 +216,46 @@ const AddCategoryModal = () => {
           }}
           scrollEventThrottle={16}
           keyboardShouldPersistTaps="always"
-        >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-          <Text style={styles.title}>Add Category</Text>
-          <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Name" />
-          <TextInput style={styles.input} value={color} onChangeText={setColor} placeholder="Color" />
-          <TouchableOpacity style={styles.submitButton} onPress={() => {
-            handleSubmit();
-            closeModals();
-          }}>
-            <Text style={styles.submitButtonText}>Submit</Text>
-          </TouchableOpacity>
+        > */}
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+            <Text style={styles.title}>Add Category</Text>
+            <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Name" />
+            
+            <Text style={{ color: '#aaa"', marginTop: 8 }}>
+              Category color:{' '}
+              <Text style={{ color: color }}>
+                {color}
+              </Text>
+            </Text>
+            <View style={{...styles.colorPreview, backgroundColor: color}} />
+            <View style={styles.colorPickerContainer}>
+              <ColorPicker
+                color={color}
+                onColorChange={setColor}
+                swatches={false}
+                // sliderHidden={true}
+                thumbSize={40}
+                // noSnap={true}
+                // row={true}
+                useNativeDriver={true}
+                useNativeLayout={true}
+              />
+            </View>
 
-          <TouchableOpacity style={styles.cancelButton} onPress={() => closeModals()}>
-            <Text style={styles.cancelButtonText}>X</Text>
-          </TouchableOpacity>
-        </View>
-        </View>
-        </ScrollView>
+            <TouchableOpacity style={styles.submitButton} onPress={() => {
+              handleSubmit();
+              closeModals();
+            }}>
+              <Text style={styles.submitButtonText}>Submit</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.cancelButton} onPress={() => closeModals()}>
+              <Text style={styles.cancelButtonText}>X</Text>
+            </TouchableOpacity>
+          </View>
+          </View>
+        {/* </ScrollView> */}
       </Modal>
     </View>
   );

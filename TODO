@@ -123,16 +123,26 @@ new add button -> popover with category or expense
   on click of expense -> add expense modal opens
 refactor addcategorymodal
 
+add colorpicker
+  let users pick a color from color wheel
+disable scrollview for addcategorymodal
+
 
 
 
 =======================================
 ==============IN PROGRESS==============
 =======================================
+display category with color background
+
 add budget modal
 
 edit modal for expense
 deleting a category requires to refresh ui on demand
+
+
+backend:
+  - only 1 budget can exist per category
 
 
 look for library for colorwheel for user selection
@@ -275,3 +285,4 @@ NEEDED FEATURES
   npm run typeorm migration:run - up functions
   npm run typeorm migration:revert - down functions
 
+  use npm as package manager (not yarn)
