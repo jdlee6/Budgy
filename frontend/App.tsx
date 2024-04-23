@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql, useQuery } from '@apollo/client';
 import { ModalContext } from './context/ModalContext';
 import Home from './pages/Home';
@@ -42,6 +42,7 @@ const App = () => {
     <ApolloProvider client={client}>
       <ModalContext.Provider value={{ expenseModalVisible, categoryModalVisible, budgetModalVisible, openExpenseModal, openCategoryModal, openBudgetModal, closeModals }}>
           <View style={styles.container}>
+            <StatusBar barStyle="dark-content" />
             <Text style={styles.title}>Budgy</Text>
             <Home />
           </View>

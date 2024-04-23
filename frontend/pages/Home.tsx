@@ -85,7 +85,7 @@ const Home = () => {
         <UserBalances />
         <ExpensesTable />
         <AddBtn />
-        
+
         <AddExpenseModal />
         <AddCategoryModal />
         <AddBudgetModal />
@@ -93,34 +93,5 @@ const Home = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#ffffff', // light grey color
-  },
-  income: {
-    paddingLeft: 16,
-    paddingRight: 16,
-    color: '#7c7e80',
-  },
-  title: {
-    borderRadius: 6,
-    color: '#a2bbf6',
-    fontSize: 24,
-    marginTop: 40,
-    padding: 16,
-    backgroundColor: '#FFFFFF', // Set the background color to white
-  },
-  buttonContainer: {
-    display: 'flex',
-    alignItems: 'center', // Center items horizontally
-    justifyContent: 'flex-start', // Center items vertically
-    padding: 16, // Add padding
-  },
-  // ..
-  // ...
-});
 
 export default Home;

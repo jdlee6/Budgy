@@ -136,12 +136,18 @@ const AddExpenseModal = () => {
   const { expenseModalVisible, closeModals } = useContext(ModalContext);
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [isRecurring, setIsRecurring] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [open, setOpen] = useState(false);
+  const toLocalDate = () => {
+    const now = new Date();
+    const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+    return localDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  };
+  const [date, setDate] = useState(toLocalDate());
+  
 
   const { addExpense, addExpenseData } = useContext(UserActionDataContext);
 
@@ -156,10 +162,16 @@ const AddExpenseModal = () => {
     }
   }, [data, addExpenseData, loading])
 
+  const toLocalISOString = (date) => {
+    const tzOffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
+    const localISOTime = (new Date(date - tzOffset)).toISOString().slice(0,-1);
+    return localISOTime.split('T')[0];
+  };
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowDatePicker(false);
-    setDate(currentDate.toISOString().split('T')[0]);
+    setDate(toLocalISOString(currentDate));
   };
 
   const handleSubmit = () => {
