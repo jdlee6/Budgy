@@ -17,7 +17,12 @@ const ExpenseItem = ({ expense }) => {
         <Text style={styles.expenseDate}>{formattedDate}</Text>
         <View style={styles.expenseNameCategory}>
           <Text style={styles.expenseName}>{capitalizedExpenseName}</Text>
-          <Text style={styles.expenseCategory}>{expense.category.name}</Text>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={[styles.colorPreview, { backgroundColor: expense.category.color }]} />
+            <Text style={styles.expenseCategory}>{expense.category.name}</Text>
+          </View>
+  
         </View>
         <Text style={styles.expenseAmount}>${Number(expense.amount).toFixed(2)}</Text>
       </View>
@@ -62,6 +67,12 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'right',
     color: '#527fd1',
+  },
+  colorPreview: {
+    width: 10,
+    height: 10,
+    borderRadius: 50,
+    marginRight: 4,
   },
 });
 

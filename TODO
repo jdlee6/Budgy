@@ -126,7 +126,7 @@ refactor addcategorymodal
 add colorpicker
   let users pick a color from color wheel
 disable scrollview for addcategorymodal
-
+display basic version of category color
 
 
 

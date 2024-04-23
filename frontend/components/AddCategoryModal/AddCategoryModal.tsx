@@ -222,7 +222,7 @@ const AddCategoryModal = () => {
             <Text style={styles.title}>Add Category</Text>
             <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Name" />
             
-            <Text style={{ color: '#aaa"', marginTop: 8 }}>
+            <Text style={{ color: '#aaa', marginTop: 8 }}>
               Category color:{' '}
               <Text style={{ color: color }}>
                 {color}
