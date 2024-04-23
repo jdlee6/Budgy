@@ -8,10 +8,6 @@ export type ModalContextInterface = {
   openCategoryModal: () => void;
   openExpenseModal: () => void;
   closeModals: () => void;
-
-  // Todo: abstract this only if used within addbudgetmodal 
-  // if used in multiple places, leave it in the component
-  refetchUserIncome: (() => void) | null;
 };
 
 export const ModalContext = React.createContext<ModalContextInterface>({
@@ -22,5 +18,4 @@ export const ModalContext = React.createContext<ModalContextInterface>({
   openExpenseModal: () => {},
   openCategoryModal: () => {},
   closeModals: () => {},
-  refetchUserIncome: null,
 });

@@ -1,28 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-// import {LinearGradient} from 'expo-linear-gradient';
-import { useMutation, gql, useQuery, useSubscription } from '@apollo/client';
+import { useMutation, gql } from '@apollo/client';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { useApolloClient } from '@apollo/client';
 import ExpenseItem from '../ExpenseItem/ExpenseItem';
-
-// do we want to use this query?
-const GET_EXPENSES = gql`
-  query {
-    expensesByUserId(userId: 1) {
-      id
-      name
-      billingDate
-      amount
-      categoryId
-      category {
-        id
-        name
-        color
-      }
-    }
-  }
-`
+import { UserActionDataContext } from '../../context/UserActionDataContext';
 
 const DELETE_EXPENSE = gql`
   mutation DeleteExpense($id: Float!) {
@@ -30,52 +11,70 @@ const DELETE_EXPENSE = gql`
   } 
 `;
 
+const GET_USER_BALANCES = gql`
+  query GetUserIncome($id: Float!) {
+    user(id: $id) {
+      name
+      totalIncome
+    }
+    budgetsByUserId(userId: $id) {
+      amount
+      category { 
+        name
+      }
+    }
+  }
+`
+
 const ExpensesTable = () => {
-  const client = useApolloClient();
-  const { loading: queryLoading, error: queryError, data } = useQuery(GET_EXPENSES);
+  const { expenses, refetchBalances } = useContext(UserActionDataContext);
   const [deleteExpense, { loading: mutationLoading, error: mutationError }] = useMutation(DELETE_EXPENSE, {
-    onCompleted: () => {
-      client.refetchQueries({ include: [GET_EXPENSES] });
-    },
+    variables: { id: 1 },
+    refetchQueries: [
+      { query: GET_USER_BALANCES, variables: { userId: 1 } },
+    ],
   });
+
   const [sortOrder, setSortOrder] = React.useState<'asc' | 'desc'>('asc');
   const [sortField, setSortField] = React.useState<'date' | 'name' | 'amount' | 'category'>('date');
-
   const [sortedExpenses, setSortedExpenses] = React.useState([]);
-  
+
   React.useEffect(() => {
-    let expenses = data?.expensesByUserId || [];
+    setSortedExpenses(expenses)
+  }, [expenses]);
+
+  // React.useEffect(() => {
+  //   console.log('yo', data?.expensesByUserId)
+  //   let expenses = data?.expensesByUserId || [];
   
-    const newSortedExpenses = [...expenses].sort((a, b) => {
-      let comparisonA, comparisonB;
+  //   const newSortedExpenses = [...expenses].sort((a, b) => {
+  //     let comparisonA, comparisonB;
   
-      switch (sortField) {
-        case 'date':
-          comparisonA = new Date(a.billingDate).getTime();
-          comparisonB = new Date(b.billingDate).getTime();
-          break;
-        case 'name':
-          comparisonA = a.name.toLowerCase();
-          comparisonB = b.name.toLowerCase();
-          break;
-        case 'amount':
-          comparisonA = a.amount;
-          comparisonB = b.amount;
-          break;
-        default:
-          break;
-      }
+  //     switch (sortField) {
+  //       case 'date':
+  //         comparisonA = new Date(a.billingDate).getTime();
+  //         comparisonB = new Date(b.billingDate).getTime();
+  //         break;
+  //       case 'name':
+  //         comparisonA = a.name.toLowerCase();
+  //         comparisonB = b.name.toLowerCase();
+  //         break;
+  //       case 'amount':
+  //         comparisonA = a.amount;
+  //         comparisonB = b.amount;
+  //         break;
+  //       default:
+  //         break;
+  //     }
   
-      if (sortOrder === 'asc') {
-        return comparisonA < comparisonB ? -1 : 1;
-      } else {
-        return comparisonA > comparisonB ? -1 : 1;
-      }
-    });
-  
-    setSortedExpenses(newSortedExpenses);
-    console.log(sortedExpenses);
-  }, [data, sortOrder, sortField]);
+  //     if (sortOrder === 'asc') {
+  //       return comparisonA < comparisonB ? -1 : 1;
+  //     } else {
+  //       return comparisonA > comparisonB ? -1 : 1;
+  //     }
+  //   });
+  //   setSortedExpenses(newSortedExpenses);
+  // }, [data, sortOrder, addExpenseData, sortField]);
 
   const handleDelete = async (id) => {
     // Optimistically remove the expense from the UI
@@ -95,8 +94,8 @@ const ExpensesTable = () => {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
   
-  if (queryLoading) return <Text>Loading...</Text>;
-  if (queryError) return <Text>Error :(</Text>;
+  // if (queryLoading) return <Text>Loading...</Text>;
+  // if (queryError) return <Text>Error :(</Text>;
 
   return (
     <View style={styles.container}>
@@ -127,8 +126,7 @@ const ExpensesTable = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    backgroundColor: '#a5d4f1', // light blue color
+    backgroundColor: '#a5d4f1',
   },
   row: {
     flexDirection: 'row',
@@ -155,7 +153,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   rowBack: {
-    alignItems: 'center', // Change this from 'center' to 'stretch'
+    alignItems: 'center',
     backgroundColor: '#DDD',
     flex: 1,
     flexDirection: 'row',

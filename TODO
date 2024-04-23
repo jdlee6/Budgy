@@ -152,11 +152,21 @@ frontend
   budgets = ...
   budgetsAfterExpenses()
 
+once expense is created, re render user income data & table data
+  ** need to delete an expense first before table gets updated again??
+
+fixed bug where expense wouldn't render on table when created
+  1. abstract query/mutation calls into Context
+  2. define queries/mutations in Home.tsx
+  3. consume within ExpenseTable
+
 =======================================
 ==============IN PROGRESS==============
 =======================================
+FIX THIS!!
+- update balances upon addition/deletion of expense
+
 - once budget is created re render user income data
-- once expense is created re render user income data
 - once budget is deleted, re render user income data
 - once expense is deleted, re render user expense data
   ** fix this!
@@ -167,6 +177,8 @@ frontend
 - error handling
   if budget already exists for category, dont create
 
+
+on tap drag expense order
 
 
 

@@ -1,4 +1,3 @@
-// ExpenseItem.js
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
@@ -19,7 +18,7 @@ const ExpenseItem = ({ expense }) => {
           <Text style={styles.expenseName}>{capitalizedExpenseName}</Text>
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={[styles.colorPreview, { backgroundColor: expense.category.color }]} />
+            <View style={[styles.colorPreview, { backgroundColor: expense.category.color || 'white' }]} />
             <Text style={styles.expenseCategory}>{expense.category.name}</Text>
           </View>
   

@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { gql, useApolloClient, useMutation, useQuery } from '@apollo/client';
+import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { gql, useQuery } from '@apollo/client';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
-
 import { ModalContext } from '../../context/ModalContext';
+import { UserActionDataContext } from '../../context/UserActionDataContext';
 
 const styles = StyleSheet.create({
   fieldContainer: {
@@ -113,36 +113,23 @@ const styles = StyleSheet.create({
   },
 });
 
-const ADD_EXPENSE = gql`
-  mutation AddExpense($newExpenseInput: CreateExpenseDto!) {
-    createExpense(newExpenseInput: $newExpenseInput) {
-      name
-      amount
-      recurrence
-      billingDate
-      userId
-      categoryId
-    }
-  }
-`
-
 const GET_EXPENSES_AND_CATEGORIES_BY_USER_ID = gql`
-query GetExpensesAndCategoriesByUserId($userId: Float!) {
-  expensesByUserId(userId: $userId) {
-    id
-    name
-    billingDate
-    amount
-    categoryId
-    category { 
+  query GetExpensesAndCategoriesByUserId($userId: Float!) {
+    expensesByUserId(userId: $userId) {
+      id
+      name
+      billingDate
+      amount
+      categoryId
+      category { 
+        name
+      }
+    }
+    categoriesByUserId(userId: $userId) {
+      id
       name
     }
   }
-  categoriesByUserId(userId: $userId) {
-    id
-    name
-  }
-}
 `;
 
 const AddExpenseModal = () => {
@@ -156,7 +143,8 @@ const AddExpenseModal = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [open, setOpen] = useState(false);
 
-  const [addExpense, { data: addExpenseData }] = useMutation(ADD_EXPENSE, { refetchQueries: [{ query: GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, variables: {userId: 1} }] });
+  const { addExpense, addExpenseData } = useContext(UserActionDataContext);
+
   const { loading, error, data } = useQuery(GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, {
     variables: { userId: 1 },
   });
@@ -164,10 +152,9 @@ const AddExpenseModal = () => {
   React.useEffect(() => {
     if (data) {
       const uniqueCategories = Array.from(new Set(data.categoriesByUserId.map((category: { name: string }) => category.name)));
-      console.log(uniqueCategories);
       setCategories(uniqueCategories);
     }
-  }, [data, loading])
+  }, [data, addExpenseData, loading])
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -210,7 +197,7 @@ const AddExpenseModal = () => {
         visible={expenseModalVisible}
         onRequestClose={closeModals}
       >
-          <ScrollView
+          {/* <ScrollView
             contentContainerStyle={{ flexGrow: 1 }}
             onScrollEndDrag={(event) => {
               if (event.nativeEvent.contentOffset.y < 0) {
@@ -219,7 +206,7 @@ const AddExpenseModal = () => {
             }}
             scrollEventThrottle={16}
             keyboardShouldPersistTaps="always"
-          >
+          > */}
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
           <Text style={styles.title}>Add Expense</Text>
@@ -301,7 +288,7 @@ const AddExpenseModal = () => {
         </TouchableOpacity>
         </View>
         </View>
-        </ScrollView>
+        {/* </ScrollView> */}
       </Modal>
     </View>
   );

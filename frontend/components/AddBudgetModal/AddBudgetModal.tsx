@@ -159,7 +159,7 @@ query GetExpensesAndCategoriesByUserId($userId: Float!) {
 `;
 
 const AddBudgetModal = () => {
-  const { budgetModalVisible, closeModals, refetchUserIncome } = useContext<ModalContextInterface>(ModalContext);
+  const { budgetModalVisible, closeModals } = useContext<ModalContextInterface>(ModalContext);
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [open, setOpen] = useState(false);
@@ -193,10 +193,6 @@ const AddBudgetModal = () => {
         },
       }) 
         .then(() => {
-          console.log('refetchUserIncome:', refetchUserIncome);
-          if (refetchUserIncome) {
-            refetchUserIncome();
-          }
           closeModals();
         })
         .catch(error => {
