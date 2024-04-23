@@ -10,7 +10,7 @@ const AddBtn = () => {
   useEffect(() => {
     Animated.timing(animation, {
       toValue: menuVisible ? 1 : 0,
-      duration: 200,
+      duration: 140,
       useNativeDriver: true,
     }).start();
   }, [menuVisible]);
@@ -29,22 +29,21 @@ const AddBtn = () => {
 
         {menuVisible && (
           <Animated.View style={[styles.menu, { opacity: animation, transform: [{ scale }] }]}>
-          <TouchableOpacity onPress={(e) => {
-            e.stopPropagation();
-            openExpenseModal();
-            setMenuVisible(false);
-          }}>
-            <Text style={styles.menuItem}>Expense</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={(e) => {
-            e.stopPropagation();
-            openCategoryModal();
-            setMenuVisible(false);
-          }}>
-            <Text style={styles.menuItem}>Category</Text>
-          </TouchableOpacity>
-        </Animated.View>
+            <TouchableOpacity onPress={(e) => {
+              e.stopPropagation();
+              openCategoryModal();
+              setMenuVisible(false);
+            }}>
+              <Text style={styles.menuItem}>Category</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={(e) => {
+              e.stopPropagation();
+              openExpenseModal();
+              setMenuVisible(false);
+            }}>
+              <Text style={styles.menuItem}>Expense</Text>
+            </TouchableOpacity>
+          </Animated.View>
         )}
       </View>
     </TouchableWithoutFeedback>

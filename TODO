@@ -128,13 +128,13 @@ add colorpicker
 disable scrollview for addcategorymodal
 display basic version of category color
 
+reset order of popover menu for addbtn
+
 
 
 =======================================
 ==============IN PROGRESS==============
 =======================================
-display category with color background
-
 add budget modal
 
 edit modal for expense
