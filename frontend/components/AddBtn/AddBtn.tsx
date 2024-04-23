@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Animated, View, Text, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { ModalContext } from '../../context/ModalContext';
+import { ModalContextInterface, ModalContext } from '../../context/ModalContext';
 
 const AddBtn = () => {
   const [menuVisible, setMenuVisible] = useState(false);
-  const { openExpenseModal, openCategoryModal } = useContext(ModalContext)
+  const { openExpenseModal, openCategoryModal, openBudgetModal } = useContext<ModalContextInterface>(ModalContext)
   const animation = new Animated.Value(0);
 
   useEffect(() => {
@@ -27,6 +27,7 @@ const AddBtn = () => {
           <Text style={styles.btnText}>+ Add</Text>
         </TouchableOpacity>
 
+        {/* Todo: add icons next to these */}
         {menuVisible && (
           <Animated.View style={[styles.menu, { opacity: animation, transform: [{ scale }] }]}>
             <TouchableOpacity onPress={(e) => {
@@ -36,6 +37,15 @@ const AddBtn = () => {
             }}>
               <Text style={styles.menuItem}>Category</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity onPress={(e) => {
+              e.stopPropagation();
+              openBudgetModal();
+              setMenuVisible(false);
+            }}>
+              <Text style={styles.menuItem}>Budget</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity onPress={(e) => {
               e.stopPropagation();
               openExpenseModal();
@@ -77,7 +87,8 @@ const styles = StyleSheet.create({
   },
   menu: {
     position: 'absolute',
-    top: 100,
+    // Fix this:
+    // top: 100,
     backgroundColor: '#a2bbf6',
     padding: 10,
     borderRadius: 12,

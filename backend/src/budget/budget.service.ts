@@ -25,8 +25,11 @@ export class BudgetService {
   }
 
   async findBudgetsByUserId(userId: number) {
-    const budget = await this.budgetRepository.findBudgetsByUserId(userId);
-    return budget;
+    const budgets = await this.budgetRepository.find({
+      where: { userId: userId },
+    });
+    console.log(budgets);
+    return budgets;
   }
 
   async create(newBudgetInput: CreateBudgetDto): Promise<CreateBudgetOutput> {

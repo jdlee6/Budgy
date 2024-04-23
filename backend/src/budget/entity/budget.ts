@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { User } from 'src/user/entity/user';
@@ -40,7 +41,8 @@ export class Budget {
   @Field(() => User)
   user: User;
 
-  @OneToOne(() => Category, (category) => category.budget)
+  @OneToOne(() => Category, (category) => category.budget, { eager: true })
+  @JoinColumn({ name: 'categoryId' })
   @Field(() => Category)
   category: Category;
 }

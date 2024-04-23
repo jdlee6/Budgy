@@ -13,9 +13,9 @@ export class BudgetResolver {
     return this.budgetService.findAll();
   }
 
-  @Query(() => Budget)
+  @Query(() => [Budget])
   async budgetsByUserId(@Args('userId') userId: number) {
-    return this.budgetService.findById(userId);
+    return this.budgetService.findBudgetsByUserId(userId);
   }
 
   @Mutation(() => CreateBudgetOutput)

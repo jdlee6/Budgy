@@ -130,12 +130,48 @@ display basic version of category color
 
 reset order of popover menu for addbtn
 
+added budgetModalVisible & openBudgetModal into ModalContext
 
+create add budget modal
+open add budget modal on press
+
+backend
+  fix issue where only 1 budget is being returned
+  added joincolumn to budget.category
+  wrote migration file to reference category 
+  
+  budget.ts -> add 
+    @OneToOne(() => Category, (category) => category.budget, { eager: true })
+    @JoinColumn({ name: 'categoryId' })
+  create updateBudgetCategory.ts
+  add relations: ['category'] to budget.repo
+
+frontend
+  render budgets
+  expensesByCategory()
+  budgets = ...
+  budgetsAfterExpenses()
 
 =======================================
 ==============IN PROGRESS==============
 =======================================
-add budget modal
+- once budget is created re render user income data
+- once expense is created re render user income data
+- once budget is deleted, re render user income data
+- once expense is deleted, re render user expense data
+  ** fix this!
+
+- look for ways to display percentage charts
+
+
+- error handling
+  if budget already exists for category, dont create
+
+
+
+
+edit budget functionality
+
 
 edit modal for expense
 deleting a category requires to refresh ui on demand

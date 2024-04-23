@@ -16,6 +16,7 @@ const GET_EXPENSES = gql`
       amount
       categoryId
       category {
+        id
         name
         color
       }

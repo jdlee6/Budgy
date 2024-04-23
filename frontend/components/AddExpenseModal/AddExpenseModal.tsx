@@ -176,9 +176,6 @@ const AddExpenseModal = () => {
   };
 
   const handleSubmit = () => {
-    const formattedDate = new Date(date).toISOString().split('T')[0];
-    const newExpenseInput = { name, amount: parseFloat(amount), billingDate: formattedDate, recurrence: isRecurring, userId: 1, categoryId: 1 };
-    console.log('Submitting', newExpenseInput);
     const categories = data.categoriesByUserId;
     const selectedCategoryObj = categories.find(category => category.name === selectedCategory);
     

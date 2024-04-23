@@ -18,6 +18,7 @@ export class BudgetRepository extends Repository<Budget> {
     try {
       return await this.budgetRepository.find({
         where: { userId: userId },
+        relations: ['category'],
       });
     } catch (err) {
       throw new Error(err);
