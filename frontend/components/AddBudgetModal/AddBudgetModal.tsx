@@ -3,6 +3,8 @@ import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView 
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { ModalContext, ModalContextInterface } from '../../context/ModalContext';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { FinancialDataContext } from '../../context/FinancialDataContext';
+
 
 const styles = StyleSheet.create({
   fieldContainer: {
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   submitButton: {
-    marginTop: 40,
+    top: 260,
     alignItems: 'center',
     justifyContent: 'center',
     width: 80,
@@ -122,64 +124,15 @@ const styles = StyleSheet.create({
 });
 
 
-const ADD_BUDGET = gql`
-  mutation AddBudget($newBudgetInput: CreateBudgetDto!) {
-    createBudget(newBudgetInput: $newBudgetInput) {
-      id
-      amount
-      userId
-      categoryId
-    }
-  }
-`
-
-// { amount: 359, userId: 1, categoryId: 1}
-const GET_EXPENSES_AND_BUDGETS_BY_USER_ID = gql`
-query GetExpensesAndCategoriesByUserId($userId: Float!) {
-  expensesByUserId(userId: $userId) {
-    id
-    name
-    billingDate
-    amount
-    categoryId
-    category { 
-      name
-    }
-  }
-  budgetsByUserId(userId: $userId) {
-    id
-    amount
-    categoryId
-  }
-  categoriesByUserId(userId: $userId) {
-    id
-    name
-  }
-}
-`;
-
 const AddBudgetModal = () => {
   const { budgetModalVisible, closeModals } = useContext<ModalContextInterface>(ModalContext);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [options, setOptions] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState('');
+  const { addBudget, categories } = useContext(FinancialDataContext);
 
-  const [addBudget] = useMutation(ADD_BUDGET, { refetchQueries: [{ query: GET_EXPENSES_AND_BUDGETS_BY_USER_ID, variables: {userId: 1} }] });
-  const { loading, error, data } = useQuery(GET_EXPENSES_AND_BUDGETS_BY_USER_ID, {
-    variables: { userId: 1 },
-  });
-
-  React.useEffect(() => {
-    if (data) {
-      const uniqueCategories = Array.from(new Set(data.categoriesByUserId.map((category: { name: string }) => category.name)));
-      console.log(uniqueCategories);
-      setCategories(uniqueCategories);
-    }
-  }, [data, loading])
-  
   const handleSubmit = () => {
-    const categories = data.categoriesByUserId;
     const selectedCategoryObj = categories.find(category => category.name === selectedCategory);
     
     if (selectedCategoryObj) {
@@ -212,19 +165,13 @@ const AddBudgetModal = () => {
           closeModals();
         }}
       >
-
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
             <Text style={styles.title}>Add Budget</Text>
             <TextInput style={styles.input} value={amount} onChangeText={setAmount} keyboardType="numeric" placeholder="Amount" />
-            {/* 
-            Add category picker
-            1. populate with data
-            2. find id of category/name
-             */}
             <DropDownPicker
                 open={open}
-                items={categories.map((category, index) => ({label: category, value: category, key: index}))}
+                items={categories.map((category, index) => ({ label: category.name, value: category.name, key: index }))}
                 value={selectedCategory}
                 setValue={setSelectedCategory}
                 containerStyle={{
@@ -262,15 +209,18 @@ const AddBudgetModal = () => {
                 labelStyle={{
                   color: '#aaa',
                 }}
+                textStyle={{
+                  color: '#aaa'
+                }}
                 setOpen={setOpen}
-                setItems={setCategories}
-                placeholder={'Category'}
+                setItems={setOptions}
+                placeholder='Category'
             />
             <TouchableOpacity style={styles.submitButton} onPress={() => {
               handleSubmit();
               closeModals();
             }}>
-              <Text style={styles.submitButtonText}>Submit</Text>
+              <Text style={styles.submitButtonText}>Add</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.cancelButton} onPress={() => closeModals()}>

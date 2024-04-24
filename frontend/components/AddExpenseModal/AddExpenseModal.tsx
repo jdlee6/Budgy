@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { ModalContext } from '../../context/ModalContext';
-import { UserActionDataContext } from '../../context/UserActionDataContext';
+import { FinancialDataContext } from '../../context/FinancialDataContext';
+import { format } from 'date-fns';
 
 const styles = StyleSheet.create({
   fieldContainer: {
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   submitButton: {
-    marginTop: 40,
+    top: 200,
     alignItems: 'center',
     justifyContent: 'center',
     width: 80,
@@ -113,69 +114,39 @@ const styles = StyleSheet.create({
   },
 });
 
-const GET_EXPENSES_AND_CATEGORIES_BY_USER_ID = gql`
-  query GetExpensesAndCategoriesByUserId($userId: Float!) {
-    expensesByUserId(userId: $userId) {
-      id
-      name
-      billingDate
-      amount
-      categoryId
-      category { 
-        name
-      }
-    }
-    categoriesByUserId(userId: $userId) {
-      id
-      name
-    }
-  }
-`;
-
 const AddExpenseModal = () => {
   const { expenseModalVisible, closeModals } = useContext(ModalContext);
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
   const [isRecurring, setIsRecurring] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [options, setOptions] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [open, setOpen] = useState(false);
-  const toLocalDate = () => {
-    const now = new Date();
-    const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
-    return localDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-  };
-  const [date, setDate] = useState(toLocalDate());
+  const [date, setDate] = useState(new Date());
   
-
-  const { addExpense, addExpenseData } = useContext(UserActionDataContext);
-
-  const { loading, error, data } = useQuery(GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, {
-    variables: { userId: 1 },
-  });
+  const { addExpense, addExpenseData, categories } = useContext(FinancialDataContext);
   
   React.useEffect(() => {
-    if (data) {
-      const uniqueCategories = Array.from(new Set(data.categoriesByUserId.map((category: { name: string }) => category.name)));
-      setCategories(uniqueCategories);
+    if (categories) {
+      const uniqueCategories = Array.from(new Set(categories.map((category: { name: string }) => category.name)));
+      setOptions(uniqueCategories);
     }
-  }, [data, addExpenseData, loading])
+  }, [categories, addExpenseData])
 
-  const toLocalISOString = (date) => {
-    const tzOffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
-    const localISOTime = (new Date(date - tzOffset)).toISOString().slice(0,-1);
-    return localISOTime.split('T')[0];
-  };
+  // const toLocalISOString = (date) => {
+  //   const tzOffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
+  //   const localISOTime = (new Date(date - tzOffset)).toISOString().slice(0,-1);
+  //   return localISOTime.split('T')[0];
+  // };
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowDatePicker(false);
-    setDate(toLocalISOString(currentDate));
+    setDate(currentDate);
   };
 
   const handleSubmit = () => {
-    const categories = data.categoriesByUserId;
     const selectedCategoryObj = categories.find(category => category.name === selectedCategory);
     
     if (selectedCategoryObj) {
@@ -225,14 +196,14 @@ const AddExpenseModal = () => {
           <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Name" />
           <TextInput style={styles.input} value={amount} onChangeText={setAmount} keyboardType="numeric" placeholder="Amount" />
           <TouchableOpacity style={styles.input} onPress={() => setShowDatePicker(!showDatePicker)}>
-            <Text style={styles.text}>Billing Date: {date}</Text>
+            <Text style={styles.text}>Billing Date: {date ? format(date, 'MMMM dd, yyyy') : format(new Date(), 'MMMM dd, yyyy')}</Text>
           </TouchableOpacity>
            {showDatePicker && <DateTimePicker
               testID="dateTimePicker"
               mode={'date'}
               is24Hour={true}
               display="spinner"
-              value={new Date(date)}
+              value={date}
               onChange={onChange}
             />}
           <View>
@@ -243,7 +214,7 @@ const AddExpenseModal = () => {
               }}>
               <DropDownPicker
                   open={open}
-                  items={categories.map((category, index) => ({label: category, value: category, key: index}))}
+                  items={categories.map((category, index) => ({label: category.name, value: category.name, key: index}))}
                   value={selectedCategory}
                   setValue={setSelectedCategory}
                   containerStyle={{
@@ -266,6 +237,7 @@ const AddExpenseModal = () => {
                     shadowOpacity: 0.25, // Add shadow opacity
                     shadowRadius: 3.84, // Add shadow radius
                     elevation: 5, // Add elevation for Android
+                    // color: '#aaa',
                   }}
                   dropDownContainerStyle={{
                     borderWidth: 0,
@@ -281,8 +253,11 @@ const AddExpenseModal = () => {
                   labelStyle={{
                     color: '#aaa',
                   }}
+                  textStyle={{
+                    color: '#aaa'
+                  }}
                   setOpen={setOpen}
-                  setItems={setCategories}
+                  setItems={setOptions}
                   placeholder={'Category'}
               />
             </View>
@@ -292,7 +267,7 @@ const AddExpenseModal = () => {
           handleSubmit();
           closeModals();
         }}>
-          <Text style={styles.submitButtonText}>Submit</Text>
+          <Text style={styles.submitButtonText}>Add</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.cancelButton} onPress={() => closeModals()}>

@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   submitButton: {
-    marginTop: 40,
+    top: 60,
     alignItems: 'center',
     justifyContent: 'center',
     width: 80,
@@ -134,7 +134,7 @@ const ADD_CATEGORY = gql`
   }
 `
 
-const GET_EXPENSES_AND_CATEGORIES_BY_USER_ID = gql`
+const GET_FINANCES_BY_USER_ID = gql`
 query GetExpensesAndCategoriesByUserId($userId: Float!) {
   expensesByUserId(userId: $userId) {
     id
@@ -160,8 +160,8 @@ const AddCategoryModal = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [isPickerActive, setIsPickerActive] = useState(true);
 
-  const [addCategory, { data: addCategoryData }] = useMutation(ADD_CATEGORY, { refetchQueries: [{ query: GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, variables: {userId: 1} }] });
-  const { loading, error, data } = useQuery(GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, {
+  const [addCategory, { data: addCategoryData }] = useMutation(ADD_CATEGORY, { refetchQueries: [{ query: GET_FINANCES_BY_USER_ID, variables: {userId: 1} }] });
+  const { loading, error, data } = useQuery(GET_FINANCES_BY_USER_ID, {
     variables: { userId: 1 },
   });
   
@@ -247,7 +247,7 @@ const AddCategoryModal = () => {
               handleSubmit();
               closeModals();
             }}>
-              <Text style={styles.submitButtonText}>Submit</Text>
+              <Text style={styles.submitButtonText}>Add</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.cancelButton} onPress={() => closeModals()}>

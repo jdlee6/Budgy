@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
-export const GET_EXPENSES_AND_CATEGORIES_BY_USER_ID = gql`
-  query GetExpensesAndCategoriesByUserId($userId: Float!) {
+export const GET_FINANCES_BY_USER_ID = gql`
+  query GetFinancesByUserId($userId: Float!) {
     expensesByUserId(userId: $userId) {
       id
       name
@@ -14,8 +14,21 @@ export const GET_EXPENSES_AND_CATEGORIES_BY_USER_ID = gql`
         name
       }
     }
+    budgetsByUserId(userId: $userId) {
+      id
+      amount
+      categoryId
+      category { 
+        name
+      }
+    }
     categoriesByUserId(userId: $userId) {
+      id
       name
+    }
+    user(id: $userId) {
+      name
+      totalIncome
     }
   }
 `;

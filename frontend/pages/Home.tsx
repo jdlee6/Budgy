@@ -1,20 +1,31 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { useMutation, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import ExpensesTable from '../components/ExpenseTable/ExpenseTable';
 
 import AddBtn from '../components/AddBtn/AddBtn';
 import AddExpenseModal from '../components/AddExpenseModal/AddExpenseModal';
 import AddCategoryModal from '../components/AddCategoryModal/AddCategoryModal';
 import AddBudgetModal from '../components/AddBudgetModal/AddBudgetModal';
-import { UserActionDataContext } from '../context/UserActionDataContext';
+import { FinancialDataContext } from '../context/FinancialDataContext';
 import UserBalances from '../components/UserBalances/UserBalances';
 
-import { GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, GET_USER_BALANCES } from '../graphql/queries';
+import { GET_FINANCES_BY_USER_ID, GET_USER_BALANCES } from '../graphql/queries';
 import { ADD_EXPENSE } from '../graphql/mutations';
 
+const ADD_BUDGET = gql`
+  mutation AddBudget($newBudgetInput: CreateBudgetDto!) {
+    createBudget(newBudgetInput: $newBudgetInput) {
+      id
+      amount
+      userId
+      categoryId
+    }
+  }
+`
+
 const Home = () => {
-  const { loading: expensesLoading, error: queryError, data: expensesData } = useQuery(GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, {
+  const { loading: queryLoading, error: queryError, data: financialData } = useQuery(GET_FINANCES_BY_USER_ID, {
     variables: { userId: 1 },
   });
   
@@ -25,16 +36,29 @@ const Home = () => {
   const [addExpense, { data: addExpenseData }] = useMutation(ADD_EXPENSE, {
     // only observes ACTIVE queries
     refetchQueries: [
-      { query: GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, variables: { userId: 1 } },
+      { query: GET_FINANCES_BY_USER_ID, variables: { userId: 1 } },
     ],
   });
 
-  if (expensesLoading) return <Text>Loading...</Text>;
+  const [addBudget, { data: addBudgetData }] = useMutation(ADD_BUDGET, { refetchQueries: [{ query: GET_FINANCES_BY_USER_ID, variables: {userId: 1} }] });
+
+
+  React.useEffect(() => {console.log(financialData?.categoriesByUserId)}, [queryLoading]);
+
+  if (queryLoading) return <Text>Loading...</Text>;
 
   return (
     <>
      {/* Todo: Context for Data */}
-      <UserActionDataContext.Provider value={{ addExpense, addExpenseData, expenses: expensesData?.expensesByUserId, expensesLoading }}>
+     <FinancialDataContext.Provider value={{ 
+        addExpense, 
+        addExpenseData, 
+        expenses: financialData?.expensesByUserId, 
+        addBudget, addBudgetData, 
+        budgets: financialData?.budgetsByUserId,
+        categories: financialData?.categoriesByUserId,
+        user: financialData?.user,
+      }}>
         <UserBalances />
         <ExpensesTable />
         <AddBtn />
@@ -42,7 +66,7 @@ const Home = () => {
         <AddExpenseModal />
         <AddCategoryModal />
         <AddBudgetModal />
-      </UserActionDataContext.Provider>
+      </FinancialDataContext.Provider>
     </>
   );
 };

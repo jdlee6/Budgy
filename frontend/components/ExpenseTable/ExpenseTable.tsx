@@ -3,17 +3,17 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useMutation, gql } from '@apollo/client';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import ExpenseItem from '../ExpenseItem/ExpenseItem';
-import { UserActionDataContext } from '../../context/UserActionDataContext';
+import { FinancialDataContext } from '../../context/FinancialDataContext';
 
-import { GET_EXPENSES_AND_CATEGORIES_BY_USER_ID } from '../../graphql/queries';
+import { GET_FINANCES_BY_USER_ID } from '../../graphql/queries';
 import { DELETE_EXPENSE } from '../../graphql/mutations';
 
 const ExpensesTable = () => {
-  const { expenses } = useContext(UserActionDataContext);
+  const { expenses } = useContext(FinancialDataContext);
   const [deleteExpense, { loading: mutationLoading, error: mutationError }] = useMutation(DELETE_EXPENSE, {
     variables: { id: 1 },
     refetchQueries: [
-      { query: GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, variables: { userId: 1 } },
+      { query: GET_FINANCES_BY_USER_ID, variables: { userId: 1 } },
     ],
   });
 

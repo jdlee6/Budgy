@@ -1,37 +1,16 @@
 import React, { useContext } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import { gql, useQuery } from '@apollo/client';
-import { UserActionDataContext } from '../../context/UserActionDataContext';
+import { useQuery } from '@apollo/client';
+import { FinancialDataContext } from '../../context/FinancialDataContext';
 
-const GET_USER_BALANCES = gql`
-  query GetUserIncome($id: Float!) {
-    user(id: $id) {
-      name
-      totalIncome
-    }
-    budgetsByUserId(userId: $id) {
-      amount
-      category { 
-        name
-      }
-    }
-  }
-`
+import { GET_USER_BALANCES } from '../../graphql/queries';
 
 const UserBalances = () => {
   const userId = 1;
-  const { expenses, balances } = useContext(UserActionDataContext);
-  const { loading, error, data } = useQuery(GET_USER_BALANCES, {
-    variables: { id: userId },
-  });
+  const { expenses, budgets, user } = useContext(FinancialDataContext);
 
-  React.useEffect(() => {
-    console.log('balancdsae', expenses)
-  }, [balances, expenses]);
-
-  // Todo: Fix this
   const totalExpenses = expenses.reduce((acc, expense) => acc + expense.amount, 0);
-  const balanceAfterExpenses = (data?.user.totalIncome - totalExpenses).toFixed(2);
+  const balanceAfterExpenses = (user.totalIncome - totalExpenses).toFixed(2);
   const date = new Date(Date.now())
   const formattedDate = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
@@ -41,8 +20,8 @@ const UserBalances = () => {
     }
     return acc;
   }, {});
-  const budgets = data?.budgetsByUserId.map(budget => budget.category ? ({ amount: budget.amount, categoryName: budget.category.name }) : null);
-  const budgetsAfterExpenses = budgets?.map(budget => {
+  const formattedBudgets = budgets.map(budget => ({ amount: budget.amount, categoryName: budget.category.name }));
+  const budgetsAfterExpenses = formattedBudgets?.map(budget => {
     if (budget) {
       const totalExpenseForCategory = expensesByCategory[budget.categoryName] || 0;
       return { ...budget, remainingBudgetBalance: budget.amount - totalExpenseForCategory };
@@ -50,13 +29,13 @@ const UserBalances = () => {
     return null;
   }).filter(Boolean);
 
-  if (loading) return <Text>Loading...</Text>;
-  if (error) return <Text>Error :(</Text>;
+  // if (loading) return <Text>Loading...</Text>;
+  // if (error) return <Text>Error :(</Text>;
 
   return (
     <>
     <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-      <Text style={styles.income}>Monthly Income: ${data.user.totalIncome}</Text>
+      <Text style={styles.income}>Monthly Income: ${user.totalIncome}</Text>
       <Text style={styles.income}>{formattedDate}</Text>
     </View>
     <Text style={styles.income}>Remaining Balance: ${balanceAfterExpenses}</Text>

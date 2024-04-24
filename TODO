@@ -161,29 +161,44 @@ fixed bug where expense wouldn't render on table when created
   3. consume within ExpenseTable
 
 fix date selector bug within add expense modal
-
 update balances upon deletion of expense
+
+once budget is created render new data within userbalances.tsx
+fix date picker when creating an expense
+style dropdowns 
+submit -> add
 
 =======================================
 ==============IN PROGRESS==============
 =======================================
-- once budget is created re render user income data
-- once budget is deleted, re render user income data
-- once expense is deleted, re render user expense data
-  ** fix this!
+error handling
+  - cant create budget if total budgets > totalIncome
+  - cant create budget if budget already exists for category
+  - cant create category if category already exists
 
+sticky header nav
+sticky footer nav
+  - Home (center)
+  - Bank (income data)
+  - Profile
+  
 
 - look for ways to display percentage charts
+
+edit budget functionality (where)
+once budget is deleted, re render user income data
+
 - error handling
   if budget already exists for category, dont create
 
 on tap drag expense order
 
-edit budget functionality
 
 
 edit modal for expense
 deleting a category requires to refresh ui on demand
+
+page to edit income/add income
 
 
 backend:
@@ -331,3 +346,11 @@ NEEDED FEATURES
   npm run typeorm migration:revert - down functions
 
   use npm as package manager (not yarn)
+
+
+
+NOMENCLATURE
+  GET_FINANCES_BY_USER_ID
+    expenses
+    budgets
+    categories

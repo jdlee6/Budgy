@@ -12,6 +12,7 @@
     "@apollo/client": "^3.9.11",
     "@react-native-community/datetimepicker": "^7.7.0",
     "@react-native-picker/picker": "^2.7.5",
+    "date-fns": "^3.6.0",
     "expo": "~50.0.17",
     "expo-constants": "~15.4.6",
     "expo-linear-gradient": "~12.7.2",
