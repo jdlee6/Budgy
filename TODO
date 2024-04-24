@@ -169,6 +169,11 @@ style dropdowns
 submit -> add
 restore sorting function
 
+display progress bars for each budget category
+apply linear gradient to the progress bars
+  - customly created without library
+tweak styling to display balances
+
 =======================================
 ==============IN PROGRESS==============
 =======================================

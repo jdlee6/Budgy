@@ -10,7 +10,7 @@ const AddBtn = () => {
   useEffect(() => {
     Animated.timing(animation, {
       toValue: menuVisible ? 1 : 0,
-      duration: 140,
+      duration: 160,
       useNativeDriver: true,
     }).start();
   }, [menuVisible]);

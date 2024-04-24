@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import { useQuery } from '@apollo/client';
 import { FinancialDataContext } from '../../context/FinancialDataContext';
+// import { useQuery } from '@apollo/client';
+// import { GET_USER_BALANCES } from '../../graphql/queries';
+import { LinearGradient } from "expo-linear-gradient";
 
-import { GET_USER_BALANCES } from '../../graphql/queries';
 
 const UserBalances = () => {
   const userId = 1;
@@ -20,7 +21,7 @@ const UserBalances = () => {
     }
     return acc;
   }, {});
-  const formattedBudgets = budgets.map(budget => ({ amount: budget.amount, categoryName: budget.category.name }));
+  const formattedBudgets = budgets.map(budget => ({ amount: budget.amount, categoryName: budget.category.name, categoryColor: budget.category.color }));
   const budgetsAfterExpenses = formattedBudgets?.map(budget => {
     if (budget) {
       const totalExpenseForCategory = expensesByCategory[budget.categoryName] || 0;
@@ -44,12 +45,28 @@ const UserBalances = () => {
       Todo: Percentage charts of budget used
     */}
     {budgetsAfterExpenses.map((budget, index) => {
-      return (
-        <View key={index} style={{ marginTop: 8 }}>
-          <Text style={styles.income}>{budget.categoryName}</Text>
-          <Text style={styles.income}>Balance: ${budget.remainingBudgetBalance} / ${budget.amount}</Text>
-        </View>
-      );
+       const progress = budget.remainingBudgetBalance / budget.amount;
+        return (
+          <View key={index} style={{ marginTop: 8, flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View>
+              <View style={{ marginLeft: 16, flexDirection: 'row', alignItems: 'center' }}>
+                <View style={[styles.colorPreview, { backgroundColor: budget.categoryColor || 'white' }]} />
+                <Text style={styles.remaining}>{budget.categoryName}</Text>
+              </View>
+              <Text style={styles.income}>Balance: ${budget.remainingBudgetBalance} / ${budget.amount}</Text>
+            </View>
+
+            <View style={{width: 140, height: 12, margin: 16, borderRadius: 10, overflow: 'hidden', backgroundColor: '#e4e4e4'}}>
+              <View style={{width: progress * 140, height: 20}}>
+                <LinearGradient colors={['#a1e8a0', '#d4e3cf']} 
+                  start={{x: 0, y: 0}} 
+                  end={{x: 1, y: 0}} 
+                  style={StyleSheet.absoluteFill}
+                />
+              </View>
+            </View>
+          </View>
+        );
     })}
     </>
   );
@@ -66,6 +83,10 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     color: '#7c7e80',
   },
+  remaining: {
+    paddingLeft: 4,
+    color: '#7c7e80'
+  },
   title: {
     borderRadius: 6,
     color: '#a2bbf6',
@@ -79,6 +100,11 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Center items horizontally
     justifyContent: 'flex-start', // Center items vertically
     padding: 16, // Add padding
+  },
+  colorPreview: {
+    width: 10,
+    height: 10,
+    borderRadius: 50,
   },
   // ..
   // ...

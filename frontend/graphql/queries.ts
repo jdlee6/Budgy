@@ -20,6 +20,7 @@ export const GET_FINANCES_BY_USER_ID = gql`
       categoryId
       category { 
         name
+        color
       }
     }
     categoriesByUserId(userId: $userId) {
