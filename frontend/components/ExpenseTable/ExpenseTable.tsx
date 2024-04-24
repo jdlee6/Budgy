@@ -5,33 +5,15 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import ExpenseItem from '../ExpenseItem/ExpenseItem';
 import { UserActionDataContext } from '../../context/UserActionDataContext';
 
-const DELETE_EXPENSE = gql`
-  mutation DeleteExpense($id: Float!) {
-    deleteExpense(id: $id)
-  } 
-`;
-
-const GET_USER_BALANCES = gql`
-  query GetUserIncome($id: Float!) {
-    user(id: $id) {
-      name
-      totalIncome
-    }
-    budgetsByUserId(userId: $id) {
-      amount
-      category { 
-        name
-      }
-    }
-  }
-`
+import { GET_EXPENSES_AND_CATEGORIES_BY_USER_ID } from '../../graphql/queries';
+import { DELETE_EXPENSE } from '../../graphql/mutations';
 
 const ExpensesTable = () => {
-  const { expenses, refetchBalances } = useContext(UserActionDataContext);
+  const { expenses } = useContext(UserActionDataContext);
   const [deleteExpense, { loading: mutationLoading, error: mutationError }] = useMutation(DELETE_EXPENSE, {
     variables: { id: 1 },
     refetchQueries: [
-      { query: GET_USER_BALANCES, variables: { userId: 1 } },
+      { query: GET_EXPENSES_AND_CATEGORIES_BY_USER_ID, variables: { userId: 1 } },
     ],
   });
 

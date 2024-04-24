@@ -161,12 +161,12 @@ fixed bug where expense wouldn't render on table when created
   3. consume within ExpenseTable
 
 fix date selector bug within add expense modal
+
+update balances upon deletion of expense
+
 =======================================
 ==============IN PROGRESS==============
 =======================================
-FIX THIS!!
-- update balances upon deletion of expense
-
 - once budget is created re render user income data
 - once budget is deleted, re render user income data
 - once expense is deleted, re render user expense data
@@ -174,14 +174,10 @@ FIX THIS!!
 
 
 - look for ways to display percentage charts
-
 - error handling
   if budget already exists for category, dont create
 
-
 on tap drag expense order
-
-
 
 edit budget functionality
 

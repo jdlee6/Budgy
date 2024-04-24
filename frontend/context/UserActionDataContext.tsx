@@ -5,10 +5,6 @@ export type UserActionDataInterface = {
   addExpenseData: any,
   expenses: any,
   expensesLoading: boolean,
-  refetchBalances: () => void,
-  balances: any,
-  // addBudgetData: any,
-  // addCategoryData: any
 };
 
 export const UserActionDataContext = React.createContext<UserActionDataInterface>({
@@ -16,8 +12,4 @@ export const UserActionDataContext = React.createContext<UserActionDataInterface
   addExpenseData: null,
   expenses: null,
   expensesLoading: false,
-  refetchBalances: () => {},
-  balances: null,
-  // addBudgetData: null,
-  // addCategoryData: null,
 });

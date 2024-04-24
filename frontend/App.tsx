@@ -40,6 +40,7 @@ const App = () => {
 
   return (
     <ApolloProvider client={client}>
+      {/* Todo: Abstract this into Home */}
       <ModalContext.Provider value={{ expenseModalVisible, categoryModalVisible, budgetModalVisible, openExpenseModal, openCategoryModal, openBudgetModal, closeModals }}>
           <View style={styles.container}>
             <StatusBar barStyle="dark-content" />

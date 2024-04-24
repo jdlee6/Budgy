@@ -3,17 +3,11 @@ import {StyleSheet, Text, View} from 'react-native';
 import { gql, useQuery } from '@apollo/client';
 import { UserActionDataContext } from '../../context/UserActionDataContext';
 
-const GET_USER_INCOME = gql`
+const GET_USER_BALANCES = gql`
   query GetUserIncome($id: Float!) {
     user(id: $id) {
       name
       totalIncome
-    }
-    expensesByUserId(userId: $id) {
-      amount
-      category { 
-        name
-      }
     }
     budgetsByUserId(userId: $id) {
       amount
@@ -27,9 +21,13 @@ const GET_USER_INCOME = gql`
 const UserBalances = () => {
   const userId = 1;
   const { expenses, balances } = useContext(UserActionDataContext);
-  const { loading, error, data } = useQuery(GET_USER_INCOME, {
+  const { loading, error, data } = useQuery(GET_USER_BALANCES, {
     variables: { id: userId },
   });
+
+  React.useEffect(() => {
+    console.log('balancdsae', expenses)
+  }, [balances, expenses]);
 
   // Todo: Fix this
   const totalExpenses = expenses.reduce((acc, expense) => acc + expense.amount, 0);
