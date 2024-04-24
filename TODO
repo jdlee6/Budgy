@@ -167,6 +167,7 @@ once budget is created render new data within userbalances.tsx
 fix date picker when creating an expense
 style dropdowns 
 submit -> add
+restore sorting function
 
 =======================================
 ==============IN PROGRESS==============

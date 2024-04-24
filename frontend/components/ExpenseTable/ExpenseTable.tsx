@@ -9,7 +9,7 @@ import { GET_FINANCES_BY_USER_ID } from '../../graphql/queries';
 import { DELETE_EXPENSE } from '../../graphql/mutations';
 
 const ExpensesTable = () => {
-  const { expenses } = useContext(FinancialDataContext);
+  const { expenses, addExpenseData } = useContext(FinancialDataContext);
   const [deleteExpense, { loading: mutationLoading, error: mutationError }] = useMutation(DELETE_EXPENSE, {
     variables: { id: 1 },
     refetchQueries: [
@@ -25,38 +25,35 @@ const ExpensesTable = () => {
     setSortedExpenses(expenses)
   }, [expenses]);
 
-  // React.useEffect(() => {
-  //   console.log('yo', data?.expensesByUserId)
-  //   let expenses = data?.expensesByUserId || [];
+  React.useEffect(() => {
+    const newSortedExpenses = [...expenses].sort((a, b) => {
+      let comparisonA, comparisonB;
   
-  //   const newSortedExpenses = [...expenses].sort((a, b) => {
-  //     let comparisonA, comparisonB;
+      switch (sortField) {
+        case 'date':
+          comparisonA = new Date(a.billingDate).getTime();
+          comparisonB = new Date(b.billingDate).getTime();
+          break;
+        case 'name':
+          comparisonA = a.name.toLowerCase();
+          comparisonB = b.name.toLowerCase();
+          break;
+        case 'amount':
+          comparisonA = a.amount;
+          comparisonB = b.amount;
+          break;
+        default:
+          break;
+      }
   
-  //     switch (sortField) {
-  //       case 'date':
-  //         comparisonA = new Date(a.billingDate).getTime();
-  //         comparisonB = new Date(b.billingDate).getTime();
-  //         break;
-  //       case 'name':
-  //         comparisonA = a.name.toLowerCase();
-  //         comparisonB = b.name.toLowerCase();
-  //         break;
-  //       case 'amount':
-  //         comparisonA = a.amount;
-  //         comparisonB = b.amount;
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  
-  //     if (sortOrder === 'asc') {
-  //       return comparisonA < comparisonB ? -1 : 1;
-  //     } else {
-  //       return comparisonA > comparisonB ? -1 : 1;
-  //     }
-  //   });
-  //   setSortedExpenses(newSortedExpenses);
-  // }, [data, sortOrder, addExpenseData, sortField]);
+      if (sortOrder === 'asc') {
+        return comparisonA < comparisonB ? -1 : 1;
+      } else {
+        return comparisonA > comparisonB ? -1 : 1;
+      }
+    });
+    setSortedExpenses(newSortedExpenses);
+  }, [expenses, sortOrder, addExpenseData, sortField]);
 
   const handleDelete = async (id) => {
     // Optimistically remove the expense from the UI
