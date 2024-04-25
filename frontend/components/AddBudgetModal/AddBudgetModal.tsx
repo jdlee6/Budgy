@@ -4,6 +4,7 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import { ModalContext, ModalContextInterface } from '../../context/ModalContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { FinancialDataContext } from '../../context/FinancialDataContext';
+import Toast from 'react-native-root-toast';
 
 
 const styles = StyleSheet.create({
@@ -147,9 +148,25 @@ const AddBudgetModal = () => {
       }) 
         .then(() => {
           closeModals();
+          Toast.show('Budget added!', {
+            duration: 5000,
+            backgroundColor: '#a0fa9bff',
+            textColor: 'white',
+            shadowColor: '#bfbfbf',
+            opacity: 1,
+            position: -60,
+          });
         })
         .catch(error => {
-          console.error("Error adding expeanse: ", error);
+          console.error("Error adding budget: ", error);
+          Toast.show(`Error! ${error.message}`, {
+            duration: 5000 ,
+            backgroundColor: '#ff9d9d',
+            textColor: 'white',
+            shadowColor: '#bfbfbf',
+            opacity: 1,
+            position: -60,
+          });
         });
     }
     closeModals();

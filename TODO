@@ -174,22 +174,24 @@ apply linear gradient to the progress bars
   - customly created without library
 tweak styling to display balances
 
+error handling (backend)
+  - cant create budget if total budgets > totalIncome (b & f)
+  - cant create budget if budget already exists for category (b & f)
+  - cant create category if category already exists (b & f)
+  
 =======================================
 ==============IN PROGRESS==============
 =======================================
-error handling
-  - cant create budget if total budgets > totalIncome
-  - cant create budget if budget already exists for category
-  - cant create category if category already exists
-
 sticky header nav
 sticky footer nav
   - Home (center)
   - Bank (income data)
   - Profile
-  
 
-- look for ways to display percentage charts
+backend:
+  need to store amount saved
+    - initial savings entry
+    - add any leftover remaining balance at end of month
 
 edit budget functionality (where)
 once budget is deleted, re render user income data
@@ -207,18 +209,11 @@ deleting a category requires to refresh ui on demand
 page to edit income/add income
 
 
-backend:
-  - only 1 budget can exist per category
-
-
-look for library for colorwheel for user selection
 bg color for category chip-like components
 
 ui for delete/edit category?
 
-
-
-debug list error within modal
+analytics?
 
 
 add budget btn

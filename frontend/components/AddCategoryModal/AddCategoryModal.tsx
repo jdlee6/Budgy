@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
-import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { ModalContext } from '../../context/ModalContext';
-import ColorPicker from 'react-native-wheel-color-picker'
+import ColorPicker from 'react-native-wheel-color-picker';
+import Toast from 'react-native-root-toast';
 
 const styles = StyleSheet.create({
   fieldContainer: {
@@ -187,11 +188,27 @@ const AddCategoryModal = () => {
     }) 
       .then(() => {
         closeModals();
+        Toast.show('Category added!', {
+          duration: 5000,
+          backgroundColor: '#a0fa9b',
+          textColor: 'white',
+          shadowColor: '#bfbfbf',
+          opacity: 1,
+          position: -60,
+        });
       })
       .catch(error => {
-        console.error("Error adding expeanse: ", error);
+        console.error("Error adding category: ", error);
+        Toast.show(`Error! ${error.message}`, {
+          duration: 5000 ,
+          backgroundColor: '#ff9d9d',
+          shadowColor: '#bfbfbf',
+          textColor: 'white',
+          opacity: 1,
+          position: -60,
+        });
       });
-    closeModals();
+
   }
 
   React.useEffect(() => {console.log(color);}, [color])

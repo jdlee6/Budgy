@@ -53,7 +53,7 @@ const UserBalances = () => {
                 <View style={[styles.colorPreview, { backgroundColor: budget.categoryColor || 'white' }]} />
                 <Text style={styles.remaining}>{budget.categoryName}</Text>
               </View>
-              <Text style={styles.income}>Balance: ${budget.remainingBudgetBalance} / ${budget.amount}</Text>
+              <Text style={styles.income}>Balance: ${parseFloat(budget.remainingBudgetBalance).toFixed(2)} / ${budget.amount}</Text>
             </View>
 
             <View style={{width: 140, height: 12, margin: 16, borderRadius: 10, overflow: 'hidden', backgroundColor: '#e4e4e4'}}>

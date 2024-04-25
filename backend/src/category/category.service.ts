@@ -39,6 +39,13 @@ export class CategoryService {
   async create(
     newCategoryInput: CreateCategoryDto,
   ): Promise<CreateCategoryOutput> {
+    const existingCategory = await this.categoryRepository.findOne({
+      where: { name: newCategoryInput.name },
+    });
+    if (existingCategory) {
+      throw new Error(`Category ${newCategoryInput.name} already exists!`);
+    }
+
     const category = new Category();
     category.name = newCategoryInput.name;
     category.color = newCategoryInput.color;
