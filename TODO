@@ -178,16 +178,17 @@ error handling (backend)
   - cant create budget if total budgets > totalIncome (b & f)
   - cant create budget if budget already exists for category (b & f)
   - cant create category if category already exists (b & f)
-  
+
+created sticky footer nav
+implemented navigation on press
+  - appnavigator
+  - useNavigation()
+  - set default app bg color to white not grey
+
+
 =======================================
 ==============IN PROGRESS==============
 =======================================
-sticky header nav
-sticky footer nav
-  - Home (center)
-  - Bank (income data)
-  - Profile
-
 backend:
   need to store amount saved
     - initial savings entry
@@ -195,9 +196,6 @@ backend:
 
 edit budget functionality (where)
 once budget is deleted, re render user income data
-
-- error handling
-  if budget already exists for category, dont create
 
 on tap drag expense order
 

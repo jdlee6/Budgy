@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { Text, StyleSheet  } from 'react-native';
+import { useMutation, useQuery } from '@apollo/client';
 import ExpensesTable from '../components/ExpenseTable/ExpenseTable';
 
 import AddBtn from '../components/AddBtn/AddBtn';
@@ -9,20 +9,10 @@ import AddCategoryModal from '../components/AddCategoryModal/AddCategoryModal';
 import AddBudgetModal from '../components/AddBudgetModal/AddBudgetModal';
 import { FinancialDataContext } from '../context/FinancialDataContext';
 import UserBalances from '../components/UserBalances/UserBalances';
+import Footer from '../components/shared/Footer/Footer';
 
 import { GET_FINANCES_BY_USER_ID, GET_USER_BALANCES } from '../graphql/queries';
-import { ADD_EXPENSE } from '../graphql/mutations';
-
-const ADD_BUDGET = gql`
-  mutation AddBudget($newBudgetInput: CreateBudgetDto!) {
-    createBudget(newBudgetInput: $newBudgetInput) {
-      id
-      amount
-      userId
-      categoryId
-    }
-  }
-`
+import { ADD_EXPENSE, ADD_BUDGET } from '../graphql/mutations';
 
 const Home = () => {
   const { loading: queryLoading, error: queryError, data: financialData } = useQuery(GET_FINANCES_BY_USER_ID, {
@@ -59,9 +49,11 @@ const Home = () => {
         categories: financialData?.categoriesByUserId,
         user: financialData?.user,
       }}>
+
         <UserBalances />
         <ExpensesTable />
         <AddBtn />
+        <Footer />
 
         <AddExpenseModal />
         <AddCategoryModal />
@@ -72,3 +64,9 @@ const Home = () => {
 };
 
 export default Home;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#ffffff',
+  },
+});

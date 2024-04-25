@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql, useQuery } from '@apollo/client';
 import { ModalContext } from './context/ModalContext';
-import Home from './pages/Home';
+import AppNavigator from './navigation/AppNavigator';
+import { NavigationContainer } from '@react-navigation/native';
 
 const client = new ApolloClient({
   uri: 'http://192.168.1.158:3000/graphql',
@@ -39,16 +40,16 @@ const App = () => {
   };
 
   return (
-    <ApolloProvider client={client}>
-      {/* Todo: Abstract this into Home */}
-      <ModalContext.Provider value={{ expenseModalVisible, categoryModalVisible, budgetModalVisible, openExpenseModal, openCategoryModal, openBudgetModal, closeModals }}>
-          <View style={styles.container}>
+      <ApolloProvider client={client}>
+        {/* Todo: Abstract this into Home */}
+        <ModalContext.Provider value={{ expenseModalVisible, categoryModalVisible, budgetModalVisible, openExpenseModal, openCategoryModal, openBudgetModal, closeModals }}>
+          <NavigationContainer>
             <StatusBar barStyle="dark-content" />
             <Text style={styles.title}>Budgy</Text>
-            <Home />
-          </View>
-      </ModalContext.Provider>
-    </ApolloProvider>
+            <AppNavigator />
+          </NavigationContainer>
+        </ModalContext.Provider>
+      </ApolloProvider>
   );
 };
 

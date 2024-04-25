@@ -18,3 +18,14 @@ export const DELETE_EXPENSE = gql`
     deleteExpense(id: $id)
   } 
 `;
+
+export const ADD_BUDGET = gql`
+  mutation AddBudget($newBudgetInput: CreateBudgetDto!) {
+    createBudget(newBudgetInput: $newBudgetInput) {
+      id
+      amount
+      userId
+      categoryId
+    }
+  }
+`
