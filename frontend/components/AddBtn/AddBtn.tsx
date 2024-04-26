@@ -88,8 +88,6 @@ const styles = StyleSheet.create({
   menu: {
     position: 'absolute',
     bottom: '180%',
-    // Fix this:
-    // top: 100,
     backgroundColor: '#a2bbf6',
     padding: 10,
     borderRadius: 12,

@@ -187,11 +187,31 @@ implemented navigation on press
 
 apply scrollview to app content between header/fooder
 transparent footer when scrolling down
+move add btn to center of footer
+  - modal should pop up a little above
+fix placeholder font colors within modals
+  - remove Animated.View... for now
+
+look into progress circle libraries
+animate loading of progress circle
+style 1 digit value aka 0 on initial load
+style 2/3 digit values aka 40% % 100%
+animate ui on add
+animate ui on delete
+
+
+
 =======================================
 ==============IN PROGRESS==============
 =======================================
-move add btn to center of footer
-  - modal should pop up a little above
+need to figure out how to render a new circle for newly created budget
+
+style font
+style header
+
+fix open popover bug 
+  - close when touched whenever on screen
+
 
 
 

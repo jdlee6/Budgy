@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    backgroundColor: 'grey', // Semi-transparent background
+    backgroundColor: 'rgba(255, 255, 255, 0.5)', // Semi-transparent background
     padding: 30,
     height: 80,
   },

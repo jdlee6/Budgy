@@ -15,13 +15,12 @@ import { GET_FINANCES_BY_USER_ID, GET_USER_BALANCES } from '../graphql/queries';
 import { ADD_EXPENSE, ADD_BUDGET } from '../graphql/mutations';
 
 const Home = () => {
-  const [menuVisible, setMenuVisible] = useState(false);
 
   const { loading: queryLoading, error: queryError, data: financialData } = useQuery(GET_FINANCES_BY_USER_ID, {
     variables: { userId: 1 },
   });
   
-  const { loading, error, data } = useQuery(GET_USER_BALANCES, {
+  const { loading, error, data: balances, refetch: refetchUserBalances } = useQuery(GET_USER_BALANCES, {
     variables: { userId: 1 },
   });
 
@@ -34,21 +33,19 @@ const Home = () => {
 
   const [addBudget, { data: addBudgetData }] = useMutation(ADD_BUDGET, { refetchQueries: [{ query: GET_FINANCES_BY_USER_ID, variables: {userId: 1} }] });
 
-
-  React.useEffect(() => {console.log(financialData?.categoriesByUserId)}, [queryLoading]);
+  const scrollY = React.useRef(new Animated.Value(0)).current;
+  const [menuVisible, setMenuVisible] = useState(false);
 
   if (queryLoading) return <Text>Loading...</Text>;
 
-  const scrollY = React.useRef(new Animated.Value(0)).current;
-  const footerOpacity = scrollY.interpolate({
-    inputRange: [0, 50],
-    outputRange: [1, 0.5],
-    extrapolate: 'clamp',
-  })
+  // const footerOpacity = scrollY.interpolate({
+  //   inputRange: [0, 50],
+  //   outputRange: [1, 0.5],
+  //   extrapolate: 'clamp',
+  // })
 
   return (
     <>
-     {/* Todo: Context for Data */}
      <FinancialDataContext.Provider value={{ 
         addExpense, 
         addExpenseData, 
@@ -57,30 +54,18 @@ const Home = () => {
         budgets: financialData?.budgetsByUserId,
         categories: financialData?.categoriesByUserId,
         user: financialData?.user,
+        balances: balances,
+        refetchUserBalances: refetchUserBalances
       }}>
-        {/* <TouchableWithoutFeedback> */}
-        {/* <TouchableOpacity onPress={() => setMenuVisible(false)}> */}
-          <ExpensesTable scrollY={scrollY} />
-          <Animated.View style={{ opacity: footerOpacity }}>
-            <Footer menuVisible={menuVisible} setMenuVisible={setMenuVisible} />
-          </Animated.View>
-          {/* </TouchableOpacity> */}
-        {/* </TouchableWithoutFeedback> */}
+        <ExpensesTable scrollY={scrollY} />
+        <Footer menuVisible={menuVisible} setMenuVisible={setMenuVisible} />
 
         <AddExpenseModal />
         <AddCategoryModal />
         <AddBudgetModal />
-
-
       </FinancialDataContext.Provider>
     </>
   );
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#ffffff',
-  },
-});

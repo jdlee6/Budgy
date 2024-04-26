@@ -8,7 +8,9 @@ export type FinancialDataInterface = {
   expenses: any,
   budgets: any,
   user: any,
-  categories: any
+  categories: any,
+  balances: any,
+  refetchUserBalances: any;
 };
 
 export const FinancialDataContext = React.createContext<FinancialDataInterface>({
@@ -19,5 +21,7 @@ export const FinancialDataContext = React.createContext<FinancialDataInterface>(
   expenses: null,
   budgets: null,
   user: null,
-  categories: null
+  categories: null,
+  balances: null,
+  refetchUserBalances: null,
 });

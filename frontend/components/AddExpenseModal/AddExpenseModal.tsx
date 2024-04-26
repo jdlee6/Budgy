@@ -125,7 +125,7 @@ const AddExpenseModal = () => {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(new Date());
   
-  const { addExpense, addExpenseData, categories } = useContext(FinancialDataContext);
+  const { addExpense, addExpenseData, categories, refetchUserBalances } = useContext(FinancialDataContext);
   
   React.useEffect(() => {
     if (categories) {
@@ -133,12 +133,6 @@ const AddExpenseModal = () => {
       setOptions(uniqueCategories);
     }
   }, [categories, addExpenseData])
-
-  // const toLocalISOString = (date) => {
-  //   const tzOffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
-  //   const localISOTime = (new Date(date - tzOffset)).toISOString().slice(0,-1);
-  //   return localISOTime.split('T')[0];
-  // };
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -163,10 +157,12 @@ const AddExpenseModal = () => {
         },
       }) 
         .then(() => {
-          closeModals();
+          refetchUserBalances({ id: parseFloat(1) }).then((result) => {
+            console.log(result);
+          })
         })
         .catch(error => {
-          console.error("Error adding expeanse: ", error);
+          console.error("Error adding expense: ", error.message);
         });
     }
     closeModals();
@@ -180,16 +176,6 @@ const AddExpenseModal = () => {
         visible={expenseModalVisible}
         onRequestClose={closeModals}
       >
-          {/* <ScrollView
-            contentContainerStyle={{ flexGrow: 1 }}
-            onScrollEndDrag={(event) => {
-              if (event.nativeEvent.contentOffset.y < 0) {
-                closeModals();
-              }
-            }}
-            scrollEventThrottle={16}
-            keyboardShouldPersistTaps="always"
-          > */}
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
           <Text style={styles.title}>Add Expense</Text>
@@ -214,7 +200,7 @@ const AddExpenseModal = () => {
               }}>
               <DropDownPicker
                   open={open}
-                  items={categories.map((category, index) => ({label: category.name, value: category.name, key: index}))}
+                  items={categories?.map((category, index) => ({label: category.name, value: category.name, key: index}))}
                   value={selectedCategory}
                   setValue={setSelectedCategory}
                   containerStyle={{
@@ -275,7 +261,6 @@ const AddExpenseModal = () => {
         </TouchableOpacity>
         </View>
         </View>
-        {/* </ScrollView> */}
       </Modal>
     </View>
   );
