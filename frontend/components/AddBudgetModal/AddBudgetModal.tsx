@@ -158,7 +158,7 @@ const AddBudgetModal = () => {
           });
         })
         .catch(error => {
-          console.error("Error adding budget: ", error);
+          // console.error("Error adding budget: ", error);
           Toast.show(`Error! ${error.message}`, {
             duration: 5000 ,
             backgroundColor: '#ff9d9d',

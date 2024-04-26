@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Animated, View, Text, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { ModalContextInterface, ModalContext } from '../../context/ModalContext';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
-const AddBtn = () => {
-  const [menuVisible, setMenuVisible] = useState(false);
+const AddBtn = ({ menuVisible, setMenuVisible }) => {
   const { openExpenseModal, openCategoryModal, openBudgetModal } = useContext<ModalContextInterface>(ModalContext)
   const animation = new Animated.Value(0);
 
@@ -21,10 +22,10 @@ const AddBtn = () => {
   });
 
   return (
-    <TouchableWithoutFeedback onPress={() => setMenuVisible(false)}>
       <View style={styles.container}>
-        <TouchableOpacity style={styles.button} onPress={() => setMenuVisible(!menuVisible)}>
-          <Text style={styles.btnText}>+ Add</Text>
+        <TouchableOpacity onPress={() => setMenuVisible(!menuVisible)}>
+          {/* <Text style={styles.btnText}></Text> */}
+          <FontAwesomeIcon icon={faPlusCircle}  style={{color: "#a2bbf6",}} size={30} />
         </TouchableOpacity>
 
         {/* Todo: add icons next to these */}
@@ -56,7 +57,6 @@ const AddBtn = () => {
           </Animated.View>
         )}
       </View>
-    </TouchableWithoutFeedback>
   );
 };
 
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
   },
   menu: {
     position: 'absolute',
+    bottom: '180%',
     // Fix this:
     // top: 100,
     backgroundColor: '#a2bbf6',

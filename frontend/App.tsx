@@ -44,8 +44,8 @@ const App = () => {
         {/* Todo: Abstract this into Home */}
         <ModalContext.Provider value={{ expenseModalVisible, categoryModalVisible, budgetModalVisible, openExpenseModal, openCategoryModal, openBudgetModal, closeModals }}>
           <NavigationContainer>
-            <StatusBar barStyle="dark-content" />
-            <Text style={styles.title}>Budgy</Text>
+            {/* <StatusBar barStyle="dark-content" /> */}
+            {/* <Text style={styles.title}>Budgy</Text> */}
             <AppNavigator />
           </NavigationContainer>
         </ModalContext.Provider>

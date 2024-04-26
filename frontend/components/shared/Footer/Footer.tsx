@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse, faSackDollar } from '@fortawesome/free-solid-svg-icons';
 import { useNavigation } from '@react-navigation/native';
+import AddBtn from '../../AddBtn/AddBtn';
 
-const Footer = () => {
+const Footer = ({ menuVisible, setMenuVisible }) => {
   const navigation = useNavigation(); 
   return (
     <View style={styles.footer}>
     <TouchableOpacity onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Home' }]})}>
       <FontAwesomeIcon icon={faHouse} style={{color: "#a2bbf6",}} size={30} />
     </TouchableOpacity>
+    <AddBtn menuVisible={menuVisible} setMenuVisible={setMenuVisible} />
     <TouchableOpacity onPress={() =>  navigation.reset({ index: 0, routes: [{ name: 'Income' }]})}>
       <FontAwesomeIcon icon={faSackDollar} style={{color: "#a2bbf6",}} size={30} />
     </TouchableOpacity>
@@ -29,9 +31,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    backgroundColor: '#e8eef2', // Semi-transparent background
-    padding: 10,
-    height: 80
+    backgroundColor: 'grey', // Semi-transparent background
+    padding: 30,
+    height: 80,
   },
   footerItem: {
     flex: 1,

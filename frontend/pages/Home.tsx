@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, StyleSheet  } from 'react-native';
+import React, { useState } from 'react';
+import { Text, StyleSheet, Animated, TouchableWithoutFeedback, View, TouchableOpacity } from 'react-native';
 import { useMutation, useQuery } from '@apollo/client';
 import ExpensesTable from '../components/ExpenseTable/ExpenseTable';
 
@@ -15,6 +15,8 @@ import { GET_FINANCES_BY_USER_ID, GET_USER_BALANCES } from '../graphql/queries';
 import { ADD_EXPENSE, ADD_BUDGET } from '../graphql/mutations';
 
 const Home = () => {
+  const [menuVisible, setMenuVisible] = useState(false);
+
   const { loading: queryLoading, error: queryError, data: financialData } = useQuery(GET_FINANCES_BY_USER_ID, {
     variables: { userId: 1 },
   });
@@ -37,6 +39,13 @@ const Home = () => {
 
   if (queryLoading) return <Text>Loading...</Text>;
 
+  const scrollY = React.useRef(new Animated.Value(0)).current;
+  const footerOpacity = scrollY.interpolate({
+    inputRange: [0, 50],
+    outputRange: [1, 0.5],
+    extrapolate: 'clamp',
+  })
+
   return (
     <>
      {/* Todo: Context for Data */}
@@ -49,15 +58,20 @@ const Home = () => {
         categories: financialData?.categoriesByUserId,
         user: financialData?.user,
       }}>
-
-        <UserBalances />
-        <ExpensesTable />
-        <AddBtn />
-        <Footer />
+        {/* <TouchableWithoutFeedback> */}
+        {/* <TouchableOpacity onPress={() => setMenuVisible(false)}> */}
+          <ExpensesTable scrollY={scrollY} />
+          <Animated.View style={{ opacity: footerOpacity }}>
+            <Footer menuVisible={menuVisible} setMenuVisible={setMenuVisible} />
+          </Animated.View>
+          {/* </TouchableOpacity> */}
+        {/* </TouchableWithoutFeedback> */}
 
         <AddExpenseModal />
         <AddCategoryModal />
         <AddBudgetModal />
+
+
       </FinancialDataContext.Provider>
     </>
   );

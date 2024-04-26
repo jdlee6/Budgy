@@ -13,7 +13,7 @@ const AppNavigator = () => {
     >
       <Stack.Screen name='Home' component={Home} options ={{
           animationEnabled: false,
-          headerShown: false,
+          // headerShown: false,
         }} />
       <Stack.Screen name='Income' component={Income} options={{
           animationEnabled: false,

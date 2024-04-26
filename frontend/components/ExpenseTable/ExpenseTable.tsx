@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { useMutation, gql } from '@apollo/client';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import ExpenseItem from '../ExpenseItem/ExpenseItem';
@@ -7,8 +7,12 @@ import { FinancialDataContext } from '../../context/FinancialDataContext';
 
 import { GET_FINANCES_BY_USER_ID } from '../../graphql/queries';
 import { DELETE_EXPENSE } from '../../graphql/mutations';
+import UserBalances from '../UserBalances/UserBalances';
+import AddBtn from '../AddBtn/AddBtn';
 
-const ExpensesTable = () => {
+const AnimatedSwipeListView = Animated.createAnimatedComponent(SwipeListView);
+
+const ExpensesTable = ({ scrollY }) => {
   const { expenses, addExpenseData } = useContext(FinancialDataContext);
   const [deleteExpense, { loading: mutationLoading, error: mutationError }] = useMutation(DELETE_EXPENSE, {
     variables: { id: 1 },
@@ -78,13 +82,21 @@ const ExpensesTable = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.expenseItem}>
-        <Text style={styles.expenseDate} onPress={() => toggleSort('date')}>Date</Text>
-        <Text style={styles.expenseName} onPress={() => toggleSort('name')}>Name</Text>
-        <Text style={styles.expenseAmount} onPress={() => toggleSort('amount')}>Amount</Text>
-      </View>
-      <SwipeListView
+      
+      <AnimatedSwipeListView
         data={sortedExpenses}
+        contentContainerStyle={{ paddingBottom: 80 }}
+        ListHeaderComponent={
+        <>
+          <UserBalances />
+          <View style={styles.expenseItem}>
+            <Text style={styles.expenseDate} onPress={() => toggleSort('date')}>Date</Text>
+            <Text style={styles.expenseName} onPress={() => toggleSort('name')}>Name</Text>
+            <Text style={styles.expenseAmount} onPress={() => toggleSort('amount')}>Amount</Text>
+          </View>
+        </>
+        } 
+        // ListFooterComponent={<AddBtn />}
         renderItem={({ item: expense, index }) => (
           <ExpenseItem key={index} expense={expense} />
         )}
@@ -98,6 +110,10 @@ const ExpensesTable = () => {
         )}
         leftOpenValue={75}
         rightOpenValue={-75}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: true }
+        )}
       />        
     </View>
   );
@@ -105,7 +121,8 @@ const ExpensesTable = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#a5d4f1',
+    backgroundColor: '#ffffff',
+    marginTop: 8,
   },
   row: {
     flexDirection: 'row',

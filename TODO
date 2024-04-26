@@ -185,41 +185,48 @@ implemented navigation on press
   - useNavigation()
   - set default app bg color to white not grey
 
-
+apply scrollview to app content between header/fooder
+transparent footer when scrolling down
 =======================================
 ==============IN PROGRESS==============
 =======================================
+move add btn to center of footer
+  - modal should pop up a little above
+
+
+
+error handling:
+  0 or "" values for category, budget, expense
+  cant add another expense once remainingBudgetBalance is 0
+  camelcase all inputs when creating to avoid duplicates
+    - category
+    - budget
+    - expense
+
+edit modal for expense
+edit budget functionality (where)
+edit category functionality (where)
+ui for delete/edit category?
+deleting a category requires to refresh ui on demand
+
+page to edit income/add income
+
 backend:
   need to store amount saved
     - initial savings entry
     - add any leftover remaining balance at end of month
 
-edit budget functionality (where)
-once budget is deleted, re render user income data
 
 on tap drag expense order
 
 
-
-edit modal for expense
-deleting a category requires to refresh ui on demand
-
-page to edit income/add income
-
-
 bg color for category chip-like components
-
-ui for delete/edit category?
-
 analytics?
-
 
 add budget btn
 add budget modal
 
-
 display view for budgets for a category
-
 tab for entering income
 
 fix padding for delete 

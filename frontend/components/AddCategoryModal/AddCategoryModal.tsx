@@ -198,7 +198,7 @@ const AddCategoryModal = () => {
         });
       })
       .catch(error => {
-        console.error("Error adding category: ", error);
+        // console.error("Error adding category: ", error);
         Toast.show(`Error! ${error.message}`, {
           duration: 5000 ,
           backgroundColor: '#ff9d9d',

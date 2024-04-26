@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#ffffff', // light grey color
+    marginTop: 8,
   },
   income: {
     paddingLeft: 16,
