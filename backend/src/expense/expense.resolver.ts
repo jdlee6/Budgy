@@ -13,9 +13,7 @@ import {
 
 @Resolver('Expense')
 export class ExpenseResolver {
-  constructor(
-    private readonly expenseService: ExpenseService, 
-  ) {}
+  constructor(private readonly expenseService: ExpenseService) {}
   @Query(() => [Expense])
   async expenses() {
     return this.expenseService.findAll();

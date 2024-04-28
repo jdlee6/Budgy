@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Text, StyleSheet, Animated, TouchableWithoutFeedback, View, TouchableOpacity } from 'react-native';
 import { useMutation, useQuery } from '@apollo/client';
 import ExpensesTable from '../components/ExpenseTable/ExpenseTable';
@@ -8,14 +8,15 @@ import AddExpenseModal from '../components/AddExpenseModal/AddExpenseModal';
 import AddCategoryModal from '../components/AddCategoryModal/AddCategoryModal';
 import AddBudgetModal from '../components/AddBudgetModal/AddBudgetModal';
 import { FinancialDataContext } from '../context/FinancialDataContext';
-import UserBalances from '../components/UserBalances/UserBalances';
+import { ModalContext } from '../context/ModalContext';
+// import UserBalances from '../components/UserBalances/UserBalances';
 import Footer from '../components/shared/Footer/Footer';
 
 import { GET_FINANCES_BY_USER_ID, GET_USER_BALANCES } from '../graphql/queries';
-import { ADD_EXPENSE, ADD_BUDGET } from '../graphql/mutations';
+import { ADD_EXPENSE, ADD_BUDGET, UPDATE_EXPENSE } from '../graphql/mutations';
 
 const Home = () => {
-
+  const { updateExpenseModalVisible } = useContext(ModalContext);
   const { loading: queryLoading, error: queryError, data: financialData } = useQuery(GET_FINANCES_BY_USER_ID, {
     variables: { userId: 1 },
   });
@@ -31,7 +32,15 @@ const Home = () => {
     ],
   });
 
+  const [updateExpense, { data: updateExpenseData }] = useMutation(UPDATE_EXPENSE, {
+    // only observes ACTIVE queries
+    refetchQueries: [
+      { query: GET_FINANCES_BY_USER_ID, variables: { userId: 1 } },
+    ],
+  })
+  
   const [addBudget, { data: addBudgetData }] = useMutation(ADD_BUDGET, { refetchQueries: [{ query: GET_FINANCES_BY_USER_ID, variables: {userId: 1} }] });
+
 
   const scrollY = React.useRef(new Animated.Value(0)).current;
   const [menuVisible, setMenuVisible] = useState(false);
@@ -49,6 +58,8 @@ const Home = () => {
      <FinancialDataContext.Provider value={{ 
         addExpense, 
         addExpenseData, 
+        updateExpense,
+        updateExpenseData,
         expenses: financialData?.expensesByUserId, 
         addBudget, addBudgetData, 
         budgets: financialData?.budgetsByUserId,
@@ -63,6 +74,8 @@ const Home = () => {
         <AddExpenseModal />
         <AddCategoryModal />
         <AddBudgetModal />
+
+        {/* {updateExpenseModalVisible && <UpdateExpenseModal id={updateExpenseId} />} */}
       </FinancialDataContext.Provider>
     </>
   );

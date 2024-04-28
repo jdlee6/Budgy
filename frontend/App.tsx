@@ -4,6 +4,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider, gql, useQuery } from '@apo
 import { ModalContext } from './context/ModalContext';
 import AppNavigator from './navigation/AppNavigator';
 import { NavigationContainer } from '@react-navigation/native';
+import UpdateExpenseModal from './components/UpdateExpenseModal/UpdateExpenseModal';
 
 const client = new ApolloClient({
   uri: 'http://192.168.1.158:3000/graphql',
@@ -14,7 +15,9 @@ const App = () => {
   const [expenseModalVisible, setExpenseModalVisible] = useState<boolean>(false);
   const [categoryModalVisible, setCategoryModalVisible] = useState<boolean>(false);
   const [budgetModalVisible, setBudgetModalVisible] = useState<boolean>(false);
-
+  const [updateExpenseModalVisible, setUpdateExpenseModalVisible] = useState<boolean>(false);
+  const [updateExpenseId, setUpdateExpenseId] = useState<number | null>(null);
+  
   const openExpenseModal = () => {
     setBudgetModalVisible(false);
     setCategoryModalVisible(false);
@@ -33,6 +36,11 @@ const App = () => {
     setExpenseModalVisible(false);
   };
 
+  const openUpdateExpenseModal = (id: number) => {
+    setUpdateExpenseModalVisible(true);
+    setUpdateExpenseId(id);
+  };
+
   const closeModals = () => {
     setBudgetModalVisible(false);
     setCategoryModalVisible(false);
@@ -42,7 +50,7 @@ const App = () => {
   return (
       <ApolloProvider client={client}>
         {/* Todo: Abstract this into Home */}
-        <ModalContext.Provider value={{ expenseModalVisible, categoryModalVisible, budgetModalVisible, openExpenseModal, openCategoryModal, openBudgetModal, closeModals }}>
+        <ModalContext.Provider value={{ expenseModalVisible, categoryModalVisible, budgetModalVisible, updateExpenseModalVisible, openExpenseModal, openCategoryModal, openBudgetModal, openUpdateExpenseModal, closeModals }}>
           <NavigationContainer>
             {/* <StatusBar barStyle="dark-content" /> */}
             {/* <Text style={styles.title}>Budgy</Text> */}

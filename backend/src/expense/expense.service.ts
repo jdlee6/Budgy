@@ -62,12 +62,13 @@ export class ExpenseService {
       );
     }
 
-    Object.assign(expense, updateExpenseDto);
+    Object.assign(expense, { ...updateExpenseDto, id: expense.id });
     const updatedExpense = await this.expenseRepository.save(expense);
 
     return {
       id: updatedExpense.id,
       name: updatedExpense.name,
+      billingDate: updatedExpense.billingDate,
       amount: updatedExpense.amount,
       recurrence: updatedExpense.recurrence,
     };

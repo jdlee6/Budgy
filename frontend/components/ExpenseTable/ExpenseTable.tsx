@@ -9,11 +9,13 @@ import { GET_FINANCES_BY_USER_ID } from '../../graphql/queries';
 import { DELETE_EXPENSE } from '../../graphql/mutations';
 import UserBalances from '../UserBalances/UserBalances';
 import AddBtn from '../AddBtn/AddBtn';
+import { ModalContext } from '../../context/ModalContext';
 
 const AnimatedSwipeListView = Animated.createAnimatedComponent(SwipeListView);
 
 const ExpensesTable = ({ scrollY }) => {
   const { expenses, addExpenseData } = useContext(FinancialDataContext);
+  const { openUpdateExpenseModal } = useContext(ModalContext);
   const [deleteExpense, { loading: mutationLoading, error: mutationError }] = useMutation(DELETE_EXPENSE, {
     variables: { id: 1 },
     refetchQueries: [
@@ -72,6 +74,10 @@ const ExpensesTable = ({ scrollY }) => {
     }
   };
 
+  const handleUpdateExpense = (id: number) => {
+    openUpdateExpenseModal(id);
+  };
+
   const toggleSort = (field: 'date' | 'name' | 'amount' | 'category') => {
     setSortField(field);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
@@ -102,7 +108,8 @@ const ExpensesTable = ({ scrollY }) => {
         )}
         renderHiddenItem={({ item: expense }, rowMap) => (
           <View style={styles.rowBack}>
-            <Text style={styles.backTextWhite}>Edit</Text>
+            {/* open edit modal */}
+            <Text style={styles.backTextWhite} onPress={() => handleUpdateExpense(expense.id)}>Edit</Text>
             <TouchableOpacity onPress={() => handleDelete(expense.id)}>
               <Text style={styles.backTextWhite}>Delete</Text>
             </TouchableOpacity>

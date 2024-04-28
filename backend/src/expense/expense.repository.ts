@@ -16,11 +16,12 @@ export class ExpenseRepository extends Repository<Expense> {
   }
 
   async findExpensesByUserId(userId: number): Promise<any> {
-    return this.expenseRepository.createQueryBuilder('expense')
-    .innerJoinAndSelect('expense.category', 'category')
-    .where('expense.userId = :userId', { userId })
-    .getMany()
-}
+    return this.expenseRepository
+      .createQueryBuilder('expense')
+      .innerJoinAndSelect('expense.category', 'category')
+      .where('expense.userId = :userId', { userId })
+      .getMany();
+  }
 
   // your other custom methods in your repo...
 }

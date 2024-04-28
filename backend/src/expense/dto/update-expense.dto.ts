@@ -12,6 +12,9 @@ export class UpdateExpenseDto {
   amount: number;
 
   @Field()
+  billingDate: Date;
+
+  @Field()
   recurrence: boolean;
 }
 
@@ -25,6 +28,9 @@ export class UpdateExpenseOutput {
 
   @Field()
   amount: number;
+
+  @Field()
+  billingDate: Date;
 
   @Field()
   recurrence: boolean;

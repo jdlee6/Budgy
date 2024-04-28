@@ -200,20 +200,15 @@ animate ui on add
 animate ui on delete
 
 
-
 =======================================
 ==============IN PROGRESS==============
 =======================================
 need to figure out how to render a new circle for newly created budget
-
 style font
 style header
 
 fix open popover bug 
   - close when touched whenever on screen
-
-
-
 
 error handling:
   0 or "" values for category, budget, expense
@@ -236,33 +231,22 @@ backend:
     - initial savings entry
     - add any leftover remaining balance at end of month
 
-
 on tap drag expense order
-
 
 bg color for category chip-like components
 analytics?
-
 add budget btn
 add budget modal
 
 display view for budgets for a category
 tab for entering income
-
 fix padding for delete 
 fix padding for edit
-
 edit function on press
   - pop open edit modal
 
-
 find a way to add buttons
-
-
-
 month view functions:
-
-
 
 - starting frontend
   /: main route
@@ -271,13 +255,6 @@ month view functions:
     button/modal action for deleting an expense
 
     restructure directory for graphql queries
-   
-
-
-
-
-
-
 
 NEEDED FEATURES
   - cross out expense or marked off as complete if date is passed
@@ -293,8 +270,6 @@ NEEDED FEATURES
   * auth0
 - logic for handling every day of the month? (keeping a streak)
 
-
-
 - design pattern:
   1. class define fields/columns
   2. define service file
@@ -309,7 +284,6 @@ NEEDED FEATURES
   Create a UserService class as usual (user.service.ts file)
   Import the UserRepository into your UserService
   Update UserModule in order to provide the UserRepository and needed UserEntity
-
 
 ** BACKEND
   1. Expense model
@@ -343,8 +317,6 @@ NEEDED FEATURES
     3. Create category with user id
     4. Update category by category id
 
-
-
   List of available functions:
     GET users [x]
     GET users/<:id>/expenses [x]
@@ -362,7 +334,6 @@ NEEDED FEATURES
     GET budget 
     POST budget {:newBudgetInput}
   
-
 =======================================
 ===============COMMANDS================
 =======================================
@@ -372,8 +343,6 @@ NEEDED FEATURES
   npm run typeorm migration:revert - down functions
 
   use npm as package manager (not yarn)
-
-
 
 NOMENCLATURE
   GET_FINANCES_BY_USER_ID

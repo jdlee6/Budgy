@@ -13,6 +13,19 @@ export const ADD_EXPENSE = gql`
   }
 `
 
+export const UPDATE_EXPENSE = gql`
+  mutation UpdateExpense($updateExpenseInput: UpdateExpenseDto!) {
+    updateExpense(updateExpenseInput: $updateExpenseInput) {
+      id
+      name
+      amount
+      recurrence
+      billingDate
+      userId
+    }
+  }
+`
+
 export const DELETE_EXPENSE = gql`
   mutation DeleteExpense($id: Float!) {
     deleteExpense(id: $id)
