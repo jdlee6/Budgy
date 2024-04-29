@@ -21,7 +21,6 @@ export const UPDATE_EXPENSE = gql`
       amount
       recurrence
       billingDate
-      userId
     }
   }
 `

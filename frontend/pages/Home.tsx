@@ -9,6 +9,7 @@ import AddCategoryModal from '../components/AddCategoryModal/AddCategoryModal';
 import AddBudgetModal from '../components/AddBudgetModal/AddBudgetModal';
 import { FinancialDataContext } from '../context/FinancialDataContext';
 import { ModalContext } from '../context/ModalContext';
+import UpdateExpenseModal from '../components/UpdateExpenseModal/UpdateExpenseModal';
 // import UserBalances from '../components/UserBalances/UserBalances';
 import Footer from '../components/shared/Footer/Footer';
 
@@ -16,7 +17,8 @@ import { GET_FINANCES_BY_USER_ID, GET_USER_BALANCES } from '../graphql/queries';
 import { ADD_EXPENSE, ADD_BUDGET, UPDATE_EXPENSE } from '../graphql/mutations';
 
 const Home = () => {
-  const { updateExpenseModalVisible } = useContext(ModalContext);
+  const { updateExpenseModalVisible, updateExpenseId } = useContext(ModalContext);
+
   const { loading: queryLoading, error: queryError, data: financialData } = useQuery(GET_FINANCES_BY_USER_ID, {
     variables: { userId: 1 },
   });
@@ -75,7 +77,7 @@ const Home = () => {
         <AddCategoryModal />
         <AddBudgetModal />
 
-        {/* {updateExpenseModalVisible && <UpdateExpenseModal id={updateExpenseId} />} */}
+        {updateExpenseModalVisible && <UpdateExpenseModal id={updateExpenseId} />}
       </FinancialDataContext.Provider>
     </>
   );

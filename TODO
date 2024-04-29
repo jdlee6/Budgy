@@ -200,9 +200,15 @@ animate ui on add
 animate ui on delete
 
 
+started edit expense modal 
+
 =======================================
 ==============IN PROGRESS==============
 =======================================
+edit modal for expense
+
+
+
 need to figure out how to render a new circle for newly created budget
 style font
 style header
@@ -218,7 +224,6 @@ error handling:
     - budget
     - expense
 
-edit modal for expense
 edit budget functionality (where)
 edit category functionality (where)
 ui for delete/edit category?

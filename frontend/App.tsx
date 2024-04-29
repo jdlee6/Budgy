@@ -17,7 +17,7 @@ const App = () => {
   const [budgetModalVisible, setBudgetModalVisible] = useState<boolean>(false);
   const [updateExpenseModalVisible, setUpdateExpenseModalVisible] = useState<boolean>(false);
   const [updateExpenseId, setUpdateExpenseId] = useState<number | null>(null);
-  
+
   const openExpenseModal = () => {
     setBudgetModalVisible(false);
     setCategoryModalVisible(false);
@@ -37,20 +37,21 @@ const App = () => {
   };
 
   const openUpdateExpenseModal = (id: number) => {
-    setUpdateExpenseModalVisible(true);
     setUpdateExpenseId(id);
+    setUpdateExpenseModalVisible(true);
   };
 
   const closeModals = () => {
     setBudgetModalVisible(false);
     setCategoryModalVisible(false);
     setExpenseModalVisible(false);
+    setUpdateExpenseModalVisible(false);
   };
 
   return (
       <ApolloProvider client={client}>
         {/* Todo: Abstract this into Home */}
-        <ModalContext.Provider value={{ expenseModalVisible, categoryModalVisible, budgetModalVisible, updateExpenseModalVisible, openExpenseModal, openCategoryModal, openBudgetModal, openUpdateExpenseModal, closeModals }}>
+        <ModalContext.Provider value={{ expenseModalVisible, categoryModalVisible, budgetModalVisible, updateExpenseModalVisible, openExpenseModal, openCategoryModal, openBudgetModal, openUpdateExpenseModal, updateExpenseId, closeModals }}>
           <NavigationContainer>
             {/* <StatusBar barStyle="dark-content" /> */}
             {/* <Text style={styles.title}>Budgy</Text> */}

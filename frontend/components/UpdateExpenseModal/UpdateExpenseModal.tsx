@@ -148,15 +148,16 @@ const UpdateExpenseModal = ({ id }) => {
   const handleSubmit = () => {
     const selectedCategoryObj = categories.find(category => category.name === selectedCategory);
     
+    console.log(selectedCategoryObj, id, name, amount, isRecurring, date, parseFloat(1));
     if (selectedCategoryObj) {
       updateExpense({
         variables: {
           updateExpenseInput: {
+            id: parseFloat(id),
             name: name,
             amount: parseFloat(amount),
             recurrence: isRecurring,
             billingDate: date,
-            userId: 1, // replace with actual user ID
             // categoryId: parseFloat(selectedCategoryObj.id),
           },
         },
@@ -165,9 +166,10 @@ const UpdateExpenseModal = ({ id }) => {
           refetchUserBalances({ id: parseFloat(1) }).then((result) => {
             console.log(result);
           })
+          closeModals();
         })
         .catch(error => {
-          console.error("Error adding expense: ", error.message);
+          console.error("Error updating expense: ", error.message);
         });
     }
     closeModals();
