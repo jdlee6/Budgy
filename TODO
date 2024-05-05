@@ -199,17 +199,16 @@ style 2/3 digit values aka 40% % 100%
 animate ui on add
 animate ui on delete
 
+update expense modal
+need to figure out how to render a new circle for newly created budget
+need to fix animations so they all are in sync
 
-started edit expense modal 
 
 =======================================
 ==============IN PROGRESS==============
 =======================================
-edit modal for expense
+dark/light mode
 
-
-
-need to figure out how to render a new circle for newly created budget
 style font
 style header
 

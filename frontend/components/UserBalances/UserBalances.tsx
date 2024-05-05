@@ -1,7 +1,10 @@
-import React, { useContext, useEffect, useState, useMemo } from 'react';
+import React, { useContext, useEffect, useRef, useMemo } from 'react';
 import {StyleSheet, Text, View, Animated} from 'react-native';
 import { FinancialDataContext } from '../../context/FinancialDataContext';
 import * as Progress from 'react-native-progress';
+import { InteractionManager } from 'react-native';
+
+const AnimatedProgressCircle = Animated.createAnimatedComponent(Progress.Circle);
 
 const UserBalances = () => {
   const { expenses, budgets, user, balances } = useContext(FinancialDataContext);
@@ -36,23 +39,34 @@ const UserBalances = () => {
     return null;
   }).filter(Boolean), [expenses, budgets, balances]);
 
-  const [progresses, setProgresses] = useState(budgetsAfterExpenses.map(() => new Animated.Value(0)));
+  const progresses = useRef(budgetsAfterExpenses.map(() => new Animated.Value(0)));
+  const [animatedProgress, setAnimatedProgress] = React.useState(0);
 
   useEffect(() => {
-    const listeners = progresses.map(progress => progress.addListener(() => setProgresses([...progresses])));
-
-    Animated.stagger(200, budgetsAfterExpenses.map((budget, index) => {
-      const finalProgress = budget.remainingBudgetBalance / budget.amount;
-      return Animated.timing(progresses[index], {
-        toValue: finalProgress,
-        duration: 400,
-        useNativeDriver: true,
-      }).start();
-    }));
-
-    return () => {
-      progresses.forEach((progress, index) => progress.removeListener(listeners[index]));
+    progresses.current = progresses.current.slice(0, budgetsAfterExpenses.length);
+    for (let i = progresses.current.length; i < budgetsAfterExpenses.length; i++) {
+      progresses.current.push(new Animated.Value(0));
     }
+  }, [budgetsAfterExpenses]);
+
+  useEffect(() => {
+    // Ensure progresses.current has the same length as budgetsAfterExpenses
+    while (progresses.current.length < budgetsAfterExpenses.length) {
+      progresses.current.push(new Animated.Value(0));
+    }
+  
+    Animated.parallel(budgetsAfterExpenses.map((budget, index) => {
+      const finalProgress = budget.remainingBudgetBalance / budget.amount;
+      return Animated.timing(progresses.current[index], {
+        toValue: finalProgress,
+        duration: 500,
+        useNativeDriver: false,
+      }).start(({ finished }) => {
+        if (finished) {
+          setAnimatedProgress(finalProgress);
+        }
+      })
+    })).start();
   }, [budgetsAfterExpenses]);
 
   if (loading) return <Text>Loading...</Text>;
@@ -67,7 +81,11 @@ const UserBalances = () => {
     <Text style={styles.income}>Remaining Balance: ${balanceAfterExpenses}</Text>
 
     {budgetsAfterExpenses.map((budget, index) => {
-      const animatedProgress = progresses[index];
+      // Newly created budgets will not have a progress value
+      if (index >= progresses.current.length) {
+        return;
+      }
+      const animatedProgress = progresses.current[index];
       const percentage = Math.round(animatedProgress.__getValue() * 100);
       const percentageDigits = percentage.toString().length;
 
@@ -85,8 +103,8 @@ const UserBalances = () => {
       return (
         <View key={index} style={{ marginLeft: 16, marginTop: 24, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
         <View style={{ position: 'relative'}}>
-          <Progress.Circle
-            progress={animatedProgress.__getValue() || 0}
+          <AnimatedProgressCircle
+            progress={animatedProgress}
             size={100}
             color={budget.categoryColor || '#a1e8a0'}
             thickness={4} 
@@ -101,7 +119,7 @@ const UserBalances = () => {
             }}>
               {`${percentage}%`}
             </Text>
-          </Progress.Circle>
+          </AnimatedProgressCircle>
         </View>
         
         <View style={{ margin: 32 }}>
