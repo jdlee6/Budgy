@@ -207,6 +207,13 @@ need to fix animations so they all are in sync
 =======================================
 ==============IN PROGRESS==============
 =======================================
+fix delete on scroll up
+
+single category view
+  on category tap
+    - edit / delete
+    - lsit expenses for category
+
 dark/light mode
 
 style font

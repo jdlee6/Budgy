@@ -101,13 +101,15 @@ const UserBalances = () => {
       }
 
       return (
-        <View key={index} style={{ marginLeft: 16, marginTop: 24, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+        <>
+        <View key={index} style={{ margin: 12, padding: 16,  backgroundColor: '#fafafa', borderRadius: 10, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}>
+        <View key={index} style={{ margin: 4, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
         <View style={{ position: 'relative'}}>
           <AnimatedProgressCircle
             progress={animatedProgress}
             size={100}
             color={budget.categoryColor || '#a1e8a0'}
-            thickness={4} 
+            thickness={5} 
             animated={true}
           >
             <Text style={{ 
@@ -120,12 +122,13 @@ const UserBalances = () => {
               {`${percentage}%`}
             </Text>
           </AnimatedProgressCircle>
+
         </View>
         
         <View style={{ margin: 32 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', }}>
             <View style={[styles.colorPreview, { backgroundColor: budget.categoryColor || 'white', marginLeft: 16 }]} />
-            <Text style={styles.remaining}>{budget.categoryName}</Text>
+            <Text style={styles.category}>{budget.categoryName}</Text>
           </View>
           <Text style={styles.income}>Balance: ${parseFloat(budget.remainingBudgetBalance).toFixed(2)} / ${budget.amount}</Text>
         </View>
@@ -140,6 +143,8 @@ const UserBalances = () => {
             </View>
           </View> */}
         </View>
+          </View>
+</>
       );
     })}
     </>
@@ -156,11 +161,11 @@ const styles = StyleSheet.create({
   income: {
     paddingLeft: 16,
     paddingRight: 16,
-    color: '#7c7e80',
+    color: '#535353',
   },
-  remaining: {
+  category: {
     paddingLeft: 4,
-    color: '#7c7e80'
+    color: '#535353'
   },
   title: {
     borderRadius: 6,

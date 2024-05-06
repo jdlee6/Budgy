@@ -62,15 +62,20 @@ const ExpensesTable = ({ scrollY }) => {
   }, [expenses, sortOrder, addExpenseData, sortField]);
 
   const handleDelete = async (id) => {
-    // Optimistically remove the expense from the UI
-    const newExpenses = sortedExpenses.filter(expense => expense.id !== id);
-    setSortedExpenses(newExpenses);
+    // Find the index of the expense to delete
+    const index = sortedExpenses.findIndex(expense => expense.id === id);
+    
+    if (index !== -1) {
+      try {
+        await deleteExpense({ variables: { id: parseFloat(id) } });
   
-    try {
-      await deleteExpense({ variables: { id: parseFloat(id) } });
-    } catch (err) {
-      console.error(err);
-      setSortedExpenses(sortedExpenses);
+        // Remove the expense from the array
+        const newExpenses = [...sortedExpenses];
+        newExpenses.splice(index, 1);
+        setSortedExpenses(newExpenses);
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
 
