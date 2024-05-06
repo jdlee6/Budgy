@@ -93,7 +93,6 @@ const ExpensesTable = ({ scrollY }) => {
 
   return (
     <View style={styles.container}>
-      
       <AnimatedSwipeListView
         data={sortedExpenses}
         contentContainerStyle={{ paddingBottom: 80 }}

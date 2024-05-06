@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useRef, useMemo } from 'react';
-import {StyleSheet, Text, View, Animated} from 'react-native';
+import {StyleSheet, Text, View, Animated, TouchableOpacity} from 'react-native';
 import { FinancialDataContext } from '../../context/FinancialDataContext';
 import * as Progress from 'react-native-progress';
-import { InteractionManager } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const AnimatedProgressCircle = Animated.createAnimatedComponent(Progress.Circle);
 
 const UserBalances = () => {
   const { expenses, budgets, user, balances } = useContext(FinancialDataContext);
   const [loading, setLoading] = React.useState(true);
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (expenses || budgets) {
@@ -100,10 +101,11 @@ const UserBalances = () => {
         }
       }
 
+      console.log(index);
       return (
         <>
-        <View key={index} style={{ margin: 12, padding: 16,  backgroundColor: '#fafafa', borderRadius: 10, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}>
-        <View key={index} style={{ margin: 4, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+        <TouchableOpacity key={index} style={styles.card} onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Category', params: { budget: budget } }]})}>
+        <View style={{ margin: 4, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
         <View style={{ position: 'relative'}}>
           <AnimatedProgressCircle
             progress={animatedProgress}
@@ -143,7 +145,7 @@ const UserBalances = () => {
             </View>
           </View> */}
         </View>
-          </View>
+          </TouchableOpacity>
 </>
       );
     })}
@@ -158,6 +160,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff', // light grey color
     marginTop: 8,
   },
+  card: {
+    margin: 12, padding: 16,  backgroundColor: '#fafafa', borderRadius: 10, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 
+    },
   income: {
     paddingLeft: 16,
     paddingRight: 16,

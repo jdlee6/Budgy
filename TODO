@@ -203,11 +203,15 @@ update expense modal
 need to figure out how to render a new circle for newly created budget
 need to fix animations so they all are in sync
 
+fix delete on scroll up
 
+single category view
+  on category tap
 =======================================
 ==============IN PROGRESS==============
 =======================================
-fix delete on scroll up
+continue to build out category page
+add elipses menu within the card itself for edit/delete functionality
 
 single category view
   on category tap
