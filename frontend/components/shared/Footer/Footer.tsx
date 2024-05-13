@@ -5,6 +5,9 @@ import { faHouse, faSackDollar } from '@fortawesome/free-solid-svg-icons';
 import { useNavigation } from '@react-navigation/native';
 import AddBtn from '../../AddBtn/AddBtn';
 
+// remove defaultProps
+FontAwesomeIcon.defaultProps = undefined;
+
 const Footer = ({ menuVisible, setMenuVisible }) => {
   const navigation = useNavigation(); 
   return (
